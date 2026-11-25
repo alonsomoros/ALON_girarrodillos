@@ -171,7 +171,27 @@ public class PruebasJuego {
             });
         }
 
+        prueba("Sacerdote de la IA ataca sin romper y da energía a su compañero", () -> {
+            Player p = new Player();
+            IA ia = new IA();
+            p.setEnemigo(ia);
+            ia.setEnemigo(p);
+            Figura sacerdote = new main.maquina_estado.juego.figuras.Sacerdote(ia);
+            Figura arquero = new main.maquina_estado.juego.figuras.Arquero(ia);
+            sacerdote.setPosicion(1);
+            arquero.setPosicion(2);
+            ia.setFiguraIzquierda(sacerdote);
+            ia.setFiguraDerecha(arquero);
+            sacerdote.getActivador().setAltura(0);
+            arquero.getActivador().setAltura(5);
+            ia.actualizarEstados();
+            esperarFinDeAtaques(sacerdote);
+            verificar(arquero.getActivador().getAltura() == 5 - sacerdote.getStat2(),
+                    "activador del compañero: " + arquero.getActivador().getAltura());
+        });
+
         prueba("el jugador y la IA tienen rodillos distintos", () -> {
+
 
 
 

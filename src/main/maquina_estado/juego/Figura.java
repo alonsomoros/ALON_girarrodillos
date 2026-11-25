@@ -317,10 +317,11 @@ public abstract class Figura implements AtaquesFiguras {
 
     public Figura getCompaniero() {
         if (this.getPosicion() % 2 == 0) {
-            return playerDuenio.getFiguraIzquierda();
+            return getDuenio().getFiguraIzquierda();
         } else {
-            return playerDuenio.getFiguraDerecha();
+            return getDuenio().getFiguraDerecha();
         }
+
     }
 
 }
