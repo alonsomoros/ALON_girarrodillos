@@ -22,9 +22,10 @@ public class GestorEtiquetas {
 
     public static GestorEtiquetas getInstance() {
         if (instance == null) {
-            return new GestorEtiquetas();
+            instance = new GestorEtiquetas();
         }
         return instance;
+
     }
 
     private void initEtiquetasMenuPrincipal() {
