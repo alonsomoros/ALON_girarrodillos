@@ -13,6 +13,11 @@ public class CargadorRecursos {
 
     // Se carga una imagen normal y se comprueba si se cumplen los requisitos de poder acelerarla por la grafica propia
     public static BufferedImage cargarImagenCompatibleOpaca(final String ruta) {
+        BufferedImage enCache = CacheImagenes.obtener(ruta, Transparency.OPAQUE);
+        if (enCache != null) {
+            return enCache;
+        }
+
         BufferedImage imagen = null;
 
         File file = new File(ruta);
@@ -37,11 +42,17 @@ public class CargadorRecursos {
         graficos.drawImage(imagen, 0, 0, null);
         graficos.dispose();
 
+        CacheImagenes.guardar(ruta, Transparency.OPAQUE, imagenAcelerada);
         return imagenAcelerada;
     }
 
     // Translucido
     public static BufferedImage cargarImagenCompatibleTranslucida(final String ruta) {
+        BufferedImage enCache = CacheImagenes.obtener(ruta, Transparency.TRANSLUCENT);
+        if (enCache != null) {
+            return enCache;
+        }
+
         BufferedImage imagen = null;
 
         File file = new File(ruta);
@@ -82,10 +93,12 @@ public class CargadorRecursos {
         graficos.drawImage(imagen, 0, 0, null);
         graficos.dispose();
 
+        CacheImagenes.guardar(ruta, Transparency.TRANSLUCENT, imagenAcelerada);
         return imagenAcelerada;
     }
 
-    public static String leerArchivoTexto(final String ruta) {
+    public static String leerArchivoTexto
+(final String ruta) {
         StringBuilder contenido = new StringBuilder();
 
         FileInputStream entradaBytes = null;
