@@ -1,14 +1,11 @@
 package main.maquina_estado.juego.figuras;
 
-import main.herramientas.Depurar;
 import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
 import main.maquina_estado.juego.Figura;
 import main.maquina_estado.juego.Ataque;
 import main.maquina_estado.juego.EsqueletoPlayer;
-
-import java.awt.*;
 
 public class Mago extends Figura {
 
@@ -17,16 +14,6 @@ public class Mago extends Figura {
         activador = new Activador(5);
 
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
-    }
-
-    @Override
-    public void atacar(Graphics graphics) {
-        Depurar.log("Mago atacando");
-    }
-
-    @Override
-    public void atacarEspecial(Graphics g) {
-        Depurar.log("Mago atacando especial");
     }
 
     @Override
@@ -61,6 +48,5 @@ public class Mago extends Figura {
             default -> -1;
         };
     }
-
 
 }

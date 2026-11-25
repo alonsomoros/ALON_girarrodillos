@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public abstract class Figura implements AtaquesFiguras {
+public abstract class Figura {
     private final EsqueletoPlayer duenio; // Jugador o IA a quien pertenece
 
     protected Image imagenFigura;

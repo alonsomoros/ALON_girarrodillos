@@ -145,7 +145,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **3.15** `GestorCreditos`: la cadena `if` de 6 tramos → `index = min(5, t / (duracion/6))` + array de fondos.
 
 ### 3D. Código muerto (un commit por elemento, comprobando con búsqueda que no se usa)
-- [ ] **3.16** `AtaquesFiguras` y los `atacar(Graphics)/atacarEspecial(Graphics)` que solo imprimen.
+- [x] **3.16** `AtaquesFiguras` y los `atacar(Graphics)/atacarEspecial(Graphics)` que solo imprimen.
 - [ ] **3.17** `Bastion.actualizar()` vacío, `IA.dibujarRodillo/getFigurasDisponibles` si siguen sin uso.
 - [ ] **3.18** `SuperficieDeDibujo.inicializarGraficos()` y el campo `graficos2D` (tras 1.16).
 - [ ] **3.19** `Teclado.ultimaPulsacion*`, `INTERVALO_PULSACION` (si no se usan) y `Ventana.dibujar()`.

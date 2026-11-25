@@ -1,14 +1,11 @@
 package main.maquina_estado.juego.figuras;
 
-import main.herramientas.Depurar;
 import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
 import main.maquina_estado.juego.Figura;
 import main.maquina_estado.juego.Ataque;
 import main.maquina_estado.juego.EsqueletoPlayer;
-
-import java.awt.*;
 
 public class Ingeniero extends Figura {
 
@@ -18,16 +15,6 @@ public class Ingeniero extends Figura {
 
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
     }
-    @Override
-    public void atacar(Graphics graphics) {
-        Depurar.log("Ingeniero atacando");
-    }
-
-    @Override
-    public void atacarEspecial(Graphics g) {
-        Depurar.log("Ingeniero atacando especial");
-    }
-
     // Golpe normal y, como bonificación, eleva el bastión de su equipo en 2
     @Override
     protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
