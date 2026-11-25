@@ -306,7 +306,22 @@ public class PruebasJuego {
             }
         });
 
+        prueba("al terminar la partida se dan las monedas (3 victoria, 1 empate, 1 derrota) una sola vez", () -> {
+            main.maquina_estado.tienda.Progreso.usarSoloEnMemoria();
+            GestorGirarrodillos g = new GestorGirarrodillos();
+            g.terminarPartida(ResultadoPartida.VICTORIA);
+            verificar(main.maquina_estado.tienda.Progreso.getInstance().getMonedas() == 3 && g.getMonedasGanadas() == 3, "victoria");
+            g.nuevaPartida();
+            verificar(g.getMonedasGanadas() == 0 && g.getResultado() == ResultadoPartida.JUGANDO, "nueva partida limpia");
+            g.terminarPartida(ResultadoPartida.DERROTA);
+            g.nuevaPartida();
+            g.terminarPartida(ResultadoPartida.EMPATE);
+            verificar(main.maquina_estado.tienda.Progreso.getInstance().getMonedas() == 3 + 1 + 1, "total " + main.maquina_estado.tienda.Progreso.getInstance().getMonedas());
+            main.maquina_estado.tienda.Progreso.usarSoloEnMemoria();
+        });
+
         prueba("el jugador y la IA tienen rodillos distintos", () -> {
+
 
 
 

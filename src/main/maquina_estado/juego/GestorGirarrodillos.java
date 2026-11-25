@@ -10,6 +10,8 @@ import main.herramientas.Dibujador;
 import main.herramientas.Triangulo;
 import main.maquina_estado.IAudio;
 import main.maquina_estado.IEstadoJuego;
+import main.maquina_estado.tienda.Progreso;
+
 
 
 import java.awt.Color;
@@ -22,6 +24,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
     IA ia;
     private int turno;
     private ResultadoPartida resultado = ResultadoPartida.JUGANDO;
+    private int monedasGanadas; // Recompensa de esta partida (0 mientras se juega)
     private static final int FRAMES_POR_PARPADEO = 45; // 750 ms a 60 actualizaciones por segundo
 
     private boolean circuloParpadeante, puedeFijar;
@@ -44,6 +47,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
         puedeFijar = false;
         turno = 0;
         resultado = ResultadoPartida.JUGANDO;
+        monedasGanadas = 0;
     }
 
     // Quién ha ganado según las coronas (ambas a 0 es empate)
@@ -60,9 +64,28 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
         return ResultadoPartida.JUGANDO;
     }
 
-    private void sonarFinDePartida() {
+    // Cierra la partida: guarda el resultado, da las monedas y suena el efecto
+    void terminarPartida(final ResultadoPartida nuevoResultado) {
+        resultado = nuevoResultado;
+        switch (resultado) {
+            case VICTORIA:
+                monedasGanadas = Progreso.MONEDAS_VICTORIA;
+                break;
+            case EMPATE:
+                monedasGanadas = Progreso.MONEDAS_EMPATE;
+                break;
+            default:
+                monedasGanadas = Progreso.MONEDAS_DERROTA;
+                break;
+        }
+        Progreso.getInstance().ganarMonedas(monedasGanadas);
+
         String sonido = resultado == ResultadoPartida.VICTORIA ? Constantes.RUTAS.EFECTOS.VICTORIA : Constantes.RUTAS.EFECTOS.DERROTA;
         AudioPlayer.getInstance().playSoundOnce(sonido);
+    }
+
+    int getMonedasGanadas() {
+        return monedasGanadas;
     }
 
     public ResultadoPartida getResultado() {
@@ -85,9 +108,9 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
                 player.actualizar();
                 ia.actualizar();
             } else { // Si no hay figuras atacando
-                resultado = evaluarResultado(); // Ya se resolvieron todos los ataques
-                if (resultado != ResultadoPartida.JUGANDO) {
-                    sonarFinDePartida();
+                ResultadoPartida actual = evaluarResultado(); // Ya se resolvieron todos los ataques
+                if (actual != ResultadoPartida.JUGANDO) {
+                    terminarPartida(actual);
                     return;
                 }
                 switch (turno) {
@@ -186,6 +209,8 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
                 break;
         }
         Dibujador.TEXTO.dibujarConSombra(graficos, titulo, Constantes.MITAD_VENTANA_ANCHO, Constantes.MITAD_VENTANA_ALTO, 90, color);
+        Dibujador.TEXTO.dibujar(graficos, "+" + monedasGanadas + (monedasGanadas == 1 ? " moneda" : " monedas") + "  (total: " + Progreso.getInstance().getMonedas() + ")",
+                Constantes.MITAD_VENTANA_ANCHO, Constantes.MITAD_VENTANA_ALTO + 40, 24, new Color(0xE4DEB0));
         Dibujador.TEXTO.dibujar(graficos, "Enter: volver al menu", Constantes.MITAD_VENTANA_ANCHO, Constantes.MITAD_VENTANA_ALTO + 80, 24, Color.WHITE);
     }
 
