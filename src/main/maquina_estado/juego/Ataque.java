@@ -51,7 +51,8 @@ public class Ataque {
             activo = false;
             terminadaAnimacion = true;
 
-            GestorAtaques.procesarFinalAtaque(figuraAtacante, this, figuraAtacante.getDuenio());
+            GestorAtaques.procesarFinalAtaque(figuraAtacante, this, figuraAtacante.getEnemigo());
+
         }
     }
 

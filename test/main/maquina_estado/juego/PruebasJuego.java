@@ -78,7 +78,28 @@ public class PruebasJuego {
         });
 
 
+        prueba("un ataque del jugador daña a la IA, no al propio jugador", () -> {
+            Player p = new Player();
+            IA ia = new IA();
+            p.setEnemigo(ia);
+            ia.setEnemigo(p);
+            Figura arquero = new main.maquina_estado.juego.figuras.Arquero(p);
+            Figura sacerdote = new main.maquina_estado.juego.figuras.Sacerdote(p);
+            arquero.setPosicion(3);
+            sacerdote.setPosicion(4);
+            p.setFiguraIzquierda(arquero);
+            p.setFiguraDerecha(sacerdote);
+            arquero.getActivador().setAltura(0);
+            sacerdote.getActivador().setAltura(3);
+            int vidaPlayer = p.getVida(), vidaIA = ia.getVida();
+            p.actualizarEstados();
+            esperarFinDeAtaques(arquero);
+            verificar(p.getVida() == vidaPlayer, "el jugador perdió vida: " + vidaPlayer + " -> " + p.getVida());
+            verificar(ia.getVida() < vidaIA, "la IA no perdió vida: " + vidaIA + " -> " + ia.getVida());
+        });
+
         prueba("el jugador y la IA tienen rodillos distintos", () -> {
+
             Player player = new Player();
             IA ia = new IA();
             verificar(player.getRodillo() != null && ia.getRodillo() != null, "rodillo null");
