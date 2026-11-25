@@ -40,14 +40,6 @@ public abstract class Figura implements AtaquesFiguras {
         posicion = 0;
     }
 
-    // Constructores antiguos: delegan en el único (se borran cuando todas las figuras migren)
-    public Figura(final Player player) {
-        this((EsqueletoPlayer) player);
-    }
-
-    public Figura(final IA ia) {
-        this((EsqueletoPlayer) ia);
-    }
 
     public void actualizar() {
         if (!estaAtacando) {
