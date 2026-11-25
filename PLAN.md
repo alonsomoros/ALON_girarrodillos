@@ -124,7 +124,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 > Cada tarea debe dejar el juego idéntico. Se comprueba con una partida corta y diff visual.
 
 ### 3A. Constructores y duplicación en Figura
-- [ ] **3.1** `Figura`: añadir `Figura(EsqueletoPlayer duenio)` (único); los 2 constructores viejos delegan en él.
+- [x] **3.1** `Figura`: añadir `Figura(EsqueletoPlayer duenio)` (único); los 2 constructores viejos delegan en él.
 - [ ] **3.2** Migrar cada figura a un solo constructor (un commit por figura): Arquero, Mago, Caballero, Asesino, Ingeniero, Sacerdote → `3.2a…3.2f`.
 - [ ] **3.3** Eliminar los constructores `Player`/`IA` viejos y `playerDuenio/iaDuenio`.
 

@@ -11,8 +11,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 public abstract class Figura implements AtaquesFiguras {
-    private Player playerDuenio = null;
-    private IA iaDuenio = null;
+    private final EsqueletoPlayer duenio; // Jugador o IA a quien pertenece
 
     protected Image imagenFigura;
     protected Image ataqueImagen;
@@ -30,8 +29,8 @@ public abstract class Figura implements AtaquesFiguras {
     private int ataquesLanzados; // Solo informativo (depuración y pruebas)
 
 
-    public Figura(final Player player) {
-        playerDuenio = player;
+    public Figura(final EsqueletoPlayer duenio) {
+        this.duenio = duenio;
         nivel = 1;
         experiencia = 0;
         imagenFigura = getImagen();
@@ -39,19 +38,16 @@ public abstract class Figura implements AtaquesFiguras {
         ataqueEspecialImagen = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ATAQUES.RUTA_ATAQUES + "Especial.png");
         estaAtacando = false;
         posicion = 0;
+    }
+
+    // Constructores antiguos: delegan en el único (se borran cuando todas las figuras migren)
+    public Figura(final Player player) {
+        this((EsqueletoPlayer) player);
     }
 
     public Figura(final IA ia) {
-        iaDuenio = ia;
-        nivel = 1;
-        experiencia = 0;
-        imagenFigura = getImagen();
-        ataqueImagen = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ATAQUES.RUTA_ATAQUES + this.getClass().getSimpleName().toLowerCase() + ".png");
-        ataqueEspecialImagen = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ATAQUES.RUTA_ATAQUES + "Especial.png");
-        estaAtacando = false;
-        posicion = 0;
+        this((EsqueletoPlayer) ia);
     }
-
 
     public void actualizar() {
         if (!estaAtacando) {
@@ -301,16 +297,13 @@ public abstract class Figura implements AtaquesFiguras {
     }
 
     public EsqueletoPlayer getDuenio() {
-        return playerDuenio != null ? playerDuenio : iaDuenio;
+        return duenio;
     }
 
     public EsqueletoPlayer getEnemigo() {
-        if (playerDuenio != null) {
-            return playerDuenio.getEnemigo();
-        } else {
-            return iaDuenio.getEnemigo();
-        }
+        return duenio.getEnemigo();
     }
+
 
     public Image getImagen() {
         return CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.RUTA_FIGURAS + this.getClass().getSimpleName().toLowerCase() + "/" + this.getClass().getSimpleName().toLowerCase() + "_lvl" + getNivel() + ".png");
