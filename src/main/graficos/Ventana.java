@@ -37,7 +37,7 @@ public class Ventana extends JFrame {
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
         setVisible(true); // Hace visible la ventana
 
-        superficieDeDibujo.inicializarGraficos();
+        superficieDeDibujo.inicializarBuffer();
     }
 
     private void dibujar() {

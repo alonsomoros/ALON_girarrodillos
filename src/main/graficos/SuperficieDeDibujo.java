@@ -19,8 +19,6 @@ public class SuperficieDeDibujo extends Canvas {
     private final int alto;
     private final Raton raton;
 
-    public Graphics2D graficos2D;
-
     public SuperficieDeDibujo() {
         this.alto = Constantes.ALTO_JUEGO;
         this.ancho = Constantes.ANCHO_JUEGO;
@@ -77,14 +75,10 @@ public class SuperficieDeDibujo extends Canvas {
         }
     }
 
-    public void inicializarGraficos() {
-        BufferStrategy buffer = getBufferStrategy(); // Buffer
-
-        if (buffer == null) {
-            createBufferStrategy(4); // Crear buffer
-            buffer = getBufferStrategy(); // Intentar obtener la estrategia de buffer nuevamente
+    // Crea la estrategia de buffer al abrir la ventana
+    public void inicializarBuffer() {
+        if (getBufferStrategy() == null) {
+            createBufferStrategy(4);
         }
-
-        this.graficos2D = (Graphics2D) buffer.getDrawGraphics(); // Obtener graficos
     }
 }
