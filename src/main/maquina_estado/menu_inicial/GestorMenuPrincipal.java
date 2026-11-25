@@ -7,7 +7,9 @@ import main.control.GestorEtiquetas;
 import main.control.Raton;
 import main.graficos.SuperficieDeDibujo;
 import main.herramientas.CargadorRecursos;
+import main.herramientas.Depurar;
 import main.herramientas.Dibujador;
+
 import main.herramientas.MedidorString;
 import main.maquina_estado.IAudio;
 import main.maquina_estado.IEstadoJuego;
@@ -93,7 +95,9 @@ public class GestorMenuPrincipal implements IEstadoJuego, IAudio {
 //        for (int i = 0; i < 50; i++) {
 //            Dibujador.CIRCULO.dibujar(graficos, (int) (Math.random() * Constantes.ANCHO_JUEGO), (int) (Math.random() * Constantes.ALTO_JUEGO), 1, new Color(i * 5, i * 5, i * 5));
 //        }
-        Dibujador.TEXTO.dibujar(graficos, Dibujador.numeroObjetosDibujados + "", 40, 80, Color.WHITE);
+        if (Depurar.ACTIVO) {
+            Dibujador.TEXTO.dibujar(graficos, Dibujador.numeroObjetosDibujados + "", 40, 80, Color.WHITE);
+        }
     }
 
     public void dibujarTitulo(Graphics graficos) {

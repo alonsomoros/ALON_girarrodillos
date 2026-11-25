@@ -3,6 +3,8 @@ package main.control;
 import main.Constantes;
 import main.graficos.SuperficieDeDibujo;
 import main.herramientas.CargadorRecursos;
+import main.herramientas.Depurar;
+
 import main.herramientas.Dibujador;
 import main.maquina_estado.GestorEstados;
 
@@ -46,6 +48,9 @@ public class Raton extends MouseAdapter {
     }
 
     public void dibujar(Graphics graficos) {
+        if (!Depurar.ACTIVO) {
+            return;
+        }
         Rectangle rec = obtenerRectanguloPosicion();
         Dibujador.TEXTO.dibujar(graficos, "Raton x: " + rec.x + " y: " + rec.y, 110, 30, Constantes.azul_2);
         if (clickIzquierdo) {
