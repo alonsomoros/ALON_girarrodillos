@@ -49,7 +49,21 @@ public class CacheImagenes {
         }
     }
 
+    /** Carga por adelantado todos los .png de una carpeta (sin entrar en subcarpetas). */
+    public static void precargarCarpeta(final int transparencia, final String carpeta) {
+        java.io.File[] archivos = new java.io.File(carpeta).listFiles();
+        if (archivos == null) {
+            return;
+        }
+        for (java.io.File archivo : archivos) {
+            if (archivo.isFile() && archivo.getName().toLowerCase().endsWith(".png")) {
+                precargar(transparencia, carpeta + "/" + archivo.getName());
+            }
+        }
+    }
+
     public static synchronized void limpiar() {
+
         imagenes.clear();
     }
 

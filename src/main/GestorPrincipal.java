@@ -3,10 +3,13 @@ package main;
 import main.control.Raton;
 import main.graficos.SuperficieDeDibujo;
 import main.graficos.Ventana;
+import main.herramientas.CacheImagenes;
 import main.herramientas.Dibujador;
 import main.maquina_estado.GestorEstados;
 
+import java.awt.Transparency;
 import java.io.IOException;
+
 
 public class GestorPrincipal implements Runnable {
 
@@ -29,8 +32,25 @@ public class GestorPrincipal implements Runnable {
         gestorPrincipal.iniciarBuclePrincipal();
     }
 
+    // Carga por adelantado las imágenes que se usan en partida para que no haya tirones al jugar
+    private static void precargarRecursos() {
+        final String carpetaRodillo = "rec/sprites/rodillo/";
+        for (Constantes.RODILLOS.Elementos elemento : Constantes.RODILLOS.Elementos.values()) {
+            CacheImagenes.precargar(Transparency.OPAQUE,
+                    carpetaRodillo + elemento + ".png",
+                    carpetaRodillo + elemento + "Lateral.png");
+        }
+        CacheImagenes.precargar(Transparency.TRANSLUCENT,
+                Constantes.RUTAS.ELEMENTOS_RODILLO.FIJADOR,
+                Constantes.RUTAS.FONDOS.TABLERO);
+        CacheImagenes.precargarCarpeta(Transparency.TRANSLUCENT, "rec/sprites/activadores");
+        CacheImagenes.precargarCarpeta(Transparency.TRANSLUCENT, "rec/sprites/baseFigura");
+        CacheImagenes.precargarCarpeta(Transparency.TRANSLUCENT, "rec/sprites/bastion");
+    }
+
     private GestorPrincipal() {
 
+        precargarRecursos();
         ventana = new Ventana();
 //        ventana.requestFocus();
 
