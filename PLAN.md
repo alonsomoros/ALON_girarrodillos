@@ -60,7 +60,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 ### 1C. Bucle principal e hilos
 - [x] **1.10** `GestorPrincipal.run()`: limitar el dibujado (dormir con `Thread.sleep` el sobrante del frame); `enFuncionamiento` pasa a `volatile`. *Verif.:* CPU del juego baja claramente vs. línea base (0.5).
 - [x] **1.11** `Tecla`: `pulsada/procesada/ultimaPulsacion` → `volatile` (se escriben en el hilo de Swing y se leen en el del juego).
-- [ ] **1.12** Sustituir `java.util.Timer` del parpadeo de la luz (`GestorGirarrodillos`) por un contador de frames en `actualizar()`; eliminar `crearParpadeoLuz` y el hilo.
+- [x] **1.12** Sustituir `java.util.Timer` del parpadeo de la luz (`GestorGirarrodillos`) por un contador de frames en `actualizar()`; eliminar `crearParpadeoLuz` y el hilo.
 
 ### 1D. Ratón y menús
 - [ ] **1.13** `Raton` duplicado: `SuperficieDeDibujo` hace `new Raton(this)` y `Raton.getInstance()` crea otro → un único `Raton` (que `getInstance` devuelva el de la superficie).
