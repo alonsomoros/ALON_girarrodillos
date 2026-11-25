@@ -2,9 +2,9 @@ package main.control;
 
 public class Tecla {
 
-    private boolean pulsada = false;
-    private boolean procesada = false;
-    private long ultimaPulsacion = System.nanoTime();
+    private volatile boolean pulsada = false;
+    private volatile boolean procesada = false;
+    private volatile long ultimaPulsacion = System.nanoTime();
 
     public void teclaPulsada() {
         pulsada = true;
