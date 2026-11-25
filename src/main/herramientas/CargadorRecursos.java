@@ -6,8 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 
 public class CargadorRecursos {
@@ -145,52 +143,6 @@ public class CargadorRecursos {
             }
             return new Font(Font.SANS_SERIF, Font.PLAIN, 15);
         }
-    }
-
-    public static boolean spriteVacio(BufferedImage imagen) {
-        boolean estaVacio = true;
-        for (int y1 = 0; y1 < imagen.getHeight(); y1++) {
-            for (int x1 = 0; x1 < imagen.getWidth(); x1++) {
-                int pixel = imagen.getRGB(x1, y1);
-                if (pixel != 0 && pixel != Color.TRANSLUCENT) { //No es transparente
-                    estaVacio = false;
-                    break;
-                }
-            }
-            if (!estaVacio) {
-                break;
-            }
-        }
-        return estaVacio;
-    }
-
-    public static void unzip(String rutaOrigen, String rutaDestino) throws IOException {
-        File destDir = new File(rutaDestino);
-        if (!destDir.exists()) {
-            destDir.mkdirs();
-        }
-        ZipInputStream zipIn = new ZipInputStream(new FileInputStream(rutaOrigen));
-        ZipEntry entry = zipIn.getNextEntry();
-        while (entry != null) {
-            String filePath = rutaDestino + File.separator + entry.getName();
-            if (!entry.isDirectory()) {
-                extractFile(zipIn, filePath);
-            } else {
-                new File(filePath).mkdirs();
-            }
-            zipIn.closeEntry();
-            entry = zipIn.getNextEntry();
-        }
-        zipIn.close();
-    }
-    private static void extractFile(ZipInputStream zipIn, String filePath) throws IOException {
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
-        byte[] bytesIn = new byte[4096];
-        int read;
-        while ((read = zipIn.read(bytesIn)) != -1) {
-            bos.write(bytesIn, 0, read);
-        }
-        bos.close();
     }
 
 }

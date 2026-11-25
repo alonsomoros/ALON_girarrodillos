@@ -18,7 +18,6 @@ public class Constantes {
     public static final int MITAD_VENTANA_ALTO = ALTO_PANTALLA_COMPLETA / 2;
     public static final int MITAD_VENTANA_ANCHO = ANCHO_PANTALLA_COMPLETA / 2;
     public static final String TITULO = "_.GIRARRODILLOS._";
-    public static final int LADO_SPRITE = 32;
 
     // Paleta
 

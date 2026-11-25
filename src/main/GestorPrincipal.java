@@ -28,7 +28,6 @@ public class GestorPrincipal implements Runnable {
     // Main
     public static void main(String[] args) throws IOException {
         GestorPrincipal gestorPrincipal = new GestorPrincipal();
-//        CargadorRecursos.unzip("rec/musica/OST.zip", "rec/musica");
         gestorPrincipal.iniciarBuclePrincipal();
     }
 
