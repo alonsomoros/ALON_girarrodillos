@@ -194,7 +194,7 @@ public class Constantes {
         public static final Point BASE_4 = new Point(851, 404); // 850, 355
 
         public static final Point BASTION_PLAYER = new Point(440, 305);
-        public static final Point BASTION_IA = new Point(150, 110);
+        public static final Point BASTION_IA = new Point(440, 175); // Espejo vertical del del jugador (440, 305; alto 160)
 
         //        public static final Point RODILLO_PLAYER = new Point(448, 525);
         public static final Point RODILLO_PLAYER = new Point(448, 490);

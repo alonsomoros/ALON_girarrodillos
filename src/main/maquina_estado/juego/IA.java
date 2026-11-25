@@ -41,9 +41,10 @@ public class IA extends EsqueletoPlayer implements IEstadoJuego {
         this.dibujarVida(graficos);
 
         // Dibujar bastion
-//        if (this.bastion.getAltura() > 0) {
-//            this.bastion.dibujarBastion(graficos, this, Constantes.COORDENADAS.BASTION_IA);
-//        }
+        if (this.bastion.getAltura() > 0) {
+            this.bastion.dibujarBastion(graficos, this, Constantes.COORDENADAS.BASTION_IA);
+        }
+
 
         // Dibujar figuras
         if (getFiguraIzquierda() != null) {

@@ -170,7 +170,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 ### 4B. IA
 - [x] **4.5** IA elige 2 héroes al azar (usar `seleccionarFigurasAleatoria`, ya existe) y fija sus posiciones 1 y 2.
 - [x] **4.6** IA: fijado heurístico de canales entre tiradas (D5).
-- [ ] **4.7** Dibujar el bastión de la IA (hoy comentado en `IA.dibujar`).
+- [x] **4.7** Dibujar el bastión de la IA (hoy comentado en `IA.dibujar`).
 - [ ] **4.8** Ajustar probabilidades de rodillo de IA para que sea batible pero no trivial (3 partidas de prueba, anotar resultado).
 
 ### 4C. Tienda y sonido
