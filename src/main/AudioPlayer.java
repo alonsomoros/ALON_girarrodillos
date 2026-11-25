@@ -41,10 +41,16 @@ public class AudioPlayer {
     }
 
     public synchronized void stopSound() {
-        if (currentClip != null && currentClip.isRunning()) {
-            currentClip.close();
+        if (currentClip != null) {
             currentClip.stop();
+            if (clips.containsValue(currentClip)) {
+                currentClip.setFramePosition(0); // Precargado: se conserva para poder reutilizarlo
+            } else {
+                currentClip.close();
+            }
+            currentClip = null;
         }
+
     }
 
     public synchronized void playSoundOnce(String filePath) {
@@ -59,8 +65,16 @@ public class AudioPlayer {
             // Abre el clip y carga el audio en él
             clip.open(audioStream);
 
+            // Cuando termina, libera la línea de audio (si no, se acumulan hasta agotarlas)
+            clip.addLineListener(event -> {
+                if (event.getType() == LineEvent.Type.STOP) {
+                    clip.close();
+                }
+            });
+
             // Reproduce el clip una vez
             clip.start();
+
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
