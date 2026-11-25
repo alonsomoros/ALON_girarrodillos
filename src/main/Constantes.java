@@ -249,12 +249,6 @@ public class Constantes {
         public static final HashMap<Elementos, Double> R3_Prob = new HashMap<>(); // Rodillo simple
         public static final HashMap<Elementos, Double> R4_Prob = new HashMap<>(); // Rodillo simple
         public static final HashMap<Elementos, Double> R5_Prob = new HashMap<>(); // Rodillo simple
-        public static final HashMap<Elementos, Double> RP_Cuadrado = new HashMap<>(); // Rodillo prueba cuadrados
-        public static final HashMap<Elementos, Double> RP_Rombo = new HashMap<>(); // Rodillo prueba rombos
-        public static final HashMap<Elementos, Double> RP_RomboNivel = new HashMap<>(); // Rodillo prueba rombos
-        public static final HashMap<Elementos, Double> RP_CuadradoNivel = new HashMap<>(); // Rodillo prueba rombos
-        public static final HashMap<Elementos, Double> RP_Cuadrado3 = new HashMap<>(); // Rodillo prueba rombos
-        public static final HashMap<Elementos, Double> RP_Rombo3 = new HashMap<>(); // Rodillo prueba rombos
 
         static {
             // Aquí puedes ajustar las probabilidades a tu gusto
@@ -283,38 +277,6 @@ public class Constantes {
             R2_Prob.put(Elementos.martillo2,        0.1);
             R2_Prob.put(Elementos.cuadradoNivel2,   0.025);
             R2_Prob.put(Elementos.romboNivel2,      0.025);
-
-            // Rodillo Prueba Cuadrados
-
-            RP_Cuadrado.put(Elementos.cuadrado1,        0.33);
-            RP_Cuadrado.put(Elementos.cuadrado2,        0.33);
-            RP_Cuadrado.put(Elementos.cuadrado3,        0.34);
-
-            // Rodillo Prueba Rombo
-
-            RP_Rombo.put(Elementos.rombo1,        0.33);
-            RP_Rombo.put(Elementos.rombo2,        0.33);
-            RP_Rombo.put(Elementos.rombo3,        0.34);
-
-            // Rodillo Prueba RomboNivel
-
-            RP_RomboNivel.put(Elementos.romboNivel1,        0.33);
-            RP_RomboNivel.put(Elementos.romboNivel2,        0.33);
-            RP_RomboNivel.put(Elementos.romboNivel3,        0.34);
-
-            // Rodillo Prueba CuadradoNivel
-
-            RP_CuadradoNivel.put(Elementos.cuadradoNivel1,        0.33);
-            RP_CuadradoNivel.put(Elementos.cuadradoNivel2,        0.33);
-            RP_CuadradoNivel.put(Elementos.cuadradoNivel3,        0.34);
-
-            // Rodillo Prueba Cuadrado3
-
-            RP_Cuadrado3.put(Elementos.cuadrado3,        1.0);
-
-            // Rodillo Prueba Rombo3
-
-            RP_Rombo3.put(Elementos.rombo3,        1.0);
         }
     }
 }

@@ -19,7 +19,6 @@ public class Player extends EsqueletoPlayer implements IEstadoJuego {
         figurasDisponibles = new ArrayList<>(Arrays.asList(new Arquero(this), new Mago(this), new Caballero(this), new Asesino(this), new Ingeniero(this), new Sacerdote(this)));
         figuraIndex = figurasDisponibles.get(0);
 
-//        establecerRodillo(Constantes.RODILLOS.RP_Cuadrado3, Constantes.RODILLOS.RP_Rombo3, Constantes.RODILLOS.RP_RomboNivel, Constantes.RODILLOS.RP_Rombo3, Constantes.RODILLOS.RP_Cuadrado3);
         establecerRodillo(Constantes.RODILLOS.R1_Prob);
     }
 

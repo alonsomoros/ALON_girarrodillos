@@ -150,7 +150,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **3.18** `SuperficieDeDibujo.inicializarGraficos()` y el campo `graficos2D` (tras 1.16).
 - [x] **3.19** `Teclado.ultimaPulsacion*`, `INTERVALO_PULSACION` (si no se usan) y `Ventana.dibujar()`.
 - [x] **3.20** `HojaSprites`, `Sprite`, `AnimationPanelSprites`, `CargadorRecursos.unzip/extractFile`, `GestorPrincipal` línea comentada del `unzip`: borrar si nadie los usa.
-- [ ] **3.21** Rodillos `RP_*` de prueba de `Constantes`.
+- [x] **3.21** Rodillos `RP_*` de prueba de `Constantes`.
 - [ ] **3.22** Renombrar `tieneBation` → `tieneBastion`, `Etiqueta` "WTF" y comentarios obsoletos ("Hay que hacer una clase IA").
 - [ ] **3.23** `Keyboard`: Esc cierra con `System.exit(0)` desde el hilo de eventos → `ventana.dispose()` + parar el bucle limpiamente.
 - [ ] **3.24** Imports con comodín (`java.awt.*`, `java.util.*`) → imports explícitos donde choquen nombres (`Timer`, `List`).
