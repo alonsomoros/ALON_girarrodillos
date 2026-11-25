@@ -55,7 +55,15 @@ public class Constantes {
         }
 
 
+        public static class EFECTOS {
+            public static final String CLICK_BOTON = "rec/sonidos/boton.wav";
+            public static final String ATAQUE = "rec/sonidos/ataque.wav";
+            public static final String VICTORIA = "rec/sonidos/victoria.wav";
+            public static final String DERROTA = "rec/sonidos/derrota.wav";
+        }
+
         public static class FONDOS {
+
             public static final String PRINCIPAL = "rec/wallpapers/";
             public static final String TABLERO = "rec/wallpapers/Tablero.png";
             public static final String TIENDA = "rec/wallpapers/TiendaTM.png";

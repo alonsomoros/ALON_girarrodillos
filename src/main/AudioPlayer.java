@@ -53,8 +53,15 @@ public class AudioPlayer {
 
     }
 
+    // Las pruebas desactivan los efectos para no llenar el audio de pitidos
+    public static volatile boolean efectosActivos = true;
+
     public synchronized void playSoundOnce(String filePath) {
+        if (!efectosActivos) {
+            return;
+        }
         try {
+
             // Obtiene un flujo de entrada del archivo de audio
             File audioFile = new File(filePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);

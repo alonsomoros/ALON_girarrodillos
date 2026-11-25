@@ -16,6 +16,7 @@ public class SimulacionPartidas {
     }
 
     public static void main(String[] a) throws Exception {
+        main.AudioPlayer.efectosActivos = false;
         Ataque.duracionPorDefecto = 0;
         int n = Integer.parseInt(a[0]);
         int ganaIA = 0, ganaPlayer = 0, empates = 0, sinFin = 0; long rondasTotal = 0;

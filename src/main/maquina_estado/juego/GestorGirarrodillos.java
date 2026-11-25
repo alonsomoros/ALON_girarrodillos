@@ -1,6 +1,8 @@
 package main.maquina_estado.juego;
 
+import main.AudioPlayer;
 import main.Constantes;
+
 import main.control.GestorControles;
 import main.herramientas.CargadorRecursos;
 import main.herramientas.Depurar;
@@ -58,6 +60,11 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
         return ResultadoPartida.JUGANDO;
     }
 
+    private void sonarFinDePartida() {
+        String sonido = resultado == ResultadoPartida.VICTORIA ? Constantes.RUTAS.EFECTOS.VICTORIA : Constantes.RUTAS.EFECTOS.DERROTA;
+        AudioPlayer.getInstance().playSoundOnce(sonido);
+    }
+
     public ResultadoPartida getResultado() {
         return resultado;
     }
@@ -80,6 +87,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
             } else { // Si no hay figuras atacando
                 resultado = evaluarResultado(); // Ya se resolvieron todos los ataques
                 if (resultado != ResultadoPartida.JUGANDO) {
+                    sonarFinDePartida();
                     return;
                 }
                 switch (turno) {

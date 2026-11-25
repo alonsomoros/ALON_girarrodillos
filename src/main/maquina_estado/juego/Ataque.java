@@ -1,6 +1,9 @@
 package main.maquina_estado.juego;
 
+import main.AudioPlayer;
+import main.Constantes;
 import main.herramientas.Depurar;
+
 import main.herramientas.Dibujador;
 
 import java.awt.*;
@@ -90,6 +93,7 @@ public class Ataque {
     /** (Re)inicia el cronómetro del ataque. */
     public void iniciar() {
         this.startTime = System.currentTimeMillis();
+        AudioPlayer.getInstance().playSoundOnce(Constantes.RUTAS.EFECTOS.ATAQUE);
     }
 
 }

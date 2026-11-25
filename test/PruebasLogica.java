@@ -15,6 +15,8 @@ public class PruebasLogica {
 
     public static void main(final String[] args) {
         System.out.println("Pruebas de logica");
+        main.AudioPlayer.efectosActivos = false; // sin sonidos durante las pruebas
+
 
         prueba("las probabilidades de los rodillos de juego suman 1", () -> {
             Map<String, HashMap<Constantes.RODILLOS.Elementos, Double>> rodillos = new HashMap<>();

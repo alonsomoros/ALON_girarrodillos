@@ -70,6 +70,8 @@ public class GestorMenuPrincipal implements IEstadoJuego, IAudio {
 //                        Dibujador.IMAGEN.dibujar(SuperficieDeDibujo.getInstance().graficos2D, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ICONO.FLECHA_ETIQUETA), etiqueta.getHitbox().x, etiqueta.getHitbox().y);
 //                    }
                     Raton.getInstance().reiniciarClickIzquierdo(); // Un clic = una sola acción
+                    AudioPlayer.getInstance().playSoundOnce(Constantes.RUTAS.EFECTOS.CLICK_BOTON);
+
                     GestorEstados.getInstance().cambiarEstadoActual(DESTINOS[secciones.indexOf(etiqueta)]);
 
                 }

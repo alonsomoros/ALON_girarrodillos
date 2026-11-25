@@ -177,7 +177,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **4.9** Documento de diseño mínimo de la tienda (1 página en `docs/tienda.md`): qué se compra, con qué moneda, dónde se guarda. *Se te enseña antes de seguir.*
 - [ ] **4.10** Implementar la tienda según 4.9 (se subdividirá en tareas 4.10a… cuando esté aprobado el diseño).
 - [x] **4.11** (placeholders sintéticos generados con Java; sustitúyelos cuando quieras) Efectos de sonido (`boton.wav`, ataque, victoria/derrota) en `rec/sonidos/`.
-- [ ] **4.12** Reproducirlos con `AudioPlayer.playSoundOnce` (click de botón, ataque, fin de partida).
+- [x] **4.12** Reproducirlos con `AudioPlayer.playSoundOnce` (click de botón, ataque, fin de partida).
 
 ### 4D. Pulido final
 - [ ] **4.13** Actualizar `Instrucciones.txt` y `creditos.txt` con el estado real final.
