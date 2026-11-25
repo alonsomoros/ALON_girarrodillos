@@ -177,7 +177,7 @@ public abstract class Figura {
 
     // Golpe "normal": si el enemigo tiene bastión lo frena (baja stat2); si no, daña la corona (stat1)
     protected void golpeNormal(EsqueletoPlayer enemigo) {
-        if (enemigo.tieneBation()) {
+        if (enemigo.tieneBastion()) {
             enemigo.getBastion().disminuirAltura(getStat2());
         } else {
             enemigo.recibirAtaque(getStat1());

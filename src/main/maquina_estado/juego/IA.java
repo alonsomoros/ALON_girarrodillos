@@ -36,7 +36,7 @@ public class IA extends EsqueletoPlayer implements IEstadoJuego {
     }
 
     @Override
-    public void dibujar(Graphics graficos) { // Hay que hacer una clase IA que sea parecida
+    public void dibujar(Graphics graficos) {
         this.dibujarVida(graficos);
 
         // Dibujar bastion

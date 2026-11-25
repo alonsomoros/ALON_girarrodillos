@@ -19,12 +19,12 @@ public class Etiqueta {
     private final Rectangle hitbox;
 
     public Etiqueta(final String nombreEtiqueta, int x, int y, final Font fuente, final int tamanioFuente) {
-        this.id = siguienteId++; // WTF
+        this.id = siguienteId++;
 
         this.nombre = nombreEtiqueta;
         this.fuente = fuente;
 
-        this.anchoEtiqueta = MedidorString.medirAnchoPixeles(nombreEtiqueta, fuente, tamanioFuente); // Esta devolviendo el String org
+        this.anchoEtiqueta = MedidorString.medirAnchoPixeles(nombreEtiqueta, fuente, tamanioFuente);
         this.altoEtiqueta = MedidorString.medirAltoPixeles(nombreEtiqueta, fuente, tamanioFuente);
 
         this.posicion = new Point(x - anchoEtiqueta / 2, y);

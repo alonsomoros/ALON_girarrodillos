@@ -101,7 +101,7 @@ public class EsqueletoPlayer {
         return this.bastion;
     }
 
-    public boolean tieneBation() {
+    public boolean tieneBastion() {
         return bastion.getAltura() > 0;
     }
 

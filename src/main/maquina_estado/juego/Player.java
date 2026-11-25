@@ -39,7 +39,7 @@ public class Player extends EsqueletoPlayer implements IEstadoJuego {
 
     }
 
-    public void dibujar(Graphics graficos) { // Hay que hacer una clase IA que sea parecida
+    public void dibujar(Graphics graficos) {
 
         // Dibujar vida
         this.dibujarVida(graficos);
