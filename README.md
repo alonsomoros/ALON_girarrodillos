@@ -26,7 +26,17 @@ En un IDE (VS Code, IntelliJ…): JDK 21 y ejecuta `main.GestorPrincipal` con la
 | Espacio | Fijar o soltar un canal / confirmar héroe |
 | E | Girar el rodillo (avanza el turno) |
 | Enter | Volver al menú principal |
+| Clic | Menús y tienda |
 | Esc | Salir |
+
+## Empaquetar
+
+`scripts\empaquetar.bat` crea `dist\Girarrodillos.jar`. Se juega con `java -jar dist\Girarrodillos.jar` desde la raíz del proyecto
+(los recursos de `rec/` se leen del disco con rutas relativas, así que la carpeta debe estar al lado).
+
+## Progreso
+
+Las monedas, los rodillos comprados y el equipado se guardan en `guardado.properties` (ignorado por git). Borra ese archivo para empezar de cero.
 
 ## Música
 

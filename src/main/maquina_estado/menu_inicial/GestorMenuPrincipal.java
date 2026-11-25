@@ -61,12 +61,9 @@ public class GestorMenuPrincipal implements IEstadoJuego, IAudio {
 
         for (Etiqueta etiqueta : secciones) {
             if (etiqueta.getHitbox().intersects(Raton.getInstance().obtenerRectanguloPosicion())) {
-//                System.out.println(etiqueta.getNombre());
-//                System.out.println(etiqueta.getId());
                 seccionNueva = etiqueta;
                 if (Raton.getInstance().obtenerClickIzquierdo()) {
 //                    if (etiqueta.getNombre().equals(" Jugar")){
-//                        System.out.println("Jugar");
 //                        Dibujador.IMAGEN.dibujar(SuperficieDeDibujo.getInstance().graficos2D, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ICONO.FLECHA_ETIQUETA), etiqueta.getHitbox().x, etiqueta.getHitbox().y);
 //                    }
                     Raton.getInstance().reiniciarClickIzquierdo(); // Un clic = una sola acción

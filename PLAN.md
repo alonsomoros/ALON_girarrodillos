@@ -186,8 +186,8 @@ que se van tachando en un `PLAN.md` dentro del repo.
 
 ### 4D. Pulido final
 - [x] **4.13** Actualizar `Instrucciones.txt` y `creditos.txt` con el estado real final.
-- [ ] **4.14** Revisión final: `grep` de `println`, avisos del compilador, FPS/CPU final vs. línea base, README definitivo.
-- [ ] **4.15** (Opcional) `scripts/empaquetar.bat` con `jar` de JDK para distribuir `.jar` + carpeta `rec/`.
+- [x] **4.14** Revisión final: `grep` de `println`, avisos del compilador, FPS/CPU final vs. línea base, README definitivo.
+- [x] **4.15** (Opcional) `scripts/empaquetar.bat` con `jar` de JDK para distribuir `.jar` + carpeta `rec/`.
 
 **Cierre:** merge + push + etiqueta `v1.0`.
 
@@ -231,6 +231,17 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - 3.20: se borró también `CargadorRecursos.unzip` (con su comentario en `GestorPrincipal`). Si lo necesitas para extraer `OST.zip`, está en el historial de git.
 - 3.23: Esc ya no hace `System.exit` desde el hilo de eventos; pide el cierre al bucle, que libera audio y ventana.
 - `Constantes.RODILLOS.R3_Prob`, `R4_Prob` y `R5_Prob` siguen sin usarse; se dejan por si la tienda los necesita (4.x).
+
+### Resultados al cerrar la Fase 4 (final del plan)
+- **32 pruebas** en verde. Partida real: 57 FPS, ~12 % de CPU; menú: ~25 %. Compila sin avisos y no queda ningún `println` suelto (solo vía `Depurar`).
+- Fin de partida con pantalla de victoria/derrota/empate, monedas y reinicio (Jugar empieza una partida nueva); IA con héroes al azar, fijado de canales y bastión visible.
+- Tienda implementada según `docs/tienda.md` (4 rodillos, monedas, guardado en `guardado.properties`).
+- Efectos de sonido: son **provisionales** (tonos generados con Java). Sustituye los `.wav` de `rec/sonidos/` por los tuyos con el mismo nombre.
+- `creditos.txt` no se tocó: son créditos ficticios del estudio que ya tenías.
+- 4.1 y 4.2 se hicieron juntas, y 4.3 y 4.4 también (`nuevaPartida()` cubre ambas).
+- Se detectó (y corrigió a tiempo con una prueba) un error mío al editar las tablas: `R2_Prob` perdió una entrada al añadir R3/R4; la prueba "las probabilidades suman 1" lo cazó antes de subirlo.
+- Opcional hecho: `scripts\empaquetar.bat` genera un `.jar` jugable.
+- Pendiente de ti: **1.24** (`.ttf` de la fuente) y, si quieres, sonidos definitivos.
 
 ## Verificación general
 
