@@ -50,15 +50,11 @@ public class Constantes {
             public static final String BATALLA_EPICA = "rec/musica/EncounterElite.wav";
             public static final String MENU_PRINCIPAL = "rec/musica/TitleScreen.wav";
             public static final String TIENDA = "rec/musica/TiendaTM.wav";
-            public static final String CREDITOS = "rec/musica/Moorlands.wav";
+            public static final String CREDITOS = "rec/musica/PathOfAscension.wav";
             public static final String MENU_MUSICA = "rec/musica/TheFrozenPeak.wav";
 
         }
 
-        public static class EFECTOS {
-            public static final String CLICK_BOTON = "rec/sonidos/boton.wav";
-
-        }
 
         public static class FONDOS {
             public static final String PRINCIPAL = "rec/wallpapers/";
