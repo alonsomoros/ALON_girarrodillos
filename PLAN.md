@@ -174,7 +174,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **4.8** Ajustar probabilidades de rodillo de IA para que sea batible pero no trivial (3 partidas de prueba, anotar resultado). **Resultado:** simulando 300 partidas con la misma estrategia en ambos lados (`test/.../SimulacionPartidas.java`): IA 44,7 %, jugador 43 %, empates 12 %, ~9 rondas por partida. Equilibrado: una persona que juegue mejor que la heurística gana más, así que no se tocan las probabilidades.
 
 ### 4C. Tienda y sonido
-- [ ] **4.9** Documento de diseño mínimo de la tienda (1 página en `docs/tienda.md`): qué se compra, con qué moneda, dónde se guarda. *Se te enseña antes de seguir.*
+- [x] **4.9** Documento de diseño mínimo de la tienda (1 página en `docs/tienda.md`): qué se compra, con qué moneda, dónde se guarda. *Se te enseña antes de seguir.*
 - [ ] **4.10** Implementar la tienda según 4.9 (se subdividirá en tareas 4.10a… cuando esté aprobado el diseño).
 - [ ] **4.11** 👤 Efectos de sonido (`boton.wav`, ataque, victoria/derrota) en `rec/sonidos/`.
 - [ ] **4.12** Reproducirlos con `AudioPlayer.playSoundOnce` (click de botón, ataque, fin de partida).
