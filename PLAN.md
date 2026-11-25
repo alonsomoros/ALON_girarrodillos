@@ -126,7 +126,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 ### 3A. Constructores y duplicación en Figura
 - [x] **3.1** `Figura`: añadir `Figura(EsqueletoPlayer duenio)` (único); los 2 constructores viejos delegan en él.
 - [x] **3.2** Migrar cada figura a un solo constructor (un commit por figura): Arquero, Mago, Caballero, Asesino, Ingeniero, Sacerdote → `3.2a…3.2f`.
-- [ ] **3.3** Eliminar los constructores `Player`/`IA` viejos y `playerDuenio/iaDuenio`.
+- [x] **3.3** Eliminar los constructores `Player`/`IA` viejos y `playerDuenio/iaDuenio`.
 
 ### 3B. Tablas en vez de `switch` repetidos
 - [ ] **3.4** `Constantes.COORDENADAS`: añadir arrays indexados `BASE[]`, `FIGURA[]`, `ACTIVADOR[]`, `STATS[]`, `ATAQUE[][]` (índice = posición-1), sin quitar aún las constantes sueltas.
