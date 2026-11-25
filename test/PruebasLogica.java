@@ -69,7 +69,17 @@ public class PruebasLogica {
             }
         });
 
+        prueba("cada símbolo del rodillo tiene sprite normal y lateral", () -> {
+            for (Constantes.RODILLOS.Elementos e : Constantes.RODILLOS.Elementos.values()) {
+                for (String sufijo : new String[]{".png", "Lateral.png"}) {
+                    java.io.File f = new java.io.File("rec/sprites/rodillo/" + e + sufijo);
+                    verificar(f.exists(), "falta " + f);
+                }
+            }
+        });
+
         System.out.println(ejecutadas + " pruebas, "
+
  + fallidas + " fallidas");
         System.exit(fallidas == 0 ? 0 : 1);
     }

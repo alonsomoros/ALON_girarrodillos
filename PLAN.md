@@ -94,7 +94,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **2.3** `GestorGirarrodillos`: sustituir `Player.getRodillo()/IA.getRodillo()` por `player.getRodillo()/ia.getRodillo()`. *Verif.:* jugador e IA muestran rodillos **distintos**.
 - [x] **2.4** `IA` usa su propio rodillo definitivo (D5) y se retira el rodillo de prueba `RP_Cuadrado3…`.
 - [x] **2.5** `Rodillo.girarRodillo`: usar `EnumMap`/orden fijo, normalizar probabilidades en el constructor y garantizar un valor por defecto si el acumulado no llega (nunca `null`). *Prueba (2.1):* 100 000 giros sin `null`.
-- [ ] **2.6** `Rodillo.girarRodillo`: no dejar que `lateral1/lateral2` contengan símbolos que no existen como sprite (revisar `roto.png`, `*Lateral.png` por cada `Elementos`). 
+- [x] **2.6** (verificado: ya existen todos los sprites; añadida la prueba que lo vigila) `Rodillo.girarRodillo`: no dejar que `lateral1/lateral2` contengan símbolos que no existen como sprite (revisar `roto.png`, `*Lateral.png` por cada `Elementos`). 
 
 ### 2C. Ataques
 - [ ] **2.7** `Ataque`: arranca su propio cronómetro en el constructor (`iniciar()`); desaparece `GestorAtaques.ejecutarAtaques()` y deja de reiniciar los ataques en curso.
