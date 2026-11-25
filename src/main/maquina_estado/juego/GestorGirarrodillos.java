@@ -82,23 +82,23 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
 
         cerrarRodillos();
 
-        player.calcularSalidaRodillo(Player.getRodillo().getSalidaRodillo());
+        player.calcularSalidaRodillo(player.getRodillo().getSalidaRodillo());
         player.actualizarEstados();
 
-        ia.calcularSalidaRodillo(IA.getRodillo().getSalidaRodillo());
+        ia.calcularSalidaRodillo(ia.getRodillo().getSalidaRodillo());
         ia.actualizarEstados();
 
         turno = 0;
     }
 
     private void cerrarRodillos() {
-        Player.getRodillo().cerrarRodillo();
-        IA.getRodillo().cerrarRodillo();
+        player.getRodillo().cerrarRodillo();
+        ia.getRodillo().cerrarRodillo();
     }
 
     private void abrirRodillos() {
-        Player.getRodillo().abrirRodillo();
-        IA.getRodillo().abrirRodillo();
+        player.getRodillo().abrirRodillo();
+        ia.getRodillo().abrirRodillo();
     }
 
     @Override
@@ -106,7 +106,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
         // Dibujar fondo
         Dibujador.RECTANGULO_RELLENO.dibujar(graficos, new Rectangle(0, 0, Constantes.ANCHO_JUEGO, Constantes.ALTO_JUEGO), new Color(0x4a3432));
 
-        IA.getRodillo().dibujarRodillo(graficos, false);
+        ia.getRodillo().dibujarRodillo(graficos, false);
 
         Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FONDOS.TABLERO), 0, 0);
 
@@ -152,24 +152,24 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
         long tiempoActual = System.nanoTime();
 
         GestorControles.teclado.procesarTecla(GestorControles.teclado.teclaE, () -> {
-            Player.getRodillo().girarRodillo();
-            IA.getRodillo().girarRodillo();
+            player.getRodillo().girarRodillo();
+            ia.getRodillo().girarRodillo();
             turno++;
             Depurar.log("Turno: " + turno);
         }, tiempoActual);
 
         if (puedeFijar) {
             GestorControles.teclado.procesarTecla(GestorControles.teclado.espacio, () -> {
-                Player.getRodillo().fijarCanal(Player.getRodillo().getPunteroPos());
+                player.getRodillo().fijarCanal(player.getRodillo().getPunteroPos());
             }, tiempoActual);
         }
 
         GestorControles.teclado.procesarTecla(GestorControles.teclado.derecha, () -> {
-            Player.getRodillo().moverPunteroDerecha();
+            player.getRodillo().moverPunteroDerecha();
         }, tiempoActual);
 
         GestorControles.teclado.procesarTecla(GestorControles.teclado.izquierda, () -> {
-            Player.getRodillo().moverPunteroIzquierda();
+            player.getRodillo().moverPunteroIzquierda();
         }, tiempoActual);
     }
 

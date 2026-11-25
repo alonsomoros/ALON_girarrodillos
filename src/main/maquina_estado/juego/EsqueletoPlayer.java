@@ -12,7 +12,7 @@ public class EsqueletoPlayer {
     protected ArrayList<Figura> figurasDisponibles;
     protected Figura figuraIzquierda, figuraDerecha;
     protected Figura figuraIndex;
-    protected static Rodillo rodillo;
+    protected Rodillo rodillo;
     protected Bastion bastion;
     protected int seleccionandoIzquierda = 0;
     protected boolean terminadoDeProcesarAtaques;
@@ -25,7 +25,6 @@ public class EsqueletoPlayer {
     public EsqueletoPlayer() {
         this.vida = Constantes.VIDA;
         this.bastion = new Bastion();
-        this.rodillo = null;
 
         figuraIzquierda = null;
         figuraDerecha = null;
@@ -82,7 +81,7 @@ public class EsqueletoPlayer {
         }
     }
 
-    public static Rodillo getRodillo() {
+    public Rodillo getRodillo() {
         return rodillo;
     }
 
