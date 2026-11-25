@@ -1,4 +1,8 @@
 import main.Constantes;
+import main.maquina_estado.juego.PruebasJuego;
+
+import static pruebas.Ejecutor.prueba;
+import static pruebas.Ejecutor.verificar;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,30 +12,6 @@ import java.util.Map;
  * Se ejecutan con scripts\probar.bat. Una prueba falla si lanza cualquier excepción o AssertionError.
  */
 public class PruebasLogica {
-
-    private static int ejecutadas = 0;
-    private static int fallidas = 0;
-
-    interface Prueba {
-        void ejecutar() throws Exception;
-    }
-
-    static void prueba(final String nombre, final Prueba prueba) {
-        ejecutadas++;
-        try {
-            prueba.ejecutar();
-            System.out.println("  OK     " + nombre);
-        } catch (Throwable t) {
-            fallidas++;
-            System.out.println("  FALLA  " + nombre + " -> " + t);
-        }
-    }
-
-    static void verificar(final boolean condicion, final String mensaje) {
-        if (!condicion) {
-            throw new AssertionError(mensaje);
-        }
-    }
 
     public static void main(final String[] args) {
         System.out.println("Pruebas de logica");
@@ -78,9 +58,8 @@ public class PruebasLogica {
             }
         });
 
-        System.out.println(ejecutadas + " pruebas, "
+        PruebasJuego.ejecutar();
 
- + fallidas + " fallidas");
-        System.exit(fallidas == 0 ? 0 : 1);
+        pruebas.Ejecutor.resumenYSalir();
     }
 }
