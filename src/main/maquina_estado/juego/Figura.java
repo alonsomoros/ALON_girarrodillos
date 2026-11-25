@@ -124,7 +124,6 @@ public abstract class Figura implements AtaquesFiguras {
                 Depurar.log("Ataque de " + this.getClass().getSimpleName() + getDuenio().getClass().getSimpleName() + " a " + getEnemigo().getClass().getSimpleName());
                 break;
         }
-        GestorAtaques.ataques.add(ataque);
     }
 
     public void atacarEspecial() { // Hace dos de daño independientemente e ignora bastiones
@@ -143,7 +142,6 @@ public abstract class Figura implements AtaquesFiguras {
                 ataqueEspecial = new Ataque(this, Constantes.COORDENADAS.ATAQUE_4, ataqueEspecialImagen);
                 break;
         }
-        GestorAtaques.ataques.add(ataqueEspecial);
 
     }
 

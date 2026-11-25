@@ -2,12 +2,8 @@ package main.maquina_estado.juego;
 
 import main.Constantes;
 
-import java.util.ArrayList;
 
 public class GestorAtaques {
-    public static ArrayList<Ataque> ataques = new ArrayList<>();
-
-
 
     public static void procesarFinalAtaque(Figura figuraAtacante, Ataque ataque, EsqueletoPlayer enemigo) { // Cuando actuan suben 2 de exp
 
