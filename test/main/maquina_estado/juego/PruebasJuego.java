@@ -1,5 +1,8 @@
 package main.maquina_estado.juego;
 
+import main.Constantes;
+import main.Constantes.RODILLOS.Elementos;
+
 import static pruebas.Ejecutor.prueba;
 import static pruebas.Ejecutor.verificar;
 
@@ -240,11 +243,11 @@ public class PruebasJuego {
             p.setFiguraIzquierda(izq);
             p.setFiguraDerecha(der);
             // cuadrado1 + cuadrado2 + cuadrado1 = 4 -> baja 2; rombo1 solo = 1 -> no baja; martillos 1+2 = 3 -> bastión +1
-            p.calcularSalidaRodillo(new String[]{"cuadrado1", "cuadrado2", "cuadrado1", "rombo1", "martillo1"});
+            p.calcularSalidaRodillo(new Constantes.RODILLOS.Elementos[]{Elementos.cuadrado1, Elementos.cuadrado2, Elementos.cuadrado1, Elementos.rombo1, Elementos.martillo1});
             verificar(izq.getActivador().getAltura() == 3, "izquierdo: " + izq.getActivador().getAltura());
             verificar(der.getActivador().getAltura() == 5, "derecho: " + der.getActivador().getAltura());
             verificar(p.getBastion().getAltura() == 0, "bastión con 1 martillo: " + p.getBastion().getAltura());
-            p.calcularSalidaRodillo(new String[]{"martillo2", "martillo1", "roto", "roto", "roto"});
+            p.calcularSalidaRodillo(new Constantes.RODILLOS.Elementos[]{Elementos.martillo2, Elementos.martillo1, Elementos.roto, Elementos.roto, Elementos.roto});
             verificar(p.getBastion().getAltura() == 1, "bastión con martillos 2+1=3: " + p.getBastion().getAltura());
         });
 

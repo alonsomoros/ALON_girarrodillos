@@ -145,61 +145,27 @@ public class EsqueletoPlayer {
         return enemigo;
     }
 
-    protected void calcularSalidaRodillo(String[] rodillos) {
+    protected void calcularSalidaRodillo(Constantes.RODILLOS.Elementos[] rodillos) {
         int ataqueC = 0, ataqueR = 0, experienciaC = 0, experienciaR = 0, muralla = 0;
 
-        for (String elemento : rodillos) {
-            switch (elemento) {
-                case "cuadrado1":
-                    ataqueC += 1;
+        for (Constantes.RODILLOS.Elementos elemento : rodillos) {
+            switch (elemento.tipo) {
+                case CUADRADO:
+                    ataqueC += elemento.valor;
+                    if (elemento.daExperiencia) {
+                        experienciaC += elemento.valor;
+                    }
                     break;
-                case "cuadrado2":
-                    ataqueC += 2;
+                case ROMBO:
+                    ataqueR += elemento.valor;
+                    if (elemento.daExperiencia) {
+                        experienciaR += elemento.valor;
+                    }
                     break;
-                case "cuadrado3":
-                    ataqueC += 3;
+                case MARTILLO:
+                    muralla += elemento.valor;
                     break;
-                case "cuadradoNivel1":
-                    experienciaC += 1;
-                    ataqueC += 1;
-                    break;
-                case "cuadradoNivel2":
-                    experienciaC += 2;
-                    ataqueC += 2;
-                    break;
-                case "cuadradoNivel3":
-                    experienciaC += 3;
-                    ataqueC += 3;
-                    break;
-                case "rombo1":
-                    ataqueR += 1;
-                    break;
-                case "rombo2":
-                    ataqueR += 2;
-                    break;
-                case "rombo3":
-                    ataqueR += 3;
-                    break;
-                case "romboNivel1":
-                    experienciaR += 1;
-                    ataqueR += 1;
-                    break;
-                case "romboNivel2":
-                    experienciaR += 2;
-                    ataqueR += 2;
-                    break;
-                case "romboNivel3":
-                    experienciaR += 3;
-                    ataqueR += 3;
-                    break;
-                case "martillo1":
-                    muralla += 1;
-                    break;
-                case "martillo2":
-                    muralla += 2;
-                    break;
-                case "martillo3":
-                    muralla += 3;
+                default: // roto: no aporta nada
                     break;
             }
         }

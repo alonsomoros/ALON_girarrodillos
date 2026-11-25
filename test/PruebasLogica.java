@@ -43,7 +43,7 @@ public class PruebasLogica {
             main.maquina_estado.juego.Rodillo rodillo = new main.maquina_estado.juego.Rodillo(canales);
             for (int i = 0; i < 100000; i++) {
                 rodillo.girarRodillo();
-                for (String s : rodillo.getSalidaRodillo()) {
+                for (Constantes.RODILLOS.Elementos s : rodillo.getSalidaRodillo()) {
                     verificar(s != null, "símbolo null en el giro " + i);
                 }
             }

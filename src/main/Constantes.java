@@ -218,14 +218,31 @@ public class Constantes {
 
     public static class RODILLOS {
 
-        public enum Elementos { // Elementos de un rodillo
-            cuadrado1, cuadrado2, cuadrado3,
-            cuadradoNivel1, cuadradoNivel2, cuadradoNivel3,
-            rombo1, rombo2, rombo3,
-            romboNivel1, romboNivel2, romboNivel3,
-            martillo1, martillo2, martillo3,
-            roto
+        public enum Tipo { // Qué energía aporta un símbolo
+            CUADRADO, ROMBO, MARTILLO, ROTO
         }
+
+        // Elementos de un rodillo. El nombre es también el del sprite (rec/sprites/rodillo/<nombre>.png).
+        // valor = cuántos "del mismo tipo" cuenta; daExperiencia = fondo azul (además da EXP igual a su valor).
+        public enum Elementos {
+            cuadrado1(Tipo.CUADRADO, 1, false), cuadrado2(Tipo.CUADRADO, 2, false), cuadrado3(Tipo.CUADRADO, 3, false),
+            cuadradoNivel1(Tipo.CUADRADO, 1, true), cuadradoNivel2(Tipo.CUADRADO, 2, true), cuadradoNivel3(Tipo.CUADRADO, 3, true),
+            rombo1(Tipo.ROMBO, 1, false), rombo2(Tipo.ROMBO, 2, false), rombo3(Tipo.ROMBO, 3, false),
+            romboNivel1(Tipo.ROMBO, 1, true), romboNivel2(Tipo.ROMBO, 2, true), romboNivel3(Tipo.ROMBO, 3, true),
+            martillo1(Tipo.MARTILLO, 1, false), martillo2(Tipo.MARTILLO, 2, false), martillo3(Tipo.MARTILLO, 3, false),
+            roto(Tipo.ROTO, 0, false);
+
+            public final Tipo tipo;
+            public final int valor;
+            public final boolean daExperiencia;
+
+            Elementos(final Tipo tipo, final int valor, final boolean daExperiencia) {
+                this.tipo = tipo;
+                this.valor = valor;
+                this.daExperiencia = daExperiencia;
+            }
+        }
+
 
 
         public static final HashMap<Elementos, Double> R1_Prob = new HashMap<>(); // Rodillo simple con roto, y solo 2 niveles, muy raro nivel
