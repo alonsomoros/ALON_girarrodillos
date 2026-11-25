@@ -1,5 +1,6 @@
 package main.maquina_estado.juego;
 
+import main.herramientas.Depurar;
 import main.Constantes;
 
 import main.herramientas.CargadorRecursos;
@@ -108,19 +109,19 @@ public abstract class Figura implements AtaquesFiguras {
             case 1:
                 ataque = new Ataque(this, Constantes.COORDENADAS.ATAQUE_1, ataqueImagen);
 
-                System.out.println("Ataque de " + this.getClass().getSimpleName() + getDuenio().getClass().getSimpleName() + " a " + getEnemigo().getClass().getSimpleName());
+                Depurar.log("Ataque de " + this.getClass().getSimpleName() + getDuenio().getClass().getSimpleName() + " a " + getEnemigo().getClass().getSimpleName());
                 break;
             case 2:
                 ataque = new Ataque(this, Constantes.COORDENADAS.ATAQUE_2, ataqueImagen);
-                System.out.println("Ataque de " + this.getClass().getSimpleName() + getDuenio().getClass().getSimpleName() + " a " + getEnemigo().getClass().getSimpleName());
+                Depurar.log("Ataque de " + this.getClass().getSimpleName() + getDuenio().getClass().getSimpleName() + " a " + getEnemigo().getClass().getSimpleName());
                 break;
             case 3:
                 ataque = new Ataque(this, Constantes.COORDENADAS.ATAQUE_3, ataqueImagen);
-                System.out.println("Ataque de " + this.getClass().getSimpleName() + getDuenio().getClass().getSimpleName() + " a " + getEnemigo().getClass().getSimpleName());
+                Depurar.log("Ataque de " + this.getClass().getSimpleName() + getDuenio().getClass().getSimpleName() + " a " + getEnemigo().getClass().getSimpleName());
                 break;
             case 4:
                 ataque = new Ataque(this, Constantes.COORDENADAS.ATAQUE_4, ataqueImagen);
-                System.out.println("Ataque de " + this.getClass().getSimpleName() + getDuenio().getClass().getSimpleName() + " a " + getEnemigo().getClass().getSimpleName());
+                Depurar.log("Ataque de " + this.getClass().getSimpleName() + getDuenio().getClass().getSimpleName() + " a " + getEnemigo().getClass().getSimpleName());
                 break;
         }
         GestorAtaques.ataques.add(ataque);

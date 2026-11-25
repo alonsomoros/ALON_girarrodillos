@@ -1,5 +1,6 @@
 package main.maquina_estado;
 
+import main.herramientas.Depurar;
 import main.AudioPlayer;
 import main.GestorPrincipal;
 import main.control.GestorControles;
@@ -56,7 +57,7 @@ public class GestorEstados {
     }
 
     public void cambiarEstadoActual(final int nuevoEstado) {
-        System.out.println("Cambiando estado a: " + estadosDelJuego.get(nuevoEstado).getClass().getSimpleName());
+        Depurar.log("Cambiando estado a: " + estadosDelJuego.get(nuevoEstado).getClass().getSimpleName());
 
         if (nuevoEstado == 4) {
             if (iniciado) {

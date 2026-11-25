@@ -45,39 +45,39 @@ que se van tachando en un `PLAN.md` dentro del repo.
 ## FASE 1 — Rendimiento, recursos y bugs de UI/audio  (rama `fase-1-rendimiento`)
 
 ### 1A. Caché de imágenes (el mayor cuello de botella)
-- [ ] **1.1** Crear `herramientas/CacheImagenes.java`: `Map<String,BufferedImage>`, métodos `obtener(ruta, Transparency)`, `precargar(String...)`, `limpiar()`, y un `boolean activa` configurable. Sin usarla aún.
-- [ ] **1.2** `CargadorRecursos.cargarImagenCompatibleOpaca/Translucida` consultan la caché antes de leer del disco. *Verif.:* el juego se ve igual; en consola ya no hay lecturas repetidas.
-- [ ] **1.3** Borrar el bucle de píxeles inútil de `cargarImagenCompatibleTranslucida` y el método `tieneVecinoOpaco`.
-- [ ] **1.4** Archivo de imagen inexistente: dejar de lanzar `NullPointerException`; devolver una imagen "placeholder" (32×32 magenta) y avisar **una sola vez** por ruta.
-- [ ] **1.5** `Dibujador.IMAGEN.dibujarRotado`: cachear la imagen volteada (mapa por `Image`) en vez de recalcularla cada frame.
-- [ ] **1.6** Precargar en el arranque lo que se usa en partida (rodillo, bases, activadores, bastiones, tablero) desde `GestorPrincipal` usando `CacheImagenes.precargar`.
+- [x] **1.1** Crear `herramientas/CacheImagenes.java`: `Map<String,BufferedImage>`, métodos `obtener(ruta, Transparency)`, `precargar(String...)`, `limpiar()`, y un `boolean activa` configurable. Sin usarla aún.
+- [x] **1.2** `CargadorRecursos.cargarImagenCompatibleOpaca/Translucida` consultan la caché antes de leer del disco. *Verif.:* el juego se ve igual; en consola ya no hay lecturas repetidas.
+- [x] **1.3** Borrar el bucle de píxeles inútil de `cargarImagenCompatibleTranslucida` y el método `tieneVecinoOpaco`.
+- [x] **1.4** Archivo de imagen inexistente: dejar de lanzar `NullPointerException`; devolver una imagen "placeholder" (32×32 magenta) y avisar **una sola vez** por ruta.
+- [x] **1.5** `Dibujador.IMAGEN.dibujarRotado`: cachear la imagen volteada (mapa por `Image`) en vez de recalcularla cada frame.
+- [x] **1.6** Precargar en el arranque lo que se usa en partida (rodillo, bases, activadores, bastiones, tablero) desde `GestorPrincipal` usando `CacheImagenes.precargar`.
 
 ### 1B. Depuración y consola
-- [ ] **1.7** Crear `herramientas/Depurar.java` (`static boolean ACTIVO`, `log(String)`).
-- [ ] **1.8** Pasar a `Depurar.log` (o borrar) los `System.out.println` por frame/evento: `Ataque.actualizar/dibujar`, `Figura.atacarNormal`, `GestorEstados`, `GestorGirarrodillos` ("Turno"), FPS en `GestorPrincipal`.
-- [ ] **1.9** Los textos de depuración en pantalla (`Raton.dibujar`: "Raton x…", "Click Izquierdo"; contador de objetos en `GestorMenuPrincipal`) solo si `Depurar.ACTIVO`.
+- [x] **1.7** Crear `herramientas/Depurar.java` (`static boolean ACTIVO`, `log(String)`).
+- [x] **1.8** Pasar a `Depurar.log` (o borrar) los `System.out.println` por frame/evento: `Ataque.actualizar/dibujar`, `Figura.atacarNormal`, `GestorEstados`, `GestorGirarrodillos` ("Turno"), FPS en `GestorPrincipal`.
+- [x] **1.9** Los textos de depuración en pantalla (`Raton.dibujar`: "Raton x…", "Click Izquierdo"; contador de objetos en `GestorMenuPrincipal`) solo si `Depurar.ACTIVO`.
 
 ### 1C. Bucle principal e hilos
-- [ ] **1.10** `GestorPrincipal.run()`: limitar el dibujado (dormir con `Thread.sleep` el sobrante del frame); `enFuncionamiento` pasa a `volatile`. *Verif.:* CPU del juego baja claramente vs. línea base (0.5).
-- [ ] **1.11** `Tecla`: `pulsada/procesada/ultimaPulsacion` → `volatile` (se escriben en el hilo de Swing y se leen en el del juego).
-- [ ] **1.12** Sustituir `java.util.Timer` del parpadeo de la luz (`GestorGirarrodillos`) por un contador de frames en `actualizar()`; eliminar `crearParpadeoLuz` y el hilo.
+- [x] **1.10** `GestorPrincipal.run()`: limitar el dibujado (dormir con `Thread.sleep` el sobrante del frame); `enFuncionamiento` pasa a `volatile`. *Verif.:* CPU del juego baja claramente vs. línea base (0.5).
+- [x] **1.11** `Tecla`: `pulsada/procesada/ultimaPulsacion` → `volatile` (se escriben en el hilo de Swing y se leen en el del juego).
+- [x] **1.12** Sustituir `java.util.Timer` del parpadeo de la luz (`GestorGirarrodillos`) por un contador de frames en `actualizar()`; eliminar `crearParpadeoLuz` y el hilo.
 
 ### 1D. Ratón y menús
-- [ ] **1.13** `Raton` duplicado: `SuperficieDeDibujo` hace `new Raton(this)` y `Raton.getInstance()` crea otro → un único `Raton` (que `getInstance` devuelva el de la superficie).
-- [ ] **1.14** `GestorEtiquetas.getInstance()` devuelve `new` cada vez (nunca guarda `instance`): corregir singleton.
-- [ ] **1.15** Un clic sobre una etiqueta del menú principal cambia de estado **una vez** (llamar a `Raton.reiniciarClickIzquierdo()` tras actuar); igual en menú de música. Hoy dispara cada frame mientras se mantiene.
-- [ ] **1.16** `Etiqueta` mide texto con `SuperficieDeDibujo.graficos2D` (Graphics guardado de por vida). Medir con un `BufferedImage` 1×1 propio en `MedidorString`; así se puede borrar `inicializarGraficos()` en la Fase 3.
+- [x] **1.13** `Raton` duplicado: `SuperficieDeDibujo` hace `new Raton(this)` y `Raton.getInstance()` crea otro → un único `Raton` (que `getInstance` devuelva el de la superficie).
+- [x] **1.14** `GestorEtiquetas.getInstance()` devuelve `new` cada vez (nunca guarda `instance`): corregir singleton.
+- [x] **1.15** Un clic sobre una etiqueta del menú principal cambia de estado **una vez** (llamar a `Raton.reiniciarClickIzquierdo()` tras actuar); igual en menú de música. Hoy dispara cada frame mientras se mantiene.
+- [x] **1.16** `Etiqueta` mide texto con `SuperficieDeDibujo.graficos2D` (Graphics guardado de por vida). Medir con un `BufferedImage` 1×1 propio en `MedidorString`; así se puede borrar `inicializarGraficos()` en la Fase 3.
 
 ### 1E. Audio
-- [ ] **1.17** `AudioPlayer`: inicializar `clips = new HashMap<>()` (hoy `null` → NPE en `preloadSound`).
-- [ ] **1.18** `AudioPlayer.stopSound`: corregir el orden (`stop()` luego `close()`) y no exigir `isRunning()` para cerrar.
-- [ ] **1.19** `AudioPlayer.playSoundOnce`: cerrar el `Clip` al terminar con un `LineListener` (hoy fuga de líneas de audio).
-- [ ] **1.20** 👤 Convertir los 3 `.mp3` a `.wav` y subirlos (D6).
-- [ ] **1.21** `Constantes.RUTAS.MUSICA`: apuntar solo a archivos que existen; `CREDITOS` (`Moorlands.wav`, inexistente) → elegir una pista real; `rec/sonidos/boton.wav` → quitar la constante hasta que haya sonido (se retoma en 4.x).
-- [ ] **1.22** `GestorEtiquetas.initEtiquetasMenuMusica`: tolerar que `rec/musica` no exista o esté vacío (hoy `listFiles()` puede ser `null`) y que el menú muestre solo pistas `.wav` válidas.
+- [x] **1.17** `AudioPlayer`: inicializar `clips = new HashMap<>()` (hoy `null` → NPE en `preloadSound`).
+- [x] **1.18** `AudioPlayer.stopSound`: corregir el orden (`stop()` luego `close()`) y no exigir `isRunning()` para cerrar.
+- [x] **1.19** `AudioPlayer.playSoundOnce`: cerrar el `Clip` al terminar con un `LineListener` (hoy fuga de líneas de audio).
+- [x] **1.20** (hecho con ffmpeg) Convertir los 3 `.mp3` a `.wav` y subirlos (D6).
+- [x] **1.21** `Constantes.RUTAS.MUSICA`: apuntar solo a archivos que existen; `CREDITOS` (`Moorlands.wav`, inexistente) → elegir una pista real; `rec/sonidos/boton.wav` → quitar la constante hasta que haya sonido (se retoma en 4.x).
+- [x] **1.22** `GestorEtiquetas.initEtiquetasMenuMusica`: tolerar que `rec/musica` no exista o esté vacío (hoy `listFiles()` puede ser `null`) y que el menú muestre solo pistas `.wav` válidas.
 
 ### 1F. Fuentes
-- [ ] **1.23** `CargadorRecursos.cargarFuente(ruta)` real con `Font.createFont` + `registerFont`, con *fallback* a `Font.SANS_SERIF` si falta el `.ttf`.
+- [x] **1.23** `CargadorRecursos.cargarFuente(ruta)` real con `Font.createFont` + `registerFont`, con *fallback* a `Font.SANS_SERIF` si falta el `.ttf`.
 - [ ] **1.24** 👤 Aportar `.ttf` (p. ej. Pixelify Sans, licencia OFL) en `rec/fuentes/`; `Constantes.FUENTES` pasa a cargarla en lugar de "Algerian"/"AniMe Matrix" del sistema. *Verif.:* el texto se ve igual en otro PC.
 
 **Cierre de fase 1:** merge a `main` + push (con tu OK). Re-medir FPS/CPU y anotarlo en `PLAN.md`.
@@ -197,6 +197,15 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - Medido solo en el menú; la partida no se pudo conducir sin teclado, así que se medirá a mano al cerrar la Fase 1.
 - Compila con un aviso de operaciones `unchecked` en `EsqueletoPlayer` (arrays genéricos de `HashMap`).
 - El `.gitignore` ya tenía `rec/musica/OST.zip` añadido a mano (sin commit) antes de 0.3.
+
+### Resultados al cerrar la Fase 1 (JDK 21, menú y partida)
+- Menú: **CPU 113 % → ~25 %**, FPS 700 → **57**, RAM ~510 MB → ~420-480 MB.
+- Partida (jugador vs IA, conducida con `java.awt.Robot`): **CPU ~11 %, 57 FPS, sin errores**. Antes, una ejecución en partida daba **8 FPS** (visto en tu terminal de VS Code), así que la caché de imágenes era el cuello de botella.
+- Confirmado a la vista el bug de la Fase 2: el rodillo de la IA y el del jugador muestran **exactamente los mismos símbolos** (rodillo `static` compartido).
+- 1.20 se resolvió con `ffmpeg` (ya instalado en la máquina): `TheMountainTrail`, `ChillyNight` y `Courage` ahora existen como `.wav` (los `.mp3` se mantienen).
+- 1.21: la música de créditos usa `PathOfAscension.wav` (la original `Moorlands.wav` no existe); cámbiala si prefieres otra.
+- 1.19 quedó dentro del commit de 1.18 (se aplicaron juntas); el commit 1.19 solo tacha la casilla.
+- Pendiente de ti: **1.24** (aportar el `.ttf`; hasta entonces las fuentes siguen siendo "Algerian" y "AniMe Matrix" del sistema).
 
 ## Verificación general
 

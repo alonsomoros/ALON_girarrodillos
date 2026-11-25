@@ -1,5 +1,6 @@
 package main.maquina_estado.juego;
 
+import main.herramientas.Depurar;
 import main.herramientas.Dibujador;
 import main.maquina_estado.juego.figuras.Mago;
 
@@ -39,15 +40,15 @@ public class Ataque {
 
         if (tiempoTranscurrido <= duracion / 3) {
             index = 0;
-            System.out.println("Primer frame");
+            Depurar.log("Primer frame");
         } else if (tiempoTranscurrido >= duracion / 3 && tiempoTranscurrido < duracion / 3 * 2) {
             index = 1;
-            System.out.println("Segundo frame");
+            Depurar.log("Segundo frame");
         } else if (tiempoTranscurrido >= duracion / 3 * 2 && tiempoTranscurrido < duracion) {
             index = 2;
-            System.out.println("Tercer frame");
+            Depurar.log("Tercer frame");
         } else {
-            System.out.println("Ataque terminado");
+            Depurar.log("Ataque terminado");
             activo = false;
             terminadaAnimacion = true;
 
@@ -59,7 +60,7 @@ public class Ataque {
     public void dibujar(Graphics g) {
         if (!activo) return;
         Dibujador.IMAGEN.dibujar(g, imagen, posiciones[index]);
-        System.out.println(figuraAtacante.getClass().getSimpleName() + /* " de " + figuraAtacante.getDuenio() + */ " atacando");
+        Depurar.log(figuraAtacante.getClass().getSimpleName() + /* " de " + figuraAtacante.getDuenio() + */ " atacando");
     }
 
     public boolean isActivo() {

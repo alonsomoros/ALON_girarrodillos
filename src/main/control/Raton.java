@@ -3,6 +3,8 @@ package main.control;
 import main.Constantes;
 import main.graficos.SuperficieDeDibujo;
 import main.herramientas.CargadorRecursos;
+import main.herramientas.Depurar;
+
 import main.herramientas.Dibujador;
 import main.maquina_estado.GestorEstados;
 
@@ -29,15 +31,17 @@ public class Raton extends MouseAdapter {
         this.cursor = configuracion.createCustomCursor(imagen, punta, "Cursor por defecto");
 
         posicion = new Point();
+        instance = this; // El Raton de la superficie es el único
         superficieDeDibujo.addMouseListener(this);
         superficieDeDibujo.addMouseMotionListener(this);
     }
 
     public static synchronized Raton getInstance() {
         if (instance == null) {
-            instance = new Raton(SuperficieDeDibujo.getInstance());
+            SuperficieDeDibujo.getInstance(); // Su constructor crea el Raton (y lo registra en instance)
         }
         return instance;
+
     }
 
     //Si quiero dibujar mi propio ratón
@@ -46,6 +50,9 @@ public class Raton extends MouseAdapter {
     }
 
     public void dibujar(Graphics graficos) {
+        if (!Depurar.ACTIVO) {
+            return;
+        }
         Rectangle rec = obtenerRectanguloPosicion();
         Dibujador.TEXTO.dibujar(graficos, "Raton x: " + rec.x + " y: " + rec.y, 110, 30, Constantes.azul_2);
         if (clickIzquierdo) {

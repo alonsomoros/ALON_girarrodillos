@@ -14,8 +14,11 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
     private static Player player;
     private static IA ia;
     private int turno;
+    private static final int FRAMES_POR_PARPADEO = 45; // 750 ms a 60 actualizaciones por segundo
+
     private boolean circuloParpadeante, puedeFijar;
-    Timer timer;
+    private boolean parpadeando;
+    private int contadorParpadeo;
 
     public GestorGirarrodillos() {
 
@@ -37,6 +40,8 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
 
     @Override
     public void actualizar() {
+        actualizarParpadeo();
+
         if (player.seleccionandoFiguras()) {
             player.seleccionFiguras(player.figurasDisponibles);
         }
@@ -48,16 +53,15 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
                 switch (turno) {
                     case 0:
                         abrirRodillos();
-                        if (timer == null) {
+                        if (!parpadeando) {
                             puedeFijar = false;
                             crearParpadeoLuz();
                         }
                         procesarControles();
                         break;
                     case 1:
-                        if (timer != null) {
-                            timer.cancel();
-                            timer = null;
+                        if (parpadeando) {
+                            parpadeando = false;
                             circuloParpadeante = false;
                             puedeFijar = true;
                         }
@@ -151,7 +155,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
             Player.getRodillo().girarRodillo();
             IA.getRodillo().girarRodillo();
             turno++;
-            System.out.println("Turno: " + turno);
+            Depurar.log("Turno: " + turno);
         }, tiempoActual);
 
         if (puedeFijar) {
@@ -170,19 +174,20 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
     }
 
 
+    // El parpadeo se cuenta en actualizaciones del bucle principal (sin hilo aparte)
     private void crearParpadeoLuz() {
-        if (timer == null) {
-            timer = new Timer();
-        }
-        TimerTask parpadeo = new TimerTask() {
-            @Override
-            public void run() {
-                circuloParpadeante = !circuloParpadeante;
-            }
-        };
-
-        timer.schedule(parpadeo, 0, 750);
+        parpadeando = true;
+        circuloParpadeante = true;
+        contadorParpadeo = 0;
     }
+
+    private void actualizarParpadeo() {
+        if (parpadeando && ++contadorParpadeo >= FRAMES_POR_PARPADEO) {
+            contadorParpadeo = 0;
+            circuloParpadeante = !circuloParpadeante;
+        }
+    }
+
 
     @Override
     public void activarAudio() {

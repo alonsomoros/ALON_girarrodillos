@@ -1,5 +1,6 @@
 package main.maquina_estado.juego.figuras;
 
+import main.herramientas.Depurar;
 import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
@@ -33,18 +34,18 @@ public class Sacerdote extends Figura {
 //    public void atacar(Graphics g) {
 //        estaAtacando = true;
 //        ataque.setStartTime(System.currentTimeMillis());
-//        System.out.println("Sacerdote atacando");
+//        Depurar.log("Sacerdote atacando");
 ////        Dibujador.IMAGEN.dibujar(g, ataqueImagen, new Point(50,500));
 //    }
 
     @Override
     public void atacar(Graphics graphics) {
-        System.out.println("Sacerdote atacando");
+        Depurar.log("Sacerdote atacando");
     }
 
     @Override
     public void atacarEspecial(Graphics g) {
-        System.out.println("Sacerdote atacando especial");
+        Depurar.log("Sacerdote atacando especial");
     }
 
     public int getStat1() { // Curacion

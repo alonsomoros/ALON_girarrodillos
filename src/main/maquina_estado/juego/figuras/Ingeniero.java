@@ -1,5 +1,6 @@
 package main.maquina_estado.juego.figuras;
 
+import main.herramientas.Depurar;
 import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
@@ -28,12 +29,12 @@ public class Ingeniero extends Figura {
 
     @Override
     public void atacar(Graphics graphics) {
-        System.out.println("Ingeniero atacando");
+        Depurar.log("Ingeniero atacando");
     }
 
     @Override
     public void atacarEspecial(Graphics g) {
-        System.out.println("Ingeniero atacando especial");
+        Depurar.log("Ingeniero atacando especial");
     }
 
     public int getStat1() {

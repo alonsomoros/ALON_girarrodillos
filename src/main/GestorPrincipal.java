@@ -1,11 +1,14 @@
 package main;
 
+import main.herramientas.Depurar;
 import main.control.Raton;
 import main.graficos.SuperficieDeDibujo;
 import main.graficos.Ventana;
+import main.herramientas.CacheImagenes;
 import main.herramientas.Dibujador;
 import main.maquina_estado.GestorEstados;
 
+import java.awt.Transparency;
 import java.io.IOException;
 
 public class GestorPrincipal implements Runnable {
@@ -19,7 +22,7 @@ public class GestorPrincipal implements Runnable {
     private GestorEstados gestorEstados;
     private AudioPlayer audioPlayer;
 
-    private boolean enFuncionamiento = false;
+    private volatile boolean enFuncionamiento = false;
 
     // Constructor
     // Main
@@ -29,8 +32,25 @@ public class GestorPrincipal implements Runnable {
         gestorPrincipal.iniciarBuclePrincipal();
     }
 
+    // Carga por adelantado las imágenes que se usan en partida para que no haya tirones al jugar
+    private static void precargarRecursos() {
+        final String carpetaRodillo = "rec/sprites/rodillo/";
+        for (Constantes.RODILLOS.Elementos elemento : Constantes.RODILLOS.Elementos.values()) {
+            CacheImagenes.precargar(Transparency.OPAQUE,
+                    carpetaRodillo + elemento + ".png",
+                    carpetaRodillo + elemento + "Lateral.png");
+        }
+        CacheImagenes.precargar(Transparency.TRANSLUCENT,
+                Constantes.RUTAS.ELEMENTOS_RODILLO.FIJADOR,
+                Constantes.RUTAS.FONDOS.TABLERO);
+        CacheImagenes.precargarCarpeta(Transparency.TRANSLUCENT, "rec/sprites/activadores");
+        CacheImagenes.precargarCarpeta(Transparency.TRANSLUCENT, "rec/sprites/baseFigura");
+        CacheImagenes.precargarCarpeta(Transparency.TRANSLUCENT, "rec/sprites/bastion");
+    }
+
     private GestorPrincipal() {
 
+        precargarRecursos();
         ventana = new Ventana();
 //        ventana.requestFocus();
 
@@ -82,8 +102,19 @@ public class GestorPrincipal implements Runnable {
             dibujar();
             framesAcumulados++;
 
+            // Dormir lo que sobre del frame para no ocupar un núcleo entero dibujando sin parar
+            // (en Windows parkNanos es muy impreciso, por eso se duerme de 1 ms en 1 ms)
+            while (System.nanoTime() - inicioBucle < NS_POR_ACTUALIZACION) {
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+
             if (System.nanoTime() - referenciaContador > NS_POR_SEGUNDO) { // Mostrar los FPS y APS cada segundo
-                System.out.println("FPS: " + framesAcumulados + " APS: " + actualizacionesAcumuladas);
+                Depurar.log("FPS: " + framesAcumulados + " APS: " + actualizacionesAcumuladas);
 
                 Constantes.APS = actualizacionesAcumuladas;
                 Constantes.FPS = framesAcumulados;
