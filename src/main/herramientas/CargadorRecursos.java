@@ -132,20 +132,19 @@ public class CargadorRecursos {
 
     }
 
+    // Carga una fuente .ttf (tamaño 15). Si el archivo falta o es inválido, avisa una vez y usa SansSerif.
     public static Font cargarFuente(final String ruta) {
-        Font fuente = null;
-
-//        InputStream entradaBytes = ClassLoader.class.getResourceAsStream(ruta);
-//
-//        try {
-//            fuente = Font.createFont(Font.TRUETYPE_FONT, entradaBytes);
-//        } catch (FontFormatException e) {
-//            throw new RuntimeException(e);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-        return fuente;
+        File archivo = new File(ruta);
+        try {
+            Font fuente = Font.createFont(Font.TRUETYPE_FONT, archivo);
+            GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(fuente);
+            return fuente.deriveFont(Font.PLAIN, 15f);
+        } catch (FontFormatException | IOException e) {
+            if (rutasAvisadas.add(ruta)) {
+                System.err.println("No se pudo cargar la fuente " + ruta + " (" + e.getMessage() + "), se usa SansSerif");
+            }
+            return new Font(Font.SANS_SERIF, Font.PLAIN, 15);
+        }
     }
 
     public static boolean spriteVacio(BufferedImage imagen) {

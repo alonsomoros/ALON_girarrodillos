@@ -77,7 +77,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **1.22** `GestorEtiquetas.initEtiquetasMenuMusica`: tolerar que `rec/musica` no exista o esté vacío (hoy `listFiles()` puede ser `null`) y que el menú muestre solo pistas `.wav` válidas.
 
 ### 1F. Fuentes
-- [ ] **1.23** `CargadorRecursos.cargarFuente(ruta)` real con `Font.createFont` + `registerFont`, con *fallback* a `Font.SANS_SERIF` si falta el `.ttf`.
+- [x] **1.23** `CargadorRecursos.cargarFuente(ruta)` real con `Font.createFont` + `registerFont`, con *fallback* a `Font.SANS_SERIF` si falta el `.ttf`.
 - [ ] **1.24** 👤 Aportar `.ttf` (p. ej. Pixelify Sans, licencia OFL) en `rec/fuentes/`; `Constantes.FUENTES` pasa a cargarla en lugar de "Algerian"/"AniMe Matrix" del sistema. *Verif.:* el texto se ve igual en otro PC.
 
 **Cierre de fase 1:** merge a `main` + push (con tu OK). Re-medir FPS/CPU y anotarlo en `PLAN.md`.
