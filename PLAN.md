@@ -146,7 +146,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 
 ### 3D. Código muerto (un commit por elemento, comprobando con búsqueda que no se usa)
 - [x] **3.16** `AtaquesFiguras` y los `atacar(Graphics)/atacarEspecial(Graphics)` que solo imprimen.
-- [ ] **3.17** `Bastion.actualizar()` vacío, `IA.dibujarRodillo/getFigurasDisponibles` si siguen sin uso.
+- [x] **3.17** `Bastion.actualizar()` vacío, `IA.dibujarRodillo/getFigurasDisponibles` si siguen sin uso.
 - [ ] **3.18** `SuperficieDeDibujo.inicializarGraficos()` y el campo `graficos2D` (tras 1.16).
 - [ ] **3.19** `Teclado.ultimaPulsacion*`, `INTERVALO_PULSACION` (si no se usan) y `Ventana.dibujar()`.
 - [ ] **3.20** `HojaSprites`, `Sprite`, `AnimationPanelSprites`, `CargadorRecursos.unzip/extractFile`, `GestorPrincipal` línea comentada del `unzip`: borrar si nadie los usa.

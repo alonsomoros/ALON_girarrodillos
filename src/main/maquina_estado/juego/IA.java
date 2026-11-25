@@ -58,14 +58,6 @@ public class IA extends EsqueletoPlayer implements IEstadoJuego {
         Dibujador.TEXTO.dibujar(graficos, getVidaString(), 621, 165, color);
     }
 
-    protected void dibujarRodillo(Graphics graficos) {
-        rodillo.dibujar(graficos, Constantes.COORDENADAS.RODILLO_IA);
-    }
-
-    public ArrayList<Figura> getFigurasDisponibles() {
-        return figurasDisponibles;
-    }
-
     public void seleccionarFigurasAleatoria(ArrayList<Figura> figurasDisponibles) {
         int i = 0;
         while (i < 2) {

@@ -13,10 +13,6 @@ public class Bastion {
         altura = 0;
     }
 
-    public void actualizar() {
-
-    }
-
     public void dibujarBastion(Graphics graficos, EsqueletoPlayer duenio, Point coordenadas) {
         String[] rutas = (duenio instanceof Player) ? Constantes.RUTAS.BASTION.PLAYER : Constantes.RUTAS.BASTION.IA;
         if (altura >= 1 && altura < rutas.length) {
