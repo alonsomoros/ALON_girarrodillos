@@ -1,5 +1,7 @@
 package main.control;
 
+import main.GestorPrincipal;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -12,13 +14,6 @@ public class Teclado implements KeyListener {
     public Tecla teclaE = new Tecla();
     public Tecla X = new Tecla();
 
-
-    public long ultimaPulsacionDerecha = 0;
-    public long ultimaPulsacionIzquierda = 0;
-    public long ultimaPulsacionArriba = 0;
-    public long ultimaPulsacionAbajo = 0;
-    public long ultimaPulsacionEspacio = 0;
-    public long ultimaPulsacionGirar = 0;
 
     public final long INTERVALO_PULSACION = 1;
 
@@ -43,11 +38,9 @@ public class Teclado implements KeyListener {
                 espacio.teclaPulsada();
                 break;
             case KeyEvent.VK_ESCAPE:
-//                int teclaEsc = JOptionPane.showConfirmDialog(null, "Confirmación para cerrar", "¿Desea cerrar la ventana?", JOptionPane.YES_NO_OPTION);
-//                if (teclaEsc == JOptionPane.YES_OPTION) {
-                System.exit(0);
+                GestorPrincipal.solicitarCierre(); // El bucle principal cierra todo de forma ordenada
                 break;
-//
+
             case KeyEvent.VK_ENTER:
                 X.teclaPulsada();
                 break;

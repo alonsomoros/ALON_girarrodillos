@@ -10,9 +10,8 @@ import java.awt.*;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public abstract class Figura implements AtaquesFiguras {
-    private Player playerDuenio = null;
-    private IA iaDuenio = null;
+public abstract class Figura {
+    private final EsqueletoPlayer duenio; // Jugador o IA a quien pertenece
 
     protected Image imagenFigura;
     protected Image ataqueImagen;
@@ -30,19 +29,8 @@ public abstract class Figura implements AtaquesFiguras {
     private int ataquesLanzados; // Solo informativo (depuración y pruebas)
 
 
-    public Figura(final Player player) {
-        playerDuenio = player;
-        nivel = 1;
-        experiencia = 0;
-        imagenFigura = getImagen();
-        ataqueImagen = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ATAQUES.RUTA_ATAQUES + this.getClass().getSimpleName().toLowerCase() + ".png");
-        ataqueEspecialImagen = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ATAQUES.RUTA_ATAQUES + "Especial.png");
-        estaAtacando = false;
-        posicion = 0;
-    }
-
-    public Figura(final IA ia) {
-        iaDuenio = ia;
+    public Figura(final EsqueletoPlayer duenio) {
+        this.duenio = duenio;
         nivel = 1;
         experiencia = 0;
         imagenFigura = getImagen();
@@ -87,31 +75,18 @@ public abstract class Figura implements AtaquesFiguras {
     }
 
     public void dibujar(Graphics graficos, int posicion) {
-        switch (posicion) {
-            case 1:
-                dibujarBase(graficos, Constantes.COORDENADAS.BASE_1, true); // Dibujar la base
-                Dibujador.IMAGEN.dibujar(graficos, imagenFigura, Constantes.COORDENADAS.FIGURA_1); // Dibujar la figura
-                this.getActivador().dibujarActivador(graficos, Constantes.COORDENADAS.ACTIVADOR_1, true); // Dibujar el activador
-                this.dibujarStats(graficos, Constantes.COORDENADAS.STATS_1); // Dibujar los stats
-                break;
-            case 2:
-                dibujarBase(graficos, Constantes.COORDENADAS.BASE_2, false);
-                Dibujador.IMAGEN.dibujarRotado(graficos, imagenFigura, Constantes.COORDENADAS.FIGURA_2);
-                this.getActivador().dibujarActivador(graficos, Constantes.COORDENADAS.ACTIVADOR_2, false);
-                this.dibujarStats(graficos, Constantes.COORDENADAS.STATS_2);
-                break;
-            case 3:
-                dibujarBase(graficos, Constantes.COORDENADAS.BASE_3, true);
-                Dibujador.IMAGEN.dibujar(graficos, imagenFigura, Constantes.COORDENADAS.FIGURA_3);
-                this.getActivador().dibujarActivador(graficos, Constantes.COORDENADAS.ACTIVADOR_3, true);
-                this.dibujarStats(graficos, Constantes.COORDENADAS.STATS_3);
-                break;
-            case 4:
-                dibujarBase(graficos, Constantes.COORDENADAS.BASE_4, false);
-                Dibujador.IMAGEN.dibujarRotado(graficos, imagenFigura, Constantes.COORDENADAS.FIGURA_4);
-                this.getActivador().dibujarActivador(graficos, Constantes.COORDENADAS.ACTIVADOR_4, false);
-                this.dibujarStats(graficos, Constantes.COORDENADAS.STATS_4);
-                break;
+        if (posicion >= 1 && posicion <= 4) {
+            int i = posicion - 1;
+            boolean esCuadrado = posicion % 2 == 1; // 1 y 3: izquierda (cuadrado); 2 y 4: derecha (rombo, volteada)
+
+            dibujarBase(graficos, Constantes.COORDENADAS.BASE[i], esCuadrado); // Dibujar la base
+            if (esCuadrado) {
+                Dibujador.IMAGEN.dibujar(graficos, imagenFigura, Constantes.COORDENADAS.FIGURA[i]); // Dibujar la figura
+            } else {
+                Dibujador.IMAGEN.dibujarRotado(graficos, imagenFigura, Constantes.COORDENADAS.FIGURA[i]);
+            }
+            this.getActivador().dibujarActivador(graficos, Constantes.COORDENADAS.ACTIVADOR[i], esCuadrado); // Dibujar el activador
+            this.dibujarStats(graficos, Constantes.COORDENADAS.STATS[i]); // Dibujar los stats
         }
 
         Ataque actual = colaAtaques.peek();
@@ -130,18 +105,10 @@ public abstract class Figura implements AtaquesFiguras {
     }
 
     private Point[] coordenadasAtaque() {
-        switch (posicion) {
-            case 1:
-                return Constantes.COORDENADAS.ATAQUE_1;
-            case 2:
-                return Constantes.COORDENADAS.ATAQUE_2;
-            case 3:
-                return Constantes.COORDENADAS.ATAQUE_3;
-            case 4:
-                return Constantes.COORDENADAS.ATAQUE_4;
-            default:
-                return null;
+        if (posicion < 1 || posicion > 4) {
+            return null; // Figura sin posición asignada
         }
+        return Constantes.COORDENADAS.ATAQUE[posicion - 1];
     }
 
     // Al activarse crea sus ataques (getNumeroAtaques) y los encola. Los siguientes al primero ignoran el bastión.
@@ -183,61 +150,38 @@ public abstract class Figura implements AtaquesFiguras {
     }
 
     public void dibujarBase(Graphics graficos, Point coordenadas, boolean esCuadrado) {
-        switch (experiencia) {
-            case 0:
-                if (esCuadrado) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_CUADRADO_0), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_ROMBO_0), coordenadas);
-                }
-                break;
-            case 1:
-                if (esCuadrado) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_CUADRADO_1), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_ROMBO_1), coordenadas);
-                }
-                break;
-            case 2:
-                if (esCuadrado) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_CUADRADO_2), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_ROMBO_2), coordenadas);
-                }
-                break;
-            case 3:
-                if (esCuadrado) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_CUADRADO_3), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_ROMBO_3), coordenadas);
-                }
-                break;
-            case 4:
-                if (esCuadrado) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_CUADRADO_4), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_ROMBO_4), coordenadas);
-                }
-                break;
-            case 5:
-                if (esCuadrado) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_CUADRADO_5), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_ROMBO_5), coordenadas);
-                }
-                break;
-            case 6:
-                if (esCuadrado) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_CUADRADO_6), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_ROMBO_6), coordenadas);
-                }
+        String[] rutas = esCuadrado ? Constantes.RUTAS.BASES.CUADRADO : Constantes.RUTAS.BASES.ROMBO;
+        if (experiencia >= 0 && experiencia < rutas.length) {
+            Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(rutas[experiencia]), coordenadas);
         }
     }
 
     public void dibujarStats(Graphics graficos, Point coordenadas) {
         Dibujador.IMAGEN.dibujar(graficos, stats, coordenadas);
         Dibujador.TEXTO.dibujar(graficos, this.getStat1() + "              " + this.getStat2(), coordenadas.x + 100, coordenadas.y + 45, new Color(0xFF8A7D72, true));
+    }
+
+    public static final int DANIO_BOMBA = 2;
+
+    // Efecto de un ataque cuando termina su animación
+    public final void resolverAtaque(Ataque ataque, EsqueletoPlayer enemigo) {
+        if (ataque.esEspecial()) { // Bomba: daño directo, ignora el bastión
+            enemigo.recibirAtaque(DANIO_BOMBA);
+            return;
+        }
+        aplicarEfecto(ataque, enemigo);
+    }
+
+    // Cada héroe define cómo golpea (el enemigo es el objetivo del ataque)
+    protected abstract void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo);
+
+    // Golpe "normal": si el enemigo tiene bastión lo frena (baja stat2); si no, daña la corona (stat1)
+    protected void golpeNormal(EsqueletoPlayer enemigo) {
+        if (enemigo.tieneBastion()) {
+            enemigo.getBastion().disminuirAltura(getStat2());
+        } else {
+            enemigo.recibirAtaque(getStat1());
+        }
     }
 
     public abstract int getStat1();
@@ -301,16 +245,13 @@ public abstract class Figura implements AtaquesFiguras {
     }
 
     public EsqueletoPlayer getDuenio() {
-        return playerDuenio != null ? playerDuenio : iaDuenio;
+        return duenio;
     }
 
     public EsqueletoPlayer getEnemigo() {
-        if (playerDuenio != null) {
-            return playerDuenio.getEnemigo();
-        } else {
-            return iaDuenio.getEnemigo();
-        }
+        return duenio.getEnemigo();
     }
+
 
     public Image getImagen() {
         return CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.RUTA_FIGURAS + this.getClass().getSimpleName().toLowerCase() + "/" + this.getClass().getSimpleName().toLowerCase() + "_lvl" + getNivel() + ".png");

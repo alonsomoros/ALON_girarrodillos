@@ -13,48 +13,11 @@ public class Bastion {
         altura = 0;
     }
 
-    public void actualizar() {
-
-    }
-
     public void dibujarBastion(Graphics graficos, EsqueletoPlayer duenio, Point coordenadas) {
-
-        if (duenio instanceof Player) {
-            switch (this.altura) {
-                case 1:
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_1), coordenadas);
-                    break;
-                case 2:
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_2), coordenadas);
-                    break;
-                case 3:
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_3), coordenadas);
-                    break;
-                case 4:
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_4), coordenadas);
-                    break;
-                case 5:
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_5), coordenadas);
-                    break;
-            }
-        } else
-            switch (this.altura) {
-                case 1:
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_IA_1), coordenadas);
-                    break;
-                case 2:
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_IA_2), coordenadas);
-                    break;
-                case 3:
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_IA_3), coordenadas);
-                    break;
-                case 4:
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_IA_4), coordenadas);
-                    break;
-                case 5:
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_IA_5), coordenadas);
-                    break;
-            }
+        String[] rutas = (duenio instanceof Player) ? Constantes.RUTAS.BASTION.PLAYER : Constantes.RUTAS.BASTION.IA;
+        if (altura >= 1 && altura < rutas.length) {
+            Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(rutas[altura]), coordenadas);
+        }
     }
 
     public void aumentarAltura(int altura) {

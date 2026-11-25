@@ -1,38 +1,25 @@
 package main.maquina_estado.juego.figuras;
 
-import main.herramientas.Depurar;
 import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
 import main.maquina_estado.juego.Figura;
-import main.maquina_estado.juego.IA;
-import main.maquina_estado.juego.Player;
-
-import java.awt.*;
+import main.maquina_estado.juego.Ataque;
+import main.maquina_estado.juego.EsqueletoPlayer;
 
 public class Ingeniero extends Figura {
 
-    public Ingeniero(Player player) {
-        super(player);
+    public Ingeniero(EsqueletoPlayer duenio) {
+        super(duenio);
         activador = new Activador(4);
 
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
     }
-    public Ingeniero(IA ia) {
-        super(ia);
-        activador = new Activador(4);
-
-        stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
-    }
-
+    // Golpe normal y, como bonificación, eleva el bastión de su equipo en 2
     @Override
-    public void atacar(Graphics graphics) {
-        Depurar.log("Ingeniero atacando");
-    }
-
-    @Override
-    public void atacarEspecial(Graphics g) {
-        Depurar.log("Ingeniero atacando especial");
+    protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
+        golpeNormal(enemigo);
+        getDuenio().getBastion().aumentarAltura(2);
     }
 
     public int getStat1() {

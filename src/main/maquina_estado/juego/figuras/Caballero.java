@@ -1,37 +1,23 @@
 package main.maquina_estado.juego.figuras;
 
-import main.herramientas.Depurar;
 import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
 import main.maquina_estado.juego.Figura;
-import main.maquina_estado.juego.IA;
-import main.maquina_estado.juego.Player;
-
-import java.awt.*;
+import main.maquina_estado.juego.Ataque;
+import main.maquina_estado.juego.EsqueletoPlayer;
 
 public class Caballero extends Figura {
 
-    public Caballero(Player player) {
-        super(player);
-        activador = new Activador(3);
-        stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
-    }
-
-    public Caballero(IA ia) {
-        super(ia);
+    public Caballero(EsqueletoPlayer duenio) {
+        super(duenio);
         activador = new Activador(3);
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
     }
 
     @Override
-    public void atacar(Graphics graphics) {
-        Depurar.log("Caballero atacando");
-    }
-
-    @Override
-    public void atacarEspecial(Graphics g) {
-        Depurar.log("Caballero atacando especial");
+    protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
+        golpeNormal(enemigo);
     }
 
     public int getStat1() {

@@ -36,7 +36,7 @@ public class IA extends EsqueletoPlayer implements IEstadoJuego {
     }
 
     @Override
-    public void dibujar(Graphics graficos) { // Hay que hacer una clase IA que sea parecida
+    public void dibujar(Graphics graficos) {
         this.dibujarVida(graficos);
 
         // Dibujar bastion
@@ -56,34 +56,6 @@ public class IA extends EsqueletoPlayer implements IEstadoJuego {
 
     protected void dibujarVida(Graphics graficos) {
         Dibujador.TEXTO.dibujar(graficos, getVidaString(), 621, 165, color);
-    }
-
-    protected void dibujarBastion(Graphics graficos) {
-        switch (bastion.getAltura()) {
-            case 1:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_1), Constantes.COORDENADAS.BASTION_IA);
-                break;
-            case 2:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_2), Constantes.COORDENADAS.BASTION_IA);
-                break;
-            case 3:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_3), Constantes.COORDENADAS.BASTION_IA);
-                break;
-            case 4:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_4), Constantes.COORDENADAS.BASTION_IA);
-                break;
-            case 5:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_5), Constantes.COORDENADAS.BASTION_IA);
-                break;
-        }
-    }
-
-    protected void dibujarRodillo(Graphics graficos) {
-        rodillo.dibujar(graficos, Constantes.COORDENADAS.RODILLO_IA);
-    }
-
-    public ArrayList<Figura> getFigurasDisponibles() {
-        return figurasDisponibles;
     }
 
     public void seleccionarFigurasAleatoria(ArrayList<Figura> figurasDisponibles) {

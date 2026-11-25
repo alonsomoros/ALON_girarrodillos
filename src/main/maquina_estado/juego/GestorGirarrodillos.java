@@ -1,13 +1,18 @@
 package main.maquina_estado.juego;
 
-import main.maquina_estado.*;
-import main.herramientas.*;
 import main.Constantes;
-import main.control.*;
+import main.control.GestorControles;
+import main.herramientas.CargadorRecursos;
+import main.herramientas.Depurar;
+import main.herramientas.Dibujador;
+import main.herramientas.Triangulo;
+import main.maquina_estado.IAudio;
+import main.maquina_estado.IEstadoJuego;
 
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
 
 public class GestorGirarrodillos implements IEstadoJuego, IAudio {

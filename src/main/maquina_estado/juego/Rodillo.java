@@ -7,7 +7,9 @@ import main.Constantes.RODILLOS.Elementos;
 import main.maquina_estado.IRodillo;
 
 import java.awt.*;
-import java.util.*;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Rodillo {
     private static final int MAX_ELEM = 5;
@@ -16,10 +18,10 @@ public class Rodillo {
 
     private final Point[] punteroTriangulo;
 
-    private final String[] lineaPrincipal;
+    private final Elementos[] lineaPrincipal;
     private final boolean[] fijados; // Array para indicar si los canales están fijados
-    private final String[] lateral1;
-    private final String[] lateral2;
+    private final Elementos[] lateral1;
+    private final Elementos[] lateral2;
 
     // Distribución normalizada de cada canal: símbolos en orden fijo y probabilidad acumulada
     private static class Distribucion {
@@ -66,9 +68,9 @@ public class Rodillo {
     private final Distribucion[] distribuciones;
 
     public Rodillo(HashMap<Elementos, Double>[] probabilidades) {
-        lineaPrincipal = new String[MAX_ELEM];
-        lateral1 = new String[MAX_ELEM];
-        lateral2 = new String[MAX_ELEM];
+        lineaPrincipal = new Elementos[MAX_ELEM];
+        lateral1 = new Elementos[MAX_ELEM];
+        lateral2 = new Elementos[MAX_ELEM];
         distribuciones = new Distribucion[MAX_ELEM];
         for (int i = 0; i < MAX_ELEM; i++) {
             distribuciones[i] = new Distribucion(probabilidades[i]);
@@ -134,18 +136,18 @@ public class Rodillo {
         for (int i = 0; i < MAX_ELEM; i++) {
 
             if (!fijados[i]) { // Solo gira si el canal no está fijado
-                lateral1[i] = Elementos.values()[(int) (Math.random() * Elementos.values().length)].toString();
+                lateral1[i] = Elementos.values()[(int) (Math.random() * Elementos.values().length)];
 
-                lineaPrincipal[i] = distribuciones[i].tirar().toString();
+                lineaPrincipal[i] = distribuciones[i].tirar();
 
 
-                lateral2[i] = Elementos.values()[(int) (Math.random() * Elementos.values().length)].toString();
+                lateral2[i] = Elementos.values()[(int) (Math.random() * Elementos.values().length)];
 
             }
         }
     }
 
-    public String[] getSalidaRodillo() {
+    public Elementos[] getSalidaRodillo() {
         return this.lineaPrincipal;
     }
 

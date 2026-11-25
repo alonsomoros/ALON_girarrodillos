@@ -18,7 +18,6 @@ public class Constantes {
     public static final int MITAD_VENTANA_ALTO = ALTO_PANTALLA_COMPLETA / 2;
     public static final int MITAD_VENTANA_ANCHO = ANCHO_PANTALLA_COMPLETA / 2;
     public static final String TITULO = "_.GIRARRODILLOS._";
-    public static final int LADO_SPRITE = 32;
 
     // Paleta
 
@@ -98,6 +97,12 @@ public class Constantes {
             public static final String ACTIVADOR_ROMBO_3 = "rec/sprites/activadores/ActivadorRombo_3.png";
             public static final String ACTIVADOR_ROMBO_4 = "rec/sprites/activadores/ActivadorRombo_4.png";
             public static final String ACTIVADOR_ROMBO_5 = "rec/sprites/activadores/ActivadorRombo_5.png";
+
+            // Indexados por la altura del activador (0 a 5)
+            public static final String[] CUADRADO = {ACTIVADOR_CUADRADO_0, ACTIVADOR_CUADRADO_1, ACTIVADOR_CUADRADO_2,
+                    ACTIVADOR_CUADRADO_3, ACTIVADOR_CUADRADO_4, ACTIVADOR_CUADRADO_5};
+            public static final String[] ROMBO = {ACTIVADOR_ROMBO_0, ACTIVADOR_ROMBO_1, ACTIVADOR_ROMBO_2,
+                    ACTIVADOR_ROMBO_3, ACTIVADOR_ROMBO_4, ACTIVADOR_ROMBO_5};
         }
 
         public static class BASES {
@@ -116,6 +121,12 @@ public class Constantes {
             public static final String BASE_ROMBO_4 = "rec/sprites/baseFigura/BaseFigura4.png";
             public static final String BASE_ROMBO_5 = "rec/sprites/baseFigura/BaseFigura5.png";
             public static final String BASE_ROMBO_6 = "rec/sprites/baseFigura/BaseFigura6.png";
+
+            // Indexados por la experiencia de la figura (0 a 6)
+            public static final String[] CUADRADO = {BASE_CUADRADO_0, BASE_CUADRADO_1, BASE_CUADRADO_2, BASE_CUADRADO_3,
+                    BASE_CUADRADO_4, BASE_CUADRADO_5, BASE_CUADRADO_6};
+            public static final String[] ROMBO = {BASE_ROMBO_0, BASE_ROMBO_1, BASE_ROMBO_2, BASE_ROMBO_3,
+                    BASE_ROMBO_4, BASE_ROMBO_5, BASE_ROMBO_6};
         }
 
         public static class BASTION {
@@ -125,11 +136,15 @@ public class Constantes {
             public static final String BASTION_PLAYER_4 = "rec/sprites/bastion/bastion_4.png";
             public static final String BASTION_PLAYER_5 = "rec/sprites/bastion/bastion_5.png";
 
-            public static final String BASTION_IA_1 = "rec/sprites/bastion/bastion1.png";
-            public static final String BASTION_IA_2 = "rec/sprites/bastion/bastion2.png";
-            public static final String BASTION_IA_3 = "rec/sprites/bastion/bastion3.png";
-            public static final String BASTION_IA_4 = "rec/sprites/bastion/bastion4.png";
-            public static final String BASTION_IA_5 = "rec/sprites/bastion/bastion5.png";
+
+            // Indexados por la altura del bastión (0 = sin bastión, 1 a 5)
+            public static final String[] PLAYER = {null, BASTION_PLAYER_1, BASTION_PLAYER_2, BASTION_PLAYER_3,
+                    BASTION_PLAYER_4, BASTION_PLAYER_5};
+            // Los PNG propios de la IA (bastion1..5.png) nunca existieron: de momento reutiliza los del jugador.
+            // La IA no dibuja su bastión todavía (tarea 4.7 decide posición y volteo).
+            public static final String[] IA = PLAYER;
+
+
         }
 
         public static class ELEMENTOS_RODILLO {
@@ -185,6 +200,14 @@ public class Constantes {
         public static final Point RODILLO_PLAYER = new Point(448, 490);
         //        public static final Point RODILLO_IA = new Point(448, 60);
         public static final Point RODILLO_IA = new Point(448, 25);
+
+        // Las mismas coordenadas por posición de figura (índice = posición - 1)
+        public static final Point[] FIGURA = {FIGURA_1, FIGURA_2, FIGURA_3, FIGURA_4};
+        public static final Point[] ACTIVADOR = {ACTIVADOR_1, ACTIVADOR_2, ACTIVADOR_3, ACTIVADOR_4};
+        public static final Point[] BASE = {BASE_1, BASE_2, BASE_3, BASE_4};
+        public static final Point[] STATS = {STATS_1, STATS_2, STATS_3, STATS_4};
+        public static final Point[][] ATAQUE = {ATAQUE_1, ATAQUE_2, ATAQUE_3, ATAQUE_4};
+
     }
     // Jugador
 
@@ -194,14 +217,31 @@ public class Constantes {
 
     public static class RODILLOS {
 
-        public enum Elementos { // Elementos de un rodillo
-            cuadrado1, cuadrado2, cuadrado3,
-            cuadradoNivel1, cuadradoNivel2, cuadradoNivel3,
-            rombo1, rombo2, rombo3,
-            romboNivel1, romboNivel2, romboNivel3,
-            martillo1, martillo2, martillo3,
-            roto
+        public enum Tipo { // Qué energía aporta un símbolo
+            CUADRADO, ROMBO, MARTILLO, ROTO
         }
+
+        // Elementos de un rodillo. El nombre es también el del sprite (rec/sprites/rodillo/<nombre>.png).
+        // valor = cuántos "del mismo tipo" cuenta; daExperiencia = fondo azul (además da EXP igual a su valor).
+        public enum Elementos {
+            cuadrado1(Tipo.CUADRADO, 1, false), cuadrado2(Tipo.CUADRADO, 2, false), cuadrado3(Tipo.CUADRADO, 3, false),
+            cuadradoNivel1(Tipo.CUADRADO, 1, true), cuadradoNivel2(Tipo.CUADRADO, 2, true), cuadradoNivel3(Tipo.CUADRADO, 3, true),
+            rombo1(Tipo.ROMBO, 1, false), rombo2(Tipo.ROMBO, 2, false), rombo3(Tipo.ROMBO, 3, false),
+            romboNivel1(Tipo.ROMBO, 1, true), romboNivel2(Tipo.ROMBO, 2, true), romboNivel3(Tipo.ROMBO, 3, true),
+            martillo1(Tipo.MARTILLO, 1, false), martillo2(Tipo.MARTILLO, 2, false), martillo3(Tipo.MARTILLO, 3, false),
+            roto(Tipo.ROTO, 0, false);
+
+            public final Tipo tipo;
+            public final int valor;
+            public final boolean daExperiencia;
+
+            Elementos(final Tipo tipo, final int valor, final boolean daExperiencia) {
+                this.tipo = tipo;
+                this.valor = valor;
+                this.daExperiencia = daExperiencia;
+            }
+        }
+
 
 
         public static final HashMap<Elementos, Double> R1_Prob = new HashMap<>(); // Rodillo simple con roto, y solo 2 niveles, muy raro nivel
@@ -209,12 +249,6 @@ public class Constantes {
         public static final HashMap<Elementos, Double> R3_Prob = new HashMap<>(); // Rodillo simple
         public static final HashMap<Elementos, Double> R4_Prob = new HashMap<>(); // Rodillo simple
         public static final HashMap<Elementos, Double> R5_Prob = new HashMap<>(); // Rodillo simple
-        public static final HashMap<Elementos, Double> RP_Cuadrado = new HashMap<>(); // Rodillo prueba cuadrados
-        public static final HashMap<Elementos, Double> RP_Rombo = new HashMap<>(); // Rodillo prueba rombos
-        public static final HashMap<Elementos, Double> RP_RomboNivel = new HashMap<>(); // Rodillo prueba rombos
-        public static final HashMap<Elementos, Double> RP_CuadradoNivel = new HashMap<>(); // Rodillo prueba rombos
-        public static final HashMap<Elementos, Double> RP_Cuadrado3 = new HashMap<>(); // Rodillo prueba rombos
-        public static final HashMap<Elementos, Double> RP_Rombo3 = new HashMap<>(); // Rodillo prueba rombos
 
         static {
             // Aquí puedes ajustar las probabilidades a tu gusto
@@ -243,38 +277,6 @@ public class Constantes {
             R2_Prob.put(Elementos.martillo2,        0.1);
             R2_Prob.put(Elementos.cuadradoNivel2,   0.025);
             R2_Prob.put(Elementos.romboNivel2,      0.025);
-
-            // Rodillo Prueba Cuadrados
-
-            RP_Cuadrado.put(Elementos.cuadrado1,        0.33);
-            RP_Cuadrado.put(Elementos.cuadrado2,        0.33);
-            RP_Cuadrado.put(Elementos.cuadrado3,        0.34);
-
-            // Rodillo Prueba Rombo
-
-            RP_Rombo.put(Elementos.rombo1,        0.33);
-            RP_Rombo.put(Elementos.rombo2,        0.33);
-            RP_Rombo.put(Elementos.rombo3,        0.34);
-
-            // Rodillo Prueba RomboNivel
-
-            RP_RomboNivel.put(Elementos.romboNivel1,        0.33);
-            RP_RomboNivel.put(Elementos.romboNivel2,        0.33);
-            RP_RomboNivel.put(Elementos.romboNivel3,        0.34);
-
-            // Rodillo Prueba CuadradoNivel
-
-            RP_CuadradoNivel.put(Elementos.cuadradoNivel1,        0.33);
-            RP_CuadradoNivel.put(Elementos.cuadradoNivel2,        0.33);
-            RP_CuadradoNivel.put(Elementos.cuadradoNivel3,        0.34);
-
-            // Rodillo Prueba Cuadrado3
-
-            RP_Cuadrado3.put(Elementos.cuadrado3,        1.0);
-
-            // Rodillo Prueba Rombo3
-
-            RP_Rombo3.put(Elementos.rombo3,        1.0);
         }
     }
 }

@@ -1,40 +1,29 @@
 package main.maquina_estado.juego.figuras;
 
-import main.herramientas.Depurar;
 import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
 import main.maquina_estado.juego.Figura;
-import main.maquina_estado.juego.IA;
-import main.maquina_estado.juego.Player;
-
-
-import java.awt.*;
+import main.maquina_estado.juego.Ataque;
+import main.maquina_estado.juego.EsqueletoPlayer;
 
 public class Arquero extends Figura {
 
-    public Arquero(Player player) {
-        super(player);
+    public Arquero(EsqueletoPlayer duenio) {
+        super(duenio);
         activador = new Activador(4);
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
     }
 
-    public Arquero(IA ia) {
-        super(ia);
-        activador = new Activador(4);
-        stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
-    }
-
+    // Ataca a 3 de altura: si el bastión llega a 3 o más lo frena (baja 3); si no, golpea la corona
     @Override
-    public void atacar(Graphics graphics) {
-        Depurar.log("Arquero atacando");
+    protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
+        if (enemigo.tieneBastion() && enemigo.getBastion().getAltura() >= 3) {
+            enemigo.getBastion().disminuirAltura(3);
+        } else {
+            enemigo.recibirAtaque(getStat1());
+        }
     }
-
-    @Override
-    public void atacarEspecial(Graphics g) {
-        Depurar.log("Arquero atacando especial");
-    }
-
 
     public int getStat1() {
         return switch (nivel) {

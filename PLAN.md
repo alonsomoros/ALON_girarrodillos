@@ -124,36 +124,36 @@ que se van tachando en un `PLAN.md` dentro del repo.
 > Cada tarea debe dejar el juego idéntico. Se comprueba con una partida corta y diff visual.
 
 ### 3A. Constructores y duplicación en Figura
-- [ ] **3.1** `Figura`: añadir `Figura(EsqueletoPlayer duenio)` (único); los 2 constructores viejos delegan en él.
-- [ ] **3.2** Migrar cada figura a un solo constructor (un commit por figura): Arquero, Mago, Caballero, Asesino, Ingeniero, Sacerdote → `3.2a…3.2f`.
-- [ ] **3.3** Eliminar los constructores `Player`/`IA` viejos y `playerDuenio/iaDuenio`.
+- [x] **3.1** `Figura`: añadir `Figura(EsqueletoPlayer duenio)` (único); los 2 constructores viejos delegan en él.
+- [x] **3.2** Migrar cada figura a un solo constructor (un commit por figura): Arquero, Mago, Caballero, Asesino, Ingeniero, Sacerdote → `3.2a…3.2f`.
+- [x] **3.3** Eliminar los constructores `Player`/`IA` viejos y `playerDuenio/iaDuenio`.
 
 ### 3B. Tablas en vez de `switch` repetidos
-- [ ] **3.4** `Constantes.COORDENADAS`: añadir arrays indexados `BASE[]`, `FIGURA[]`, `ACTIVADOR[]`, `STATS[]`, `ATAQUE[][]` (índice = posición-1), sin quitar aún las constantes sueltas.
-- [ ] **3.5** `Figura.dibujar` y `atacarNormal/atacarEspecial` usan los arrays (adiós 4 `case` copiados).
-- [ ] **3.6** `Constantes.RUTAS`: arrays `BASES.CUADRADO[0..6]`, `BASES.ROMBO[0..6]`, `ACTIVADORES.CUADRADO/ROMBO[0..5]`, `BASTION.PLAYER/IA[1..5]`.
-- [ ] **3.7** `Figura.dibujarBase` → una línea con el array (≈50 líneas menos).
-- [ ] **3.8** `Activador.dibujarActivador` → array (≈45 líneas menos).
-- [ ] **3.9** `Bastion.dibujarBastion` → array; unificar la rama Player/IA con un parámetro.
-- [ ] **3.10** Borrar `IA.dibujarBastion` (duplicado) y las constantes sueltas ya sin uso.
-- [ ] **3.11** Resolver las rutas `bastion1..5.png` de la IA que no existen: reutilizar las del jugador (volteadas con 1.5) o añadir los PNG 👤.
+- [x] **3.4** `Constantes.COORDENADAS`: añadir arrays indexados `BASE[]`, `FIGURA[]`, `ACTIVADOR[]`, `STATS[]`, `ATAQUE[][]` (índice = posición-1), sin quitar aún las constantes sueltas.
+- [x] **3.5** `Figura.dibujar` y `atacarNormal/atacarEspecial` usan los arrays (adiós 4 `case` copiados).
+- [x] **3.6** `Constantes.RUTAS`: arrays `BASES.CUADRADO[0..6]`, `BASES.ROMBO[0..6]`, `ACTIVADORES.CUADRADO/ROMBO[0..5]`, `BASTION.PLAYER/IA[1..5]`.
+- [x] **3.7** `Figura.dibujarBase` → una línea con el array (≈50 líneas menos).
+- [x] **3.8** `Activador.dibujarActivador` → array (≈45 líneas menos).
+- [x] **3.9** `Bastion.dibujarBastion` → array; unificar la rama Player/IA con un parámetro.
+- [x] **3.10** Borrar `IA.dibujarBastion` (duplicado) y las constantes sueltas ya sin uso.
+- [x] **3.11** Resolver las rutas `bastion1..5.png` de la IA que no existen: reutilizar las del jugador (volteadas con 1.5) o añadir los PNG 👤.
 
 ### 3C. Enums y polimorfismo
-- [ ] **3.12** `Constantes.RODILLOS.Elementos` con campos (`tipo`, `valor`, `experiencia`) y `calcularSalidaRodillo` sin `switch` de Strings; `Rodillo` guarda `Elementos[]` en vez de `String[]`.
-- [ ] **3.13** Cada figura implementa `aplicarEfecto(Ataque)`; `GestorAtaques.procesarFinalAtaque` (switch por `getSimpleName()`) se reparte entre las clases y `GestorAtaques` se elimina.
-- [ ] **3.14** `GestorEstados`: `enum Estado {JUEGO, TIENDA, MUSICA, CREDITOS, MENU}` en lugar de índices (`cambiarEstadoActual(4)`) y de depender del `id` de `Etiqueta` en `GestorMenuPrincipal`.
-- [ ] **3.15** `GestorCreditos`: la cadena `if` de 6 tramos → `index = min(5, t / (duracion/6))` + array de fondos.
+- [x] **3.12** `Constantes.RODILLOS.Elementos` con campos (`tipo`, `valor`, `experiencia`) y `calcularSalidaRodillo` sin `switch` de Strings; `Rodillo` guarda `Elementos[]` en vez de `String[]`.
+- [x] **3.13** Cada figura implementa `aplicarEfecto(Ataque)`; `GestorAtaques.procesarFinalAtaque` (switch por `getSimpleName()`) se reparte entre las clases y `GestorAtaques` se elimina.
+- [x] **3.14** `GestorEstados`: `enum Estado {JUEGO, TIENDA, MUSICA, CREDITOS, MENU}` en lugar de índices (`cambiarEstadoActual(4)`) y de depender del `id` de `Etiqueta` en `GestorMenuPrincipal`.
+- [x] **3.15** `GestorCreditos`: la cadena `if` de 6 tramos → `index = min(5, t / (duracion/6))` + array de fondos.
 
 ### 3D. Código muerto (un commit por elemento, comprobando con búsqueda que no se usa)
-- [ ] **3.16** `AtaquesFiguras` y los `atacar(Graphics)/atacarEspecial(Graphics)` que solo imprimen.
-- [ ] **3.17** `Bastion.actualizar()` vacío, `IA.dibujarRodillo/getFigurasDisponibles` si siguen sin uso.
-- [ ] **3.18** `SuperficieDeDibujo.inicializarGraficos()` y el campo `graficos2D` (tras 1.16).
-- [ ] **3.19** `Teclado.ultimaPulsacion*`, `INTERVALO_PULSACION` (si no se usan) y `Ventana.dibujar()`.
-- [ ] **3.20** `HojaSprites`, `Sprite`, `AnimationPanelSprites`, `CargadorRecursos.unzip/extractFile`, `GestorPrincipal` línea comentada del `unzip`: borrar si nadie los usa.
-- [ ] **3.21** Rodillos `RP_*` de prueba de `Constantes`.
-- [ ] **3.22** Renombrar `tieneBation` → `tieneBastion`, `Etiqueta` "WTF" y comentarios obsoletos ("Hay que hacer una clase IA").
-- [ ] **3.23** `Keyboard`: Esc cierra con `System.exit(0)` desde el hilo de eventos → `ventana.dispose()` + parar el bucle limpiamente.
-- [ ] **3.24** Imports con comodín (`java.awt.*`, `java.util.*`) → imports explícitos donde choquen nombres (`Timer`, `List`).
+- [x] **3.16** `AtaquesFiguras` y los `atacar(Graphics)/atacarEspecial(Graphics)` que solo imprimen.
+- [x] **3.17** `Bastion.actualizar()` vacío, `IA.dibujarRodillo/getFigurasDisponibles` si siguen sin uso.
+- [x] **3.18** `SuperficieDeDibujo.inicializarGraficos()` y el campo `graficos2D` (tras 1.16).
+- [x] **3.19** `Teclado.ultimaPulsacion*`, `INTERVALO_PULSACION` (si no se usan) y `Ventana.dibujar()`.
+- [x] **3.20** `HojaSprites`, `Sprite`, `AnimationPanelSprites`, `CargadorRecursos.unzip/extractFile`, `GestorPrincipal` línea comentada del `unzip`: borrar si nadie los usa.
+- [x] **3.21** Rodillos `RP_*` de prueba de `Constantes`.
+- [x] **3.22** Renombrar `tieneBation` → `tieneBastion`, `Etiqueta` "WTF" y comentarios obsoletos ("Hay que hacer una clase IA").
+- [x] **3.23** `Keyboard`: Esc cierra con `System.exit(0)` desde el hilo de eventos → `ventana.dispose()` + parar el bucle limpiamente.
+- [x] **3.24** Imports con comodín (`java.awt.*`, `java.util.*`) → imports explícitos donde choquen nombres (`Timer`, `List`).
 
 **Cierre de fase 3:** comparar líneas (esperado: −400/−500) y partida completa. Merge + push.
 
@@ -217,6 +217,15 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - 2.15: el Asesino ahora retrasa al héroe rival al que le queda menos energía (como dice `Instrucciones.txt`), y no al que tiene enfrente.
 - 2.12: la subida de nivel se comprueba al llenarse la XP (también la que da el rodillo), no solo tras atacar.
 - 2.18: la regla "3 del mismo tipo + 1" ya era coherente con el código si se entiende que un símbolo con número N cuenta como N. Solo se aclaró el texto.
+
+### Resultados al cerrar la Fase 3
+- Código en `src/`: **4268 → 3683 líneas** (la fase restó 871 y sumó 286). Las 18 pruebas siguen en verde y una partida real va a 57 FPS, ~8 % de CPU, sin errores.
+- 3.2 y 3.3 se mezclaron en un commit (la migración de las figuras y el borrado de los constructores viejos).
+- 3.14: las etiquetas del menú ya no dependen de su `id`; `GestorMenuPrincipal` tiene una tabla `DESTINOS` explícita (Jugar, Tienda, Musica, Creditos).
+- 3.18: se mantuvo el buffer de 4 (comportamiento original); `inicializarBuffer()` solo lo crea.
+- 3.20: se borró también `CargadorRecursos.unzip` (con su comentario en `GestorPrincipal`). Si lo necesitas para extraer `OST.zip`, está en el historial de git.
+- 3.23: Esc ya no hace `System.exit` desde el hilo de eventos; pide el cierre al bucle, que libera audio y ventana.
+- `Constantes.RODILLOS.R3_Prob`, `R4_Prob` y `R5_Prob` siguen sin usarse; se dejan por si la tienda los necesita (4.x).
 
 ## Verificación general
 
