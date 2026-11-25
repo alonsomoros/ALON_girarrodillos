@@ -98,6 +98,12 @@ public class Constantes {
             public static final String ACTIVADOR_ROMBO_3 = "rec/sprites/activadores/ActivadorRombo_3.png";
             public static final String ACTIVADOR_ROMBO_4 = "rec/sprites/activadores/ActivadorRombo_4.png";
             public static final String ACTIVADOR_ROMBO_5 = "rec/sprites/activadores/ActivadorRombo_5.png";
+
+            // Indexados por la altura del activador (0 a 5)
+            public static final String[] CUADRADO = {ACTIVADOR_CUADRADO_0, ACTIVADOR_CUADRADO_1, ACTIVADOR_CUADRADO_2,
+                    ACTIVADOR_CUADRADO_3, ACTIVADOR_CUADRADO_4, ACTIVADOR_CUADRADO_5};
+            public static final String[] ROMBO = {ACTIVADOR_ROMBO_0, ACTIVADOR_ROMBO_1, ACTIVADOR_ROMBO_2,
+                    ACTIVADOR_ROMBO_3, ACTIVADOR_ROMBO_4, ACTIVADOR_ROMBO_5};
         }
 
         public static class BASES {
@@ -116,6 +122,12 @@ public class Constantes {
             public static final String BASE_ROMBO_4 = "rec/sprites/baseFigura/BaseFigura4.png";
             public static final String BASE_ROMBO_5 = "rec/sprites/baseFigura/BaseFigura5.png";
             public static final String BASE_ROMBO_6 = "rec/sprites/baseFigura/BaseFigura6.png";
+
+            // Indexados por la experiencia de la figura (0 a 6)
+            public static final String[] CUADRADO = {BASE_CUADRADO_0, BASE_CUADRADO_1, BASE_CUADRADO_2, BASE_CUADRADO_3,
+                    BASE_CUADRADO_4, BASE_CUADRADO_5, BASE_CUADRADO_6};
+            public static final String[] ROMBO = {BASE_ROMBO_0, BASE_ROMBO_1, BASE_ROMBO_2, BASE_ROMBO_3,
+                    BASE_ROMBO_4, BASE_ROMBO_5, BASE_ROMBO_6};
         }
 
         public static class BASTION {
@@ -130,6 +142,12 @@ public class Constantes {
             public static final String BASTION_IA_3 = "rec/sprites/bastion/bastion3.png";
             public static final String BASTION_IA_4 = "rec/sprites/bastion/bastion4.png";
             public static final String BASTION_IA_5 = "rec/sprites/bastion/bastion5.png";
+
+            // Indexados por la altura del bastión (0 = sin bastión, 1 a 5)
+            public static final String[] PLAYER = {null, BASTION_PLAYER_1, BASTION_PLAYER_2, BASTION_PLAYER_3,
+                    BASTION_PLAYER_4, BASTION_PLAYER_5};
+            public static final String[] IA = {null, BASTION_IA_1, BASTION_IA_2, BASTION_IA_3, BASTION_IA_4, BASTION_IA_5};
+
         }
 
         public static class ELEMENTOS_RODILLO {
