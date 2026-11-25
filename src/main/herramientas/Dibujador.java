@@ -6,6 +6,9 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.util.IdentityHashMap;
+import java.util.Map;
+
 
 public class Dibujador {
 
@@ -27,21 +30,28 @@ public class Dibujador {
             numeroObjetosDibujados++;
         }
 
-        public static void dibujarRotado(final Graphics g, final Image imagen, final Point punto) {
-            BufferedImage imagenBuff = (BufferedImage) imagen;
+        // Imágenes ya volteadas (se calculan una vez, no en cada frame)
+        private static final Map<Image, BufferedImage> volteadas = new IdentityHashMap<>();
 
+        private static BufferedImage voltear(final BufferedImage imagenBuff) {
             AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
             tx.translate(-imagenBuff.getWidth(), 0);
 
-            // Crear un objeto AffineTransformOp para aplicar la transformación
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+            return op.filter(imagenBuff, null);
+        }
 
-            // Aplicar la transformación a la imagen
-            BufferedImage reflectedImage = op.filter(imagenBuff, null);
+        public static void dibujarRotado(final Graphics g, final Image imagen, final Point punto) {
+            BufferedImage reflectedImage = volteadas.get(imagen);
+            if (reflectedImage == null) {
+                reflectedImage = voltear((BufferedImage) imagen);
+                volteadas.put(imagen, reflectedImage);
+            }
 
             g.drawImage(reflectedImage, punto.x, punto.y, null);
             numeroObjetosDibujados++;
         }
+
 
     }
 
