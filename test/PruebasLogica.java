@@ -49,7 +49,28 @@ public class PruebasLogica {
             }
         });
 
-        System.out.println(ejecutadas + " pruebas, " + fallidas + " fallidas");
+        prueba("Rodillo: 100000 giros sin null, tambien con probabilidades que no suman 1", () -> {
+            HashMap<Constantes.RODILLOS.Elementos, Double> incompleto = new HashMap<>();
+            incompleto.put(Constantes.RODILLOS.Elementos.cuadrado1, 0.3);
+            incompleto.put(Constantes.RODILLOS.Elementos.rombo1, 0.3); // suma 0.6
+            @SuppressWarnings("unchecked")
+            HashMap<Constantes.RODILLOS.Elementos, Double>[] canales = new HashMap[5];
+            canales[0] = Constantes.RODILLOS.R1_Prob;
+            canales[1] = Constantes.RODILLOS.R2_Prob;
+            canales[2] = incompleto;
+            canales[3] = new HashMap<>(); // vacío
+            canales[4] = Constantes.RODILLOS.R1_Prob;
+            main.maquina_estado.juego.Rodillo rodillo = new main.maquina_estado.juego.Rodillo(canales);
+            for (int i = 0; i < 100000; i++) {
+                rodillo.girarRodillo();
+                for (String s : rodillo.getSalidaRodillo()) {
+                    verificar(s != null, "símbolo null en el giro " + i);
+                }
+            }
+        });
+
+        System.out.println(ejecutadas + " pruebas, "
+ + fallidas + " fallidas");
         System.exit(fallidas == 0 ? 0 : 1);
     }
 }

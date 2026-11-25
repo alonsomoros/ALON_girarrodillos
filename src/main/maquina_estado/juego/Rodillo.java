@@ -21,13 +21,58 @@ public class Rodillo {
     private final String[] lateral1;
     private final String[] lateral2;
 
-    private final HashMap<Elementos, Double>[] probabilidades;
+    // Distribución normalizada de cada canal: símbolos en orden fijo y probabilidad acumulada
+    private static class Distribucion {
+        private final Elementos[] elementos;
+        private final double[] acumulada;
+
+        Distribucion(final Map<Elementos, Double> probabilidades) {
+            // EnumMap: el orden es siempre el del enum (un HashMap no garantiza orden)
+            EnumMap<Elementos, Double> ordenadas = new EnumMap<>(Elementos.class);
+            double total = 0;
+            for (Map.Entry<Elementos, Double> e : probabilidades.entrySet()) {
+                if (e.getValue() > 0) {
+                    ordenadas.put(e.getKey(), e.getValue());
+                    total += e.getValue();
+                }
+            }
+            if (ordenadas.isEmpty()) { // Sin datos válidos: todos los símbolos por igual
+                for (Elementos e : Elementos.values()) {
+                    ordenadas.put(e, 1.0);
+                }
+                total = ordenadas.size();
+            }
+
+            elementos = ordenadas.keySet().toArray(new Elementos[0]);
+            acumulada = new double[elementos.length];
+            double suma = 0;
+            for (int i = 0; i < elementos.length; i++) {
+                suma += ordenadas.get(elementos[i]) / total; // Normaliza: la suma final es 1
+                acumulada[i] = suma;
+            }
+        }
+
+        Elementos tirar() {
+            double p = Math.random();
+            for (int i = 0; i < elementos.length; i++) {
+                if (p < acumulada[i]) {
+                    return elementos[i];
+                }
+            }
+            return elementos[elementos.length - 1]; // Error de coma flotante: nunca devuelve null
+        }
+    }
+
+    private final Distribucion[] distribuciones;
 
     public Rodillo(HashMap<Elementos, Double>[] probabilidades) {
         lineaPrincipal = new String[MAX_ELEM];
         lateral1 = new String[MAX_ELEM];
         lateral2 = new String[MAX_ELEM];
-        this.probabilidades = probabilidades;
+        distribuciones = new Distribucion[MAX_ELEM];
+        for (int i = 0; i < MAX_ELEM; i++) {
+            distribuciones[i] = new Distribucion(probabilidades[i]);
+        }
 
         punteroPos = 0;
         punteroTriangulo = new Point[]{
@@ -91,15 +136,8 @@ public class Rodillo {
             if (!fijados[i]) { // Solo gira si el canal no está fijado
                 lateral1[i] = Elementos.values()[(int) (Math.random() * Elementos.values().length)].toString();
 
-                double p = Math.random();
-                double probabilidadAcumulada = 0.0;
-                for (Map.Entry<Elementos, Double> probElemento : probabilidades[i].entrySet()) {
-                    probabilidadAcumulada += probElemento.getValue();
-                    if (p <= probabilidadAcumulada) {
-                        lineaPrincipal[i] = probElemento.getKey().toString();
-                        break;
-                    }
-                }
+                lineaPrincipal[i] = distribuciones[i].tirar().toString();
+
 
                 lateral2[i] = Elementos.values()[(int) (Math.random() * Elementos.values().length)].toString();
 
