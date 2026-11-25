@@ -87,32 +87,33 @@ que se van tachando en un `PLAN.md` dentro del repo.
 ## FASE 2 — Bugs de lógica de juego  (rama `fase-2-logica`)
 
 ### 2A. Red de seguridad mínima (sin librerías)
-- [ ] **2.1** Crear `test/` con una clase `PruebasLogica.java` con `main` y `assert` (se ejecuta con `java -ea`). Añadir `scripts/probar.bat`. Sin JUnit.
+- [x] **2.1** Crear `test/` con una clase `PruebasLogica.java` con `main` y `assert` (se ejecuta con `java -ea`). Añadir `scripts/probar.bat`. Sin JUnit.
 
 ### 2B. Rodillo
-- [ ] **2.2** `EsqueletoPlayer.rodillo` deja de ser `static` (y se quita `this.rodillo = null` del constructor). `getRodillo()` pasa a método de instancia; actualizar `Player.dibujar`, `IA`, `GestorGirarrodillos`.
-- [ ] **2.3** `GestorGirarrodillos`: sustituir `Player.getRodillo()/IA.getRodillo()` por `player.getRodillo()/ia.getRodillo()`. *Verif.:* jugador e IA muestran rodillos **distintos**.
-- [ ] **2.4** `IA` usa su propio rodillo definitivo (D5) y se retira el rodillo de prueba `RP_Cuadrado3…`.
-- [ ] **2.5** `Rodillo.girarRodillo`: usar `EnumMap`/orden fijo, normalizar probabilidades en el constructor y garantizar un valor por defecto si el acumulado no llega (nunca `null`). *Prueba (2.1):* 100 000 giros sin `null`.
-- [ ] **2.6** `Rodillo.girarRodillo`: no dejar que `lateral1/lateral2` contengan símbolos que no existen como sprite (revisar `roto.png`, `*Lateral.png` por cada `Elementos`). 
+- [x] **2.2** `EsqueletoPlayer.rodillo` deja de ser `static` (y se quita `this.rodillo = null` del constructor). `getRodillo()` pasa a método de instancia; actualizar `Player.dibujar`, `IA`, `GestorGirarrodillos`.
+- [x] **2.3** `GestorGirarrodillos`: sustituir `Player.getRodillo()/IA.getRodillo()` por `player.getRodillo()/ia.getRodillo()`. *Verif.:* jugador e IA muestran rodillos **distintos**.
+- [x] **2.4** `IA` usa su propio rodillo definitivo (D5) y se retira el rodillo de prueba `RP_Cuadrado3…`.
+- [x] **2.5** `Rodillo.girarRodillo`: usar `EnumMap`/orden fijo, normalizar probabilidades en el constructor y garantizar un valor por defecto si el acumulado no llega (nunca `null`). *Prueba (2.1):* 100 000 giros sin `null`.
+- [x] **2.6** (verificado: ya existen todos los sprites; añadida la prueba que lo vigila) `Rodillo.girarRodillo`: no dejar que `lateral1/lateral2` contengan símbolos que no existen como sprite (revisar `roto.png`, `*Lateral.png` por cada `Elementos`). 
 
 ### 2C. Ataques
-- [ ] **2.7** `Ataque`: arranca su propio cronómetro en el constructor (`iniciar()`); desaparece `GestorAtaques.ejecutarAtaques()` y deja de reiniciar los ataques en curso.
-- [ ] **2.8** Eliminar la lista estática `GestorAtaques.ataques` (nunca se vaciaba).
-- [ ] **2.9** `EsqueletoPlayer.actualizarEstados`: el bloque de `figuraDerecha` comprobaba `figuraIzquierda instanceof Mago`. Extraer `lanzarAtaque(Figura f)` y usarlo para ambas. *Prueba:* Mago a la derecha ataca 2 veces; no-Mago a la derecha, 1.
-- [ ] **2.10** Mago (D3): la figura mantiene una **cola** de ataques (`Deque<Ataque>`); se animan en secuencia y cada uno aplica su efecto al terminar (el 1.º respeta bastión, el 2.º lo ignora).
-- [ ] **2.11** Ataque especial (D4): `ataqueEspecial.actualizar()` se invoca, termina, aplica 2 de daño directo y limpia `estaAtacando*`. *Verif.:* no queda sprite colgado en pantalla.
-- [ ] **2.12** `Figura.actualizar`: gestionar correctamente subida de nivel y reset de XP (XP 6 → nivel+1 → XP 0; en nivel 3 con XP 6 → bomba y XP 0). *Prueba (2.1).*
+- [x] **2.7** `Ataque`: arranca su propio cronómetro en el constructor (`iniciar()`); desaparece `GestorAtaques.ejecutarAtaques()` y deja de reiniciar los ataques en curso.
+- [x] **2.8** Eliminar la lista estática `GestorAtaques.ataques` (nunca se vaciaba).
+- [x] **2.9** `EsqueletoPlayer.actualizarEstados`: el bloque de `figuraDerecha` comprobaba `figuraIzquierda instanceof Mago`. Extraer `lanzarAtaque(Figura f)` y usarlo para ambas. *Prueba:* Mago a la derecha ataca 2 veces; no-Mago a la derecha, 1.
+- [x] **2.10** Mago (D3): la figura mantiene una **cola** de ataques (`Deque<Ataque>`); se animan en secuencia y cada uno aplica su efecto al terminar (el 1.º respeta bastión, el 2.º lo ignora).
+- [x] **2.11** Ataque especial (D4): `ataqueEspecial.actualizar()` se invoca, termina, aplica 2 de daño directo y limpia `estaAtacando*`. *Verif.:* no queda sprite colgado en pantalla.
+- [x] **2.19** *(hallazgo nuevo)* Los ataques golpeaban al **dueño** en vez de al enemigo (`Ataque.actualizar` pasaba `getDuenio()` como objetivo). Pasar `getEnemigo()`. *Prueba:* un ataque del jugador resta vida a la IA y no al jugador.
+- [x] **2.12** `Figura.actualizar`: gestionar correctamente subida de nivel y reset de XP (XP 6 → nivel+1 → XP 0; en nivel 3 con XP 6 → bomba y XP 0). *Prueba (2.1).*
 
 ### 2D. Efectos de figura
-- [ ] **2.13** Daño al bastión (D2): Caballero, Ingeniero y Mago pasan a `disminuirAltura(stat2)`. *Prueba:* bastión 2 + stat2 3 → bastión 0 (nunca sube).
-- [ ] **2.14** `Figura.getCompaniero()` usa `playerDuenio` (nulo en la IA → NPE con Sacerdote IA): usar `getDuenio()`.
-- [ ] **2.15** Asesino: alinear efecto con `Instrucciones.txt` (retrasa al héroe rival al que menos le falta) o corregir el texto; decidir y anotar.
-- [ ] **2.16** `EsqueletoPlayer.terminadoDeProcesarAtaques`: se pone a `true` y no se resetea; reiniciarlo al empezar cada ronda.
-- [ ] **2.17** `Activador.aumentarAltura` usa `alturaDefault` como techo mientras `Figura.alturaDefault` es otro campo duplicado: dejar una única fuente.
+- [x] **2.13** Daño al bastión (D2): Caballero, Ingeniero y Mago pasan a `disminuirAltura(stat2)`. *Prueba:* bastión 2 + stat2 3 → bastión 0 (nunca sube).
+- [x] **2.14** `Figura.getCompaniero()` usa `playerDuenio` (nulo en la IA → NPE con Sacerdote IA): usar `getDuenio()`.
+- [x] **2.15** Asesino: alinear efecto con `Instrucciones.txt` (retrasa al héroe rival al que menos le falta) o corregir el texto; decidir y anotar.
+- [x] **2.16** `EsqueletoPlayer.terminadoDeProcesarAtaques`: se pone a `true` y no se resetea; reiniciarlo al empezar cada ronda.
+- [x] **2.17** `Activador.aumentarAltura` usa `alturaDefault` como techo mientras `Figura.alturaDefault` es otro campo duplicado: dejar una única fuente.
 
 ### 2E. Reglas escritas
-- [ ] **2.18** `rec/texto/Instrucciones.txt`: reescribir la regla de energía (D1) y cualquier cosa que el código haga distinto tras 2.13/2.15.
+- [x] **2.18** `rec/texto/Instrucciones.txt`: reescribir la regla de energía (D1) y cualquier cosa que el código haga distinto tras 2.13/2.15.
 
 **Cierre de fase 2:** `scripts/probar.bat` en verde + partida completa a mano. Merge + push (con tu OK).
 
@@ -206,6 +207,16 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - 1.21: la música de créditos usa `PathOfAscension.wav` (la original `Moorlands.wav` no existe); cámbiala si prefieres otra.
 - 1.19 quedó dentro del commit de 1.18 (se aplicaron juntas); el commit 1.19 solo tacha la casilla.
 - Pendiente de ti: **1.24** (aportar el `.ttf`; hasta entonces las fuentes siguen siendo "Algerian" y "AniMe Matrix" del sistema).
+
+### Resultados al cerrar la Fase 2
+- **18 pruebas** en `scripts\probar.bat`, todas en verde (rodillos, ataques, bastión, Mago, bomba, nivel/XP, Sacerdote de la IA, Asesino, regla de energía).
+- Partida completa con el juego real (jugador vs IA): 57 FPS, ~8 % de CPU, sin errores en consola.
+- **Hallazgo grave (2.19):** los ataques golpeaban al propio dueño. `Ataque.actualizar` pasaba `getDuenio()` como objetivo, así que tus ataques te quitaban vida a ti y los de la IA se la quitaban a ella. Detectado al escribir la prueba de la bomba.
+- 2.2 y 2.3 se hicieron en un solo commit (separarlos dejaba el proyecto sin compilar).
+- 2.6: ya existían todos los sprites del rodillo; la tarea quedó como una prueba que lo vigila.
+- 2.15: el Asesino ahora retrasa al héroe rival al que le queda menos energía (como dice `Instrucciones.txt`), y no al que tiene enfrente.
+- 2.12: la subida de nivel se comprueba al llenarse la XP (también la que da el rodillo), no solo tras atacar.
+- 2.18: la regla "3 del mismo tipo + 1" ya era coherente con el código si se entiende que un símbolo con número N cuenta como N. Solo se aclaró el texto.
 
 ## Verificación general
 

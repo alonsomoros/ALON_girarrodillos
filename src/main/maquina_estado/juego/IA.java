@@ -17,7 +17,8 @@ public class IA extends EsqueletoPlayer implements IEstadoJuego {
         figurasDisponibles = new ArrayList<>(Arrays.asList(new Arquero(this), new Mago(this), new Caballero(this), new Asesino(this), new Ingeniero(this), new Sacerdote(this)));
 
         seleccionFiguras(figurasDisponibles);
-        establecerRodillo(Constantes.RODILLOS.RP_Cuadrado3, Constantes.RODILLOS.RP_Rombo3, Constantes.RODILLOS.RP_RomboNivel, Constantes.RODILLOS.RP_Rombo3, Constantes.RODILLOS.RP_Cuadrado3);
+        establecerRodillo(Constantes.RODILLOS.R2_Prob); // Rodillo simple sin "roto" (D5)
+
     }
 
     public void actualizar() {

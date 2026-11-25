@@ -15,16 +15,14 @@ public class Sacerdote extends Figura {
 
     public Sacerdote(Player player) {
         super(player);
-        alturaDefault = 4;
-        activador = new Activador(alturaDefault);
+        activador = new Activador(4);
 
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.SACERDOTE_STATS);
     }
 
     public Sacerdote(IA ia) {
         super(ia);
-        alturaDefault = 4;
-        activador = new Activador(alturaDefault);
+        activador = new Activador(4);
 
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.SACERDOTE_STATS);
     }

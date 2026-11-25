@@ -7,8 +7,8 @@ import main.herramientas.Dibujador;
 import java.awt.*;
 
 public class Activador {
-    public int altura;
-    public int alturaDefault;
+    private int altura;
+    private final int alturaDefault; // Fuente única de la altura inicial de la figura
 
     public Activador(final int alturaDefault) {
         this.alturaDefault = alturaDefault;
@@ -42,9 +42,14 @@ public class Activador {
         }
     }
 
-    public void resetear(int altura){ // La altura default de la figura
-        this.altura = altura;
+    public int getAlturaDefault() {
+        return alturaDefault;
     }
+
+    public void resetear() { // Vuelve a la altura default de la figura
+        this.altura = alturaDefault;
+    }
+
 
     public void dibujarActivador(Graphics graficos, Point coordenadas, boolean esIzquierda) {
         switch (altura) {

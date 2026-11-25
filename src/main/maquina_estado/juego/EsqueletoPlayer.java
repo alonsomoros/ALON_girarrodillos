@@ -1,7 +1,6 @@
 package main.maquina_estado.juego;
 
 import main.Constantes;
-import main.maquina_estado.juego.figuras.Mago;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ public class EsqueletoPlayer {
     protected ArrayList<Figura> figurasDisponibles;
     protected Figura figuraIzquierda, figuraDerecha;
     protected Figura figuraIndex;
-    protected static Rodillo rodillo;
+    protected Rodillo rodillo;
     protected Bastion bastion;
     protected int seleccionandoIzquierda = 0;
     protected boolean terminadoDeProcesarAtaques;
@@ -25,7 +24,6 @@ public class EsqueletoPlayer {
     public EsqueletoPlayer() {
         this.vida = Constantes.VIDA;
         this.bastion = new Bastion();
-        this.rodillo = null;
 
         figuraIzquierda = null;
         figuraDerecha = null;
@@ -74,7 +72,20 @@ public class EsqueletoPlayer {
         return this.figuraDerecha;
     }
 
+    // El héroe al que le queda menos energía para actuar; si empatan, el que está enfrente del atacante
+    public Figura getFiguraMasCercaDeActuar(Figura atacante) {
+        int alturaIzquierda = figuraIzquierda.getActivador().getAltura();
+        int alturaDerecha = figuraDerecha.getActivador().getAltura();
+        if (alturaIzquierda < alturaDerecha) {
+            return figuraIzquierda;
+        } else if (alturaDerecha < alturaIzquierda) {
+            return figuraDerecha;
+        }
+        return getFiguraEnfrente(atacante);
+    }
+
     public Figura getFiguraEnfrente(Figura figura) {
+
         if (figura.getPosicion() % 2 == 0) {
             return this.figuraDerecha;
         } else {
@@ -82,7 +93,7 @@ public class EsqueletoPlayer {
         }
     }
 
-    public static Rodillo getRodillo() {
+    public Rodillo getRodillo() {
         return rodillo;
     }
 
@@ -211,30 +222,20 @@ public class EsqueletoPlayer {
 
     }
 
+    // Si el activador de la figura llegó a 0 y no está ya atacando, lanza todos sus ataques
+    protected void lanzarAtaque(final Figura figura) {
+        if (figura.getActivador().getAltura() == 0 && !figura.estaAtacando) {
+            figura.atacarNormal(); // Crea y encola todos sus ataques (el Mago, 2)
+
+        }
+    }
+
     protected void actualizarEstados() {
-
-        if (figuraIzquierda.getActivador().getAltura() == 0) {
-            if (!figuraIzquierda.estaAtacando) {
-                if (figuraIzquierda instanceof Mago) {
-                    figuraIzquierda.atacarNormal();
-                    figuraIzquierda.atacarNormal();
-                } else {
-                    figuraIzquierda.atacarNormal();
-                }
-            }
-        }
+        terminadoDeProcesarAtaques = false; // Se decide de nuevo en cada ronda
 
 
-        if (figuraDerecha.getActivador().getAltura() == 0) {
-            if (!figuraDerecha.estaAtacando) {
-                if (figuraIzquierda instanceof Mago) {
-                    figuraDerecha.atacarNormal();
-                    figuraDerecha.atacarNormal();
-                } else {
-                    figuraDerecha.atacarNormal();
-                }
-            }
-        }
+        lanzarAtaque(figuraIzquierda);
+        lanzarAtaque(figuraDerecha);
 
         if (!figurasAtacando()) {
             terminadoDeProcesarAtaques = true;
