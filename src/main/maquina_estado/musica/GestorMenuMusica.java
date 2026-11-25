@@ -46,7 +46,9 @@ public class GestorMenuMusica implements IEstadoJuego, IAudio {
 //                System.out.println(etiqueta.getId());
                 seccionNueva = etiqueta;
                 if (Raton.getInstance().obtenerClickIzquierdo()) {
+                    Raton.getInstance().reiniciarClickIzquierdo(); // Un clic = una sola acción
                     AudioPlayer.getInstance().playSound("rec/musica/" + etiqueta.getNombre() + ".wav");
+
                 }
             }
         }
