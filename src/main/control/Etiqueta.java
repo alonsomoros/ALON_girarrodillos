@@ -1,7 +1,6 @@
 package main.control;
 
 import main.Constantes;
-import main.graficos.SuperficieDeDibujo;
 import main.herramientas.MedidorString;
 
 import java.awt.*;
@@ -25,8 +24,8 @@ public class Etiqueta {
         this.nombre = nombreEtiqueta;
         this.fuente = fuente;
 
-        this.anchoEtiqueta = MedidorString.medirAnchoPixeles(SuperficieDeDibujo.getInstance().graficos2D, nombreEtiqueta, fuente, tamanioFuente); // Esta devolviendo el String org
-        this.altoEtiqueta = MedidorString.medirAltoPixeles(SuperficieDeDibujo.getInstance().graficos2D, nombreEtiqueta, fuente, tamanioFuente);
+        this.anchoEtiqueta = MedidorString.medirAnchoPixeles(nombreEtiqueta, fuente, tamanioFuente); // Esta devolviendo el String org
+        this.altoEtiqueta = MedidorString.medirAltoPixeles(nombreEtiqueta, fuente, tamanioFuente);
 
         this.posicion = new Point(x - anchoEtiqueta / 2, y);
 
