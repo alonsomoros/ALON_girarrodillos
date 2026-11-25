@@ -185,7 +185,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **4.12** Reproducirlos con `AudioPlayer.playSoundOnce` (click de botón, ataque, fin de partida).
 
 ### 4D. Pulido final
-- [ ] **4.13** Actualizar `Instrucciones.txt` y `creditos.txt` con el estado real final.
+- [x] **4.13** Actualizar `Instrucciones.txt` y `creditos.txt` con el estado real final.
 - [ ] **4.14** Revisión final: `grep` de `println`, avisos del compilador, FPS/CPU final vs. línea base, README definitivo.
 - [ ] **4.15** (Opcional) `scripts/empaquetar.bat` con `jar` de JDK para distribuir `.jar` + carpeta `rec/`.
 
