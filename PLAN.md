@@ -132,7 +132,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **3.4** `Constantes.COORDENADAS`: añadir arrays indexados `BASE[]`, `FIGURA[]`, `ACTIVADOR[]`, `STATS[]`, `ATAQUE[][]` (índice = posición-1), sin quitar aún las constantes sueltas.
 - [x] **3.5** `Figura.dibujar` y `atacarNormal/atacarEspecial` usan los arrays (adiós 4 `case` copiados).
 - [x] **3.6** `Constantes.RUTAS`: arrays `BASES.CUADRADO[0..6]`, `BASES.ROMBO[0..6]`, `ACTIVADORES.CUADRADO/ROMBO[0..5]`, `BASTION.PLAYER/IA[1..5]`.
-- [ ] **3.7** `Figura.dibujarBase` → una línea con el array (≈50 líneas menos).
+- [x] **3.7** `Figura.dibujarBase` → una línea con el array (≈50 líneas menos).
 - [ ] **3.8** `Activador.dibujarActivador` → array (≈45 líneas menos).
 - [ ] **3.9** `Bastion.dibujarBastion` → array; unificar la rama Player/IA con un parámetro.
 - [ ] **3.10** Borrar `IA.dibujarBastion` (duplicado) y las constantes sueltas ya sin uso.

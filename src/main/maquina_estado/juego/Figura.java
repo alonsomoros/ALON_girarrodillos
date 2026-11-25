@@ -150,55 +150,9 @@ public abstract class Figura implements AtaquesFiguras {
     }
 
     public void dibujarBase(Graphics graficos, Point coordenadas, boolean esCuadrado) {
-        switch (experiencia) {
-            case 0:
-                if (esCuadrado) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_CUADRADO_0), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_ROMBO_0), coordenadas);
-                }
-                break;
-            case 1:
-                if (esCuadrado) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_CUADRADO_1), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_ROMBO_1), coordenadas);
-                }
-                break;
-            case 2:
-                if (esCuadrado) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_CUADRADO_2), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_ROMBO_2), coordenadas);
-                }
-                break;
-            case 3:
-                if (esCuadrado) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_CUADRADO_3), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_ROMBO_3), coordenadas);
-                }
-                break;
-            case 4:
-                if (esCuadrado) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_CUADRADO_4), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_ROMBO_4), coordenadas);
-                }
-                break;
-            case 5:
-                if (esCuadrado) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_CUADRADO_5), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_ROMBO_5), coordenadas);
-                }
-                break;
-            case 6:
-                if (esCuadrado) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_CUADRADO_6), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASES.BASE_ROMBO_6), coordenadas);
-                }
+        String[] rutas = esCuadrado ? Constantes.RUTAS.BASES.CUADRADO : Constantes.RUTAS.BASES.ROMBO;
+        if (experiencia >= 0 && experiencia < rutas.length) {
+            Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(rutas[experiencia]), coordenadas);
         }
     }
 
