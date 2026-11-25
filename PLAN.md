@@ -198,6 +198,15 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - Compila con un aviso de operaciones `unchecked` en `EsqueletoPlayer` (arrays genéricos de `HashMap`).
 - El `.gitignore` ya tenía `rec/musica/OST.zip` añadido a mano (sin commit) antes de 0.3.
 
+### Resultados al cerrar la Fase 1 (JDK 21, menú y partida)
+- Menú: **CPU 113 % → ~25 %**, FPS 700 → **57**, RAM ~510 MB → ~420-480 MB.
+- Partida (jugador vs IA, conducida con `java.awt.Robot`): **CPU ~11 %, 57 FPS, sin errores**. Antes, una ejecución en partida daba **8 FPS** (visto en tu terminal de VS Code), así que la caché de imágenes era el cuello de botella.
+- Confirmado a la vista el bug de la Fase 2: el rodillo de la IA y el del jugador muestran **exactamente los mismos símbolos** (rodillo `static` compartido).
+- 1.20 se resolvió con `ffmpeg` (ya instalado en la máquina): `TheMountainTrail`, `ChillyNight` y `Courage` ahora existen como `.wav` (los `.mp3` se mantienen).
+- 1.21: la música de créditos usa `PathOfAscension.wav` (la original `Moorlands.wav` no existe); cámbiala si prefieres otra.
+- 1.19 quedó dentro del commit de 1.18 (se aplicaron juntas); el commit 1.19 solo tacha la casilla.
+- Pendiente de ti: **1.24** (aportar el `.ttf`; hasta entonces las fuentes siguen siendo "Algerian" y "AniMe Matrix" del sistema).
+
 ## Verificación general
 
 - **Por tarea:** `scripts\compilar.bat` sin errores → arrancar juego → comprobar lo indicado en "Verif.".
