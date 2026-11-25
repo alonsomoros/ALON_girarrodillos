@@ -5,22 +5,14 @@ import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
 import main.maquina_estado.juego.Figura;
-import main.maquina_estado.juego.IA;
-import main.maquina_estado.juego.Player;
+import main.maquina_estado.juego.EsqueletoPlayer;
 
 import java.awt.*;
 
 public class Mago extends Figura {
 
-    public Mago(Player player) {
-        super(player);
-        activador = new Activador(5);
-
-        stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
-    }
-
-    public Mago(IA ia) {
-        super(ia);
+    public Mago(EsqueletoPlayer duenio) {
+        super(duenio);
         activador = new Activador(5);
 
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
