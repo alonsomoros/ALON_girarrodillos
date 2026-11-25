@@ -148,7 +148,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **3.16** `AtaquesFiguras` y los `atacar(Graphics)/atacarEspecial(Graphics)` que solo imprimen.
 - [x] **3.17** `Bastion.actualizar()` vacío, `IA.dibujarRodillo/getFigurasDisponibles` si siguen sin uso.
 - [x] **3.18** `SuperficieDeDibujo.inicializarGraficos()` y el campo `graficos2D` (tras 1.16).
-- [ ] **3.19** `Teclado.ultimaPulsacion*`, `INTERVALO_PULSACION` (si no se usan) y `Ventana.dibujar()`.
+- [x] **3.19** `Teclado.ultimaPulsacion*`, `INTERVALO_PULSACION` (si no se usan) y `Ventana.dibujar()`.
 - [ ] **3.20** `HojaSprites`, `Sprite`, `AnimationPanelSprites`, `CargadorRecursos.unzip/extractFile`, `GestorPrincipal` línea comentada del `unzip`: borrar si nadie los usa.
 - [ ] **3.21** Rodillos `RP_*` de prueba de `Constantes`.
 - [ ] **3.22** Renombrar `tieneBation` → `tieneBastion`, `Etiqueta` "WTF" y comentarios obsoletos ("Hay que hacer una clase IA").

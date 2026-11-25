@@ -13,13 +13,6 @@ public class Teclado implements KeyListener {
     public Tecla X = new Tecla();
 
 
-    public long ultimaPulsacionDerecha = 0;
-    public long ultimaPulsacionIzquierda = 0;
-    public long ultimaPulsacionArriba = 0;
-    public long ultimaPulsacionAbajo = 0;
-    public long ultimaPulsacionEspacio = 0;
-    public long ultimaPulsacionGirar = 0;
-
     public final long INTERVALO_PULSACION = 1;
 
     public void keyPressed(KeyEvent e) {

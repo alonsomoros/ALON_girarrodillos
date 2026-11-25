@@ -40,7 +40,4 @@ public class Ventana extends JFrame {
         superficieDeDibujo.inicializarBuffer();
     }
 
-    private void dibujar() {
-        SuperficieDeDibujo.getInstance().dibujar();
-    }
 }
