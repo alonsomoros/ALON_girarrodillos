@@ -25,6 +25,8 @@ public abstract class Figura implements AtaquesFiguras {
     protected int alturaDefault;
     protected boolean estaAtacando;
     protected boolean estaAtacandoEspecial;
+    private int ataquesLanzados; // Solo informativo (depuración y pruebas)
+
 
     public Figura(final Player player) {
         playerDuenio = player;
@@ -103,8 +105,18 @@ public abstract class Figura implements AtaquesFiguras {
         } else estaAtacandoEspecial = false;
     }
 
+    /** Cuántos ataques hace al activarse (el Mago hace 2). */
+    public int getNumeroAtaques() {
+        return 1;
+    }
+
+    public int getAtaquesLanzados() {
+        return ataquesLanzados;
+    }
+
     public void atacarNormal() { // Cuando ataca se crea el ataque y se inicia el tiempo
         this.estaAtacando = true;
+        ataquesLanzados++;
         switch (posicion) {
             case 1:
                 ataque = new Ataque(this, Constantes.COORDENADAS.ATAQUE_1, ataqueImagen);

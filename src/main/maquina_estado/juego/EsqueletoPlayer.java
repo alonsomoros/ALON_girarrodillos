@@ -1,7 +1,6 @@
 package main.maquina_estado.juego;
 
 import main.Constantes;
-import main.maquina_estado.juego.figuras.Mago;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -210,30 +209,19 @@ public class EsqueletoPlayer {
 
     }
 
+    // Si el activador de la figura llegó a 0 y no está ya atacando, lanza todos sus ataques
+    protected void lanzarAtaque(final Figura figura) {
+        if (figura.getActivador().getAltura() == 0 && !figura.estaAtacando) {
+            for (int i = 0; i < figura.getNumeroAtaques(); i++) {
+                figura.atacarNormal();
+            }
+        }
+    }
+
     protected void actualizarEstados() {
 
-        if (figuraIzquierda.getActivador().getAltura() == 0) {
-            if (!figuraIzquierda.estaAtacando) {
-                if (figuraIzquierda instanceof Mago) {
-                    figuraIzquierda.atacarNormal();
-                    figuraIzquierda.atacarNormal();
-                } else {
-                    figuraIzquierda.atacarNormal();
-                }
-            }
-        }
-
-
-        if (figuraDerecha.getActivador().getAltura() == 0) {
-            if (!figuraDerecha.estaAtacando) {
-                if (figuraIzquierda instanceof Mago) {
-                    figuraDerecha.atacarNormal();
-                    figuraDerecha.atacarNormal();
-                } else {
-                    figuraDerecha.atacarNormal();
-                }
-            }
-        }
+        lanzarAtaque(figuraIzquierda);
+        lanzarAtaque(figuraDerecha);
 
         if (!figurasAtacando()) {
             terminadoDeProcesarAtaques = true;

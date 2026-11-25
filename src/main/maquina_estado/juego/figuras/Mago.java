@@ -38,7 +38,13 @@ public class Mago extends Figura {
         Depurar.log("Mago atacando especial");
     }
 
+    @Override
+    public int getNumeroAtaques() {
+        return 2;
+    }
+
     public int getStat1() {
+
         return switch (nivel) {
             case 1 -> 2;
             case 2, 3 -> 3;
