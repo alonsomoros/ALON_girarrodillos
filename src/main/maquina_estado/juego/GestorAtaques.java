@@ -38,17 +38,14 @@ public class GestorAtaques {
                 figuraAtacante.getDuenio().getBastion().aumentarAltura(2);
                 break;
             case "Mago": // Ataca x2
-                if (ataque.casoMagoPrimerAtaque()) {
-                    if (enemigo.tieneBation()) {
-                        enemigo.getBastion().disminuirAltura(enemigo.getBastion().getAltura() - ataque.figuraAtacante.getStat2());
-                        ataque.ataqueMagoIndex++;
-                    } else if (!enemigo.tieneBation()) {
-                        enemigo.recibirAtaque(figuraAtacante.getStat1());
-                    }
+                if (ataque.ignoraBastion()) { // 2.º ataque: vuela a altura máxima
+                    enemigo.recibirAtaque(figuraAtacante.getStat1());
+                } else if (enemigo.tieneBation()) { // 1.º ataque: a nivel de suelo, lo frena el bastión
+                    enemigo.getBastion().disminuirAltura(enemigo.getBastion().getAltura() - ataque.figuraAtacante.getStat2());
                 } else {
-                    enemigo.recibirAtaque(figuraAtacante.getStat1()); // A altura maxima
-                    ataque.ataqueMagoIndex = 0;
+                    enemigo.recibirAtaque(figuraAtacante.getStat1());
                 }
+
                 break;
             case "Sacerdote": // Cura
                 if (!(figuraAtacante.getDuenio().getVida() == Constantes.VIDA_MAXIMA)) {

@@ -212,9 +212,8 @@ public class EsqueletoPlayer {
     // Si el activador de la figura llegó a 0 y no está ya atacando, lanza todos sus ataques
     protected void lanzarAtaque(final Figura figura) {
         if (figura.getActivador().getAltura() == 0 && !figura.estaAtacando) {
-            for (int i = 0; i < figura.getNumeroAtaques(); i++) {
-                figura.atacarNormal();
-            }
+            figura.atacarNormal(); // Crea y encola todos sus ataques (el Mago, 2)
+
         }
     }
 

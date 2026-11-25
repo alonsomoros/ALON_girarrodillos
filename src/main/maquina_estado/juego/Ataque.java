@@ -2,11 +2,14 @@ package main.maquina_estado.juego;
 
 import main.herramientas.Depurar;
 import main.herramientas.Dibujador;
-import main.maquina_estado.juego.figuras.Mago;
 
 import java.awt.*;
 
 public class Ataque {
+    /** Duración de la animación de un ataque en ms (las pruebas la acortan). */
+    static long duracionPorDefecto = 2000;
+
+
     Figura figuraAtacante;
     private Point[] posiciones;
     private long startTime;
@@ -15,23 +18,18 @@ public class Ataque {
     private boolean terminadaAnimacion;
     private Image imagen;
     private int index;
-    public int ataqueMagoIndex;
+    private boolean ignoraBastion; // Vuela por encima del bastión (2.º ataque del Mago)
+    private boolean especial;      // Bomba de un héroe de oro
 
     public Ataque(Figura figuraAtacante, Point[] posicion, Image imagen) {
         this.figuraAtacante = figuraAtacante;
         this.posiciones = posicion;
-        this.duracion = 2000;
+        this.duracion = duracionPorDefecto;
         this.imagen = imagen;
         this.activo = true;
         this.index = 0;
         terminadaAnimacion = false;
         iniciar(); // Cada ataque lleva su propio cronómetro
-
-        if (figuraAtacante instanceof Mago) {
-            ataqueMagoIndex = 0;
-        } else {
-            ataqueMagoIndex = -1;
-        }
     }
 
     public void actualizar() {
@@ -72,8 +70,20 @@ public class Ataque {
         return terminadaAnimacion;
     }
 
-    public boolean casoMagoPrimerAtaque() {
-        return ataqueMagoIndex == 0;
+    public boolean ignoraBastion() {
+        return ignoraBastion;
+    }
+
+    public void setIgnoraBastion(final boolean ignoraBastion) {
+        this.ignoraBastion = ignoraBastion;
+    }
+
+    public boolean esEspecial() {
+        return especial;
+    }
+
+    public void setEspecial(final boolean especial) {
+        this.especial = especial;
     }
 
     /** (Re)inicia el cronómetro del ataque. */

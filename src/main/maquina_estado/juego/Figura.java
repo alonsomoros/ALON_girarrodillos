@@ -7,6 +7,8 @@ import main.herramientas.CargadorRecursos;
 import main.herramientas.Dibujador;
 
 import java.awt.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public abstract class Figura implements AtaquesFiguras {
     private Player playerDuenio = null;
@@ -16,8 +18,9 @@ public abstract class Figura implements AtaquesFiguras {
     protected Image ataqueImagen;
     protected Image ataqueEspecialImagen;
     protected Image stats;
-    protected Ataque ataque;
-    protected Ataque ataqueEspecial;
+    // Ataques de esta activación, en orden: se animan de uno en uno
+    private final Deque<Ataque> colaAtaques = new ArrayDeque<>();
+    private boolean activacionPendiente; // true si al terminar hay que resetear activador y dar XP
     protected int posicion;
     protected int nivel; // Del 1 al 3
     protected int experiencia; // Del 0 al 6
@@ -54,18 +57,39 @@ public abstract class Figura implements AtaquesFiguras {
 
 
     public void actualizar() {
-        if (estaAtacando) {
-            ataque.actualizar(); // Esto hace que se anime
-            if (ataque.terminadaAnimacion()) { // Ataque termina
-                estaAtacando = false;
-                activador.resetear(alturaDefault);
-                // Sumar +2 de nivel etc
-                this.aumentarExperiencia(2);
-                if (experiencia == 6) {
-                    subirNivel();
+        if (!estaAtacando) {
+            return;
+        }
+
+        Ataque actual = colaAtaques.peek();
+        if (actual != null) {
+            actual.actualizar(); // Esto hace que se anime
+            if (actual.terminadaAnimacion()) {
+                colaAtaques.poll();
+                Ataque siguiente = colaAtaques.peek();
+                if (siguiente != null) {
+                    siguiente.iniciar(); // El siguiente ataque empieza ahora
                 }
             }
         }
+
+        if (colaAtaques.isEmpty()) {
+            finalizarAtaques();
+        }
+    }
+
+    // Se llama cuando se acabó la cola de ataques
+    private void finalizarAtaques() {
+        if (activacionPendiente) {
+            activacionPendiente = false;
+            activador.resetear(alturaDefault);
+            // Sumar +2 de nivel etc
+            this.aumentarExperiencia(2);
+            if (experiencia == 6) {
+                subirNivel(); // En nivel máximo puede encolar la bomba
+            }
+        }
+        estaAtacando = !colaAtaques.isEmpty();
     }
 
     public void dibujar(Graphics graficos, int posicion) {
@@ -96,13 +120,10 @@ public abstract class Figura implements AtaquesFiguras {
                 break;
         }
 
-        if (estaAtacando) {
-            ataque.dibujar(graficos);
-        } else estaAtacando = false;
-
-        if (estaAtacandoEspecial) {
-            ataqueEspecial.dibujar(graficos);
-        } else estaAtacandoEspecial = false;
+        Ataque actual = colaAtaques.peek();
+        if (estaAtacando && actual != null) {
+            actual.dibujar(graficos);
+        }
     }
 
     /** Cuántos ataques hace al activarse (el Mago hace 2). */
@@ -114,47 +135,57 @@ public abstract class Figura implements AtaquesFiguras {
         return ataquesLanzados;
     }
 
-    public void atacarNormal() { // Cuando ataca se crea el ataque y se inicia el tiempo
-        this.estaAtacando = true;
-        ataquesLanzados++;
+    private Point[] coordenadasAtaque() {
         switch (posicion) {
             case 1:
-                ataque = new Ataque(this, Constantes.COORDENADAS.ATAQUE_1, ataqueImagen);
-
-                Depurar.log("Ataque de " + this.getClass().getSimpleName() + getDuenio().getClass().getSimpleName() + " a " + getEnemigo().getClass().getSimpleName());
-                break;
+                return Constantes.COORDENADAS.ATAQUE_1;
             case 2:
-                ataque = new Ataque(this, Constantes.COORDENADAS.ATAQUE_2, ataqueImagen);
-                Depurar.log("Ataque de " + this.getClass().getSimpleName() + getDuenio().getClass().getSimpleName() + " a " + getEnemigo().getClass().getSimpleName());
-                break;
+                return Constantes.COORDENADAS.ATAQUE_2;
             case 3:
-                ataque = new Ataque(this, Constantes.COORDENADAS.ATAQUE_3, ataqueImagen);
-                Depurar.log("Ataque de " + this.getClass().getSimpleName() + getDuenio().getClass().getSimpleName() + " a " + getEnemigo().getClass().getSimpleName());
-                break;
+                return Constantes.COORDENADAS.ATAQUE_3;
             case 4:
-                ataque = new Ataque(this, Constantes.COORDENADAS.ATAQUE_4, ataqueImagen);
-                Depurar.log("Ataque de " + this.getClass().getSimpleName() + getDuenio().getClass().getSimpleName() + " a " + getEnemigo().getClass().getSimpleName());
-                break;
+                return Constantes.COORDENADAS.ATAQUE_4;
+            default:
+                return null;
         }
     }
 
-    public void atacarEspecial() { // Hace dos de daño independientemente e ignora bastiones
-        this.estaAtacando = true;
-        switch (posicion) {
-            case 1:
-                ataqueEspecial = new Ataque(this, Constantes.COORDENADAS.ATAQUE_1, ataqueEspecialImagen);
-                break;
-            case 2:
-                ataqueEspecial = new Ataque(this, Constantes.COORDENADAS.ATAQUE_2, ataqueEspecialImagen);
-                break;
-            case 3:
-                ataqueEspecial = new Ataque(this, Constantes.COORDENADAS.ATAQUE_3, ataqueEspecialImagen);
-                break;
-            case 4:
-                ataqueEspecial = new Ataque(this, Constantes.COORDENADAS.ATAQUE_4, ataqueEspecialImagen);
-                break;
+    // Al activarse crea sus ataques (getNumeroAtaques) y los encola. Los siguientes al primero ignoran el bastión.
+    public void atacarNormal() {
+        Point[] camino = coordenadasAtaque();
+        if (camino == null) {
+            return; // Figura sin posición asignada
         }
 
+        this.estaAtacando = true;
+        this.activacionPendiente = true;
+        for (int i = 0; i < getNumeroAtaques(); i++) {
+            Ataque nuevo = new Ataque(this, camino, ataqueImagen);
+            nuevo.setIgnoraBastion(i > 0);
+            colaAtaques.add(nuevo);
+            ataquesLanzados++;
+        }
+        colaAtaques.peek().iniciar(); // Solo corre el primero; el resto empieza al llegarle el turno
+
+        if (Depurar.ACTIVO) { // Solo se construye el texto si hace falta
+            Depurar.log("Ataque de " + this.getClass().getSimpleName() + getDuenio().getClass().getSimpleName() + " a " + getEnemigo().getClass().getSimpleName());
+        }
+    }
+
+
+    public void atacarEspecial() { // Hace dos de daño independientemente e ignora bastiones
+        Point[] camino = coordenadasAtaque();
+        if (camino == null) {
+            return;
+        }
+
+        Ataque bomba = new Ataque(this, camino, ataqueEspecialImagen);
+        bomba.setEspecial(true);
+        colaAtaques.add(bomba);
+        if (colaAtaques.size() == 1) {
+            bomba.iniciar();
+        }
+        this.estaAtacando = true;
     }
 
     public void dibujarBase(Graphics graficos, Point coordenadas, boolean esCuadrado) {
