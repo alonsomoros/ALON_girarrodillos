@@ -130,7 +130,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 
 ### 3B. Tablas en vez de `switch` repetidos
 - [x] **3.4** `Constantes.COORDENADAS`: añadir arrays indexados `BASE[]`, `FIGURA[]`, `ACTIVADOR[]`, `STATS[]`, `ATAQUE[][]` (índice = posición-1), sin quitar aún las constantes sueltas.
-- [ ] **3.5** `Figura.dibujar` y `atacarNormal/atacarEspecial` usan los arrays (adiós 4 `case` copiados).
+- [x] **3.5** `Figura.dibujar` y `atacarNormal/atacarEspecial` usan los arrays (adiós 4 `case` copiados).
 - [ ] **3.6** `Constantes.RUTAS`: arrays `BASES.CUADRADO[0..6]`, `BASES.ROMBO[0..6]`, `ACTIVADORES.CUADRADO/ROMBO[0..5]`, `BASTION.PLAYER/IA[1..5]`.
 - [ ] **3.7** `Figura.dibujarBase` → una línea con el array (≈50 líneas menos).
 - [ ] **3.8** `Activador.dibujarActivador` → array (≈45 líneas menos).
