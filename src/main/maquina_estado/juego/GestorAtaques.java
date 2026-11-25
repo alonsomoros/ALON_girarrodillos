@@ -32,14 +32,14 @@ public class GestorAtaques {
                 break;
             case "Caballero": // Normal
                 if (enemigo.tieneBation()) { // Si el enemigo tiene bastion y es mayor que el ataque
-                    enemigo.getBastion().disminuirAltura(enemigo.getBastion().getAltura() - ataque.figuraAtacante.getStat2());
+                    enemigo.getBastion().disminuirAltura(ataque.figuraAtacante.getStat2());
                 } else if (!enemigo.tieneBation()) {
                     enemigo.recibirAtaque(figuraAtacante.getStat1());
                 }
                 break;
             case "Ingeniero":
                 if (enemigo.tieneBation()) { // Si el enemigo tiene bastion y es mayor que el ataque
-                    enemigo.getBastion().disminuirAltura(enemigo.getBastion().getAltura() - ataque.figuraAtacante.getStat2());
+                    enemigo.getBastion().disminuirAltura(ataque.figuraAtacante.getStat2());
                 } else if (!enemigo.tieneBation()) {
                     enemigo.recibirAtaque(figuraAtacante.getStat1());
                 }
@@ -49,7 +49,7 @@ public class GestorAtaques {
                 if (ataque.ignoraBastion()) { // 2.º ataque: vuela a altura máxima
                     enemigo.recibirAtaque(figuraAtacante.getStat1());
                 } else if (enemigo.tieneBation()) { // 1.º ataque: a nivel de suelo, lo frena el bastión
-                    enemigo.getBastion().disminuirAltura(enemigo.getBastion().getAltura() - ataque.figuraAtacante.getStat2());
+                    enemigo.getBastion().disminuirAltura(ataque.figuraAtacante.getStat2());
                 } else {
                     enemigo.recibirAtaque(figuraAtacante.getStat1());
                 }

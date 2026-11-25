@@ -148,7 +148,31 @@ public class PruebasJuego {
             }
         });
 
+        for (String heroe : new String[]{"Caballero", "Ingeniero", "Mago"}) {
+            prueba(heroe + " contra un bastión de 2: el bastión baja, nunca sube", () -> {
+                Player p = new Player();
+                IA ia = new IA();
+                p.setEnemigo(ia);
+                ia.setEnemigo(p);
+                Figura f = heroe.equals("Caballero") ? new main.maquina_estado.juego.figuras.Caballero(p)
+                        : heroe.equals("Ingeniero") ? new main.maquina_estado.juego.figuras.Ingeniero(p)
+                        : new main.maquina_estado.juego.figuras.Mago(p);
+                Figura otro = new main.maquina_estado.juego.figuras.Sacerdote(p);
+                f.setPosicion(3);
+                otro.setPosicion(4);
+                p.setFiguraIzquierda(f);
+                p.setFiguraDerecha(otro);
+                f.getActivador().setAltura(0);
+                otro.getActivador().setAltura(3);
+                ia.getBastion().aumentarAltura(2);
+                p.actualizarEstados();
+                esperarFinDeAtaques(f);
+                verificar(ia.getBastion().getAltura() == 0, "bastión de la IA: " + ia.getBastion().getAltura() + " (esperado 0, stat2=" + f.getStat2() + ")");
+            });
+        }
+
         prueba("el jugador y la IA tienen rodillos distintos", () -> {
+
 
 
 

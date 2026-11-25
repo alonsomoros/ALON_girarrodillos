@@ -106,7 +106,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **2.12** `Figura.actualizar`: gestionar correctamente subida de nivel y reset de XP (XP 6 → nivel+1 → XP 0; en nivel 3 con XP 6 → bomba y XP 0). *Prueba (2.1).*
 
 ### 2D. Efectos de figura
-- [ ] **2.13** Daño al bastión (D2): Caballero, Ingeniero y Mago pasan a `disminuirAltura(stat2)`. *Prueba:* bastión 2 + stat2 3 → bastión 0 (nunca sube).
+- [x] **2.13** Daño al bastión (D2): Caballero, Ingeniero y Mago pasan a `disminuirAltura(stat2)`. *Prueba:* bastión 2 + stat2 3 → bastión 0 (nunca sube).
 - [ ] **2.14** `Figura.getCompaniero()` usa `playerDuenio` (nulo en la IA → NPE con Sacerdote IA): usar `getDuenio()`.
 - [ ] **2.15** Asesino: alinear efecto con `Instrucciones.txt` (retrasa al héroe rival al que menos le falta) o corregir el texto; decidir y anotar.
 - [ ] **2.16** `EsqueletoPlayer.terminadoDeProcesarAtaques`: se pone a `true` y no se resetea; reiniciarlo al empezar cada ronda.
