@@ -103,7 +103,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **2.10** Mago (D3): la figura mantiene una **cola** de ataques (`Deque<Ataque>`); se animan en secuencia y cada uno aplica su efecto al terminar (el 1.º respeta bastión, el 2.º lo ignora).
 - [x] **2.11** Ataque especial (D4): `ataqueEspecial.actualizar()` se invoca, termina, aplica 2 de daño directo y limpia `estaAtacando*`. *Verif.:* no queda sprite colgado en pantalla.
 - [x] **2.19** *(hallazgo nuevo)* Los ataques golpeaban al **dueño** en vez de al enemigo (`Ataque.actualizar` pasaba `getDuenio()` como objetivo). Pasar `getEnemigo()`. *Prueba:* un ataque del jugador resta vida a la IA y no al jugador.
-- [ ] **2.12** `Figura.actualizar`: gestionar correctamente subida de nivel y reset de XP (XP 6 → nivel+1 → XP 0; en nivel 3 con XP 6 → bomba y XP 0). *Prueba (2.1).*
+- [x] **2.12** `Figura.actualizar`: gestionar correctamente subida de nivel y reset de XP (XP 6 → nivel+1 → XP 0; en nivel 3 con XP 6 → bomba y XP 0). *Prueba (2.1).*
 
 ### 2D. Efectos de figura
 - [ ] **2.13** Daño al bastión (D2): Caballero, Ingeniero y Mago pasan a `disminuirAltura(stat2)`. *Prueba:* bastión 2 + stat2 3 → bastión 0 (nunca sube).

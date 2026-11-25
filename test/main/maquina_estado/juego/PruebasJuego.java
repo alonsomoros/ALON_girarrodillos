@@ -123,7 +123,33 @@ public class PruebasJuego {
             verificar(!sacerdote.estaAtacando, "sigue atacando");
         });
 
+        prueba("XP llena: sube de nivel y la XP vuelve a 0; en oro encola la bomba", () -> {
+            Player p = new Player();
+            Figura f = new main.maquina_estado.juego.figuras.Arquero(p);
+            f.setPosicion(3);
+            f.aumentarExperiencia(5);
+            verificar(f.getNivel() == 1 && f.getExperiencia() == 5, "5 XP: nivel " + f.getNivel() + " XP " + f.getExperiencia());
+            f.aumentarExperiencia(1);
+            verificar(f.getNivel() == 2 && f.getExperiencia() == 0, "6 XP: nivel " + f.getNivel() + " XP " + f.getExperiencia());
+            f.aumentarExperiencia(6); // de golpe
+            verificar(f.getNivel() == 3 && f.getExperiencia() == 0, "nivel " + f.getNivel() + " XP " + f.getExperiencia());
+            verificar(!f.estaAtacando, "no debería haber bomba todavía");
+            f.aumentarExperiencia(6); // oro con la barra llena
+            verificar(f.getNivel() == 3 && f.getExperiencia() == 0, "oro: nivel " + f.getNivel() + " XP " + f.getExperiencia());
+            verificar(f.estaAtacando, "debería haber encolado la bomba");
+        });
+
+        prueba("existe el sprite de cada héroe en sus 3 niveles", () -> {
+            for (String h : new String[]{"arquero", "mago", "caballero", "asesino", "ingeniero", "sacerdote"}) {
+                for (int n = 1; n <= 3; n++) {
+                    java.io.File f = new java.io.File("rec/sprites/figuras/" + h + "/" + h + "_lvl" + n + ".png");
+                    verificar(f.exists(), "falta " + f);
+                }
+            }
+        });
+
         prueba("el jugador y la IA tienen rodillos distintos", () -> {
+
 
 
             Player player = new Player();

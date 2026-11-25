@@ -81,10 +81,7 @@ public abstract class Figura implements AtaquesFiguras {
             activacionPendiente = false;
             activador.resetear(alturaDefault);
             // Sumar +2 de nivel etc
-            this.aumentarExperiencia(2);
-            if (experiencia == 6) {
-                subirNivel(); // En nivel máximo puede encolar la bomba
-            }
+            this.aumentarExperiencia(2); // Si llena la barra: sube de nivel o encola la bomba
         }
         estaAtacando = !colaAtaques.isEmpty();
     }
@@ -274,8 +271,8 @@ public abstract class Figura implements AtaquesFiguras {
         if (nivel > 3) {
             nivel = 3;
             atacarEspecial(); // Bomba: 2 de daño directo a la corona enemiga
-
         }
+
         imagenFigura = getImagen();
     }
 
@@ -283,10 +280,10 @@ public abstract class Figura implements AtaquesFiguras {
         if (experiencia > 6) {
             experiencia = 6;
         }
-        if (this.experiencia + experiencia > 6) {
-            this.experiencia = 6;
-        } else {
-            this.experiencia += experiencia;
+        this.experiencia = Math.min(6, this.experiencia + experiencia); // El exceso se pierde
+
+        if (this.experiencia == 6) { // Barra llena: sube de nivel (o bomba si ya es de oro)
+            subirNivel();
         }
     }
 
