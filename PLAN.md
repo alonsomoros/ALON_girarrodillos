@@ -92,7 +92,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 ### 2B. Rodillo
 - [x] **2.2** `EsqueletoPlayer.rodillo` deja de ser `static` (y se quita `this.rodillo = null` del constructor). `getRodillo()` pasa a método de instancia; actualizar `Player.dibujar`, `IA`, `GestorGirarrodillos`.
 - [x] **2.3** `GestorGirarrodillos`: sustituir `Player.getRodillo()/IA.getRodillo()` por `player.getRodillo()/ia.getRodillo()`. *Verif.:* jugador e IA muestran rodillos **distintos**.
-- [ ] **2.4** `IA` usa su propio rodillo definitivo (D5) y se retira el rodillo de prueba `RP_Cuadrado3…`.
+- [x] **2.4** `IA` usa su propio rodillo definitivo (D5) y se retira el rodillo de prueba `RP_Cuadrado3…`.
 - [ ] **2.5** `Rodillo.girarRodillo`: usar `EnumMap`/orden fijo, normalizar probabilidades en el constructor y garantizar un valor por defecto si el acumulado no llega (nunca `null`). *Prueba (2.1):* 100 000 giros sin `null`.
 - [ ] **2.6** `Rodillo.girarRodillo`: no dejar que `lateral1/lateral2` contengan símbolos que no existen como sprite (revisar `roto.png`, `*Lateral.png` por cada `Elementos`). 
 
