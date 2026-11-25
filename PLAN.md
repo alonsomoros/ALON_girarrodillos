@@ -87,7 +87,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 ## FASE 2 — Bugs de lógica de juego  (rama `fase-2-logica`)
 
 ### 2A. Red de seguridad mínima (sin librerías)
-- [ ] **2.1** Crear `test/` con una clase `PruebasLogica.java` con `main` y `assert` (se ejecuta con `java -ea`). Añadir `scripts/probar.bat`. Sin JUnit.
+- [x] **2.1** Crear `test/` con una clase `PruebasLogica.java` con `main` y `assert` (se ejecuta con `java -ea`). Añadir `scripts/probar.bat`. Sin JUnit.
 
 ### 2B. Rodillo
 - [ ] **2.2** `EsqueletoPlayer.rodillo` deja de ser `static` (y se quita `this.rodillo = null` del constructor). `getRodillo()` pasa a método de instancia; actualizar `Player.dibujar`, `IA`, `GestorGirarrodillos`.
