@@ -27,7 +27,6 @@ public abstract class Figura implements AtaquesFiguras {
     protected Activador activador;
     protected int alturaDefault;
     protected boolean estaAtacando;
-    protected boolean estaAtacandoEspecial;
     private int ataquesLanzados; // Solo informativo (depuración y pruebas)
 
 
@@ -39,7 +38,6 @@ public abstract class Figura implements AtaquesFiguras {
         ataqueImagen = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ATAQUES.RUTA_ATAQUES + this.getClass().getSimpleName().toLowerCase() + ".png");
         ataqueEspecialImagen = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ATAQUES.RUTA_ATAQUES + "Especial.png");
         estaAtacando = false;
-        estaAtacandoEspecial = false;
         posicion = 0;
     }
 
@@ -51,7 +49,6 @@ public abstract class Figura implements AtaquesFiguras {
         ataqueImagen = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ATAQUES.RUTA_ATAQUES + this.getClass().getSimpleName().toLowerCase() + ".png");
         ataqueEspecialImagen = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ATAQUES.RUTA_ATAQUES + "Especial.png");
         estaAtacando = false;
-        estaAtacandoEspecial = false;
         posicion = 0;
     }
 
@@ -276,8 +273,8 @@ public abstract class Figura implements AtaquesFiguras {
 
         if (nivel > 3) {
             nivel = 3;
-            estaAtacandoEspecial = true;
-            atacarEspecial();
+            atacarEspecial(); // Bomba: 2 de daño directo a la corona enemiga
+
         }
         imagenFigura = getImagen();
     }

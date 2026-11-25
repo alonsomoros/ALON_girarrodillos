@@ -5,7 +5,15 @@ import main.Constantes;
 
 public class GestorAtaques {
 
+    public static final int DANIO_BOMBA = 2;
+
     public static void procesarFinalAtaque(Figura figuraAtacante, Ataque ataque, EsqueletoPlayer enemigo) { // Cuando actuan suben 2 de exp
+
+        if (ataque.esEspecial()) { // Bomba: daño directo, ignora el bastión
+            enemigo.recibirAtaque(DANIO_BOMBA);
+            return;
+        }
+
 
         switch (figuraAtacante.getClass().getSimpleName()) {
 

@@ -98,7 +98,33 @@ public class PruebasJuego {
             verificar(ia.getVida() < vidaIA, "la IA no perdió vida: " + vidaIA + " -> " + ia.getVida());
         });
 
+        prueba("héroe de oro con la XP llena lanza la bomba: 2 de daño directo y termina limpio", () -> {
+            Player p = new Player();
+            IA ia = new IA();
+            p.setEnemigo(ia);
+            ia.setEnemigo(p);
+            Figura sacerdote = new main.maquina_estado.juego.figuras.Sacerdote(p);
+            Figura mago = new main.maquina_estado.juego.figuras.Mago(p);
+            sacerdote.setPosicion(3);
+            mago.setPosicion(4);
+            p.setFiguraIzquierda(sacerdote);
+            p.setFiguraDerecha(mago);
+            sacerdote.nivel = 3;
+            sacerdote.setExperiencia(4); // +2 al actuar = 6
+            sacerdote.getActivador().setAltura(0);
+            mago.getActivador().setAltura(3);
+            ia.getBastion().aumentarAltura(5); // el bastión no debe frenar la bomba
+            int vidaIA = ia.getVida();
+            p.actualizarEstados();
+            esperarFinDeAtaques(sacerdote);
+            verificar(ia.getVida() == vidaIA - 2, "vida IA " + vidaIA + " -> " + ia.getVida());
+            verificar(sacerdote.getExperiencia() == 0, "XP " + sacerdote.getExperiencia());
+            verificar(sacerdote.getNivel() == 3, "nivel " + sacerdote.getNivel());
+            verificar(!sacerdote.estaAtacando, "sigue atacando");
+        });
+
         prueba("el jugador y la IA tienen rodillos distintos", () -> {
+
 
             Player player = new Player();
             IA ia = new IA();
