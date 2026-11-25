@@ -25,7 +25,7 @@ public abstract class Figura implements AtaquesFiguras {
     protected int nivel; // Del 1 al 3
     protected int experiencia; // Del 0 al 6
     protected Activador activador;
-    protected int alturaDefault;
+
     protected boolean estaAtacando;
     private int ataquesLanzados; // Solo informativo (depuración y pruebas)
 
@@ -79,7 +79,7 @@ public abstract class Figura implements AtaquesFiguras {
     private void finalizarAtaques() {
         if (activacionPendiente) {
             activacionPendiente = false;
-            activador.resetear(alturaDefault);
+            activador.resetear();
             // Sumar +2 de nivel etc
             this.aumentarExperiencia(2); // Si llena la barra: sube de nivel o encola la bomba
         }
@@ -261,7 +261,8 @@ public abstract class Figura implements AtaquesFiguras {
     }
 
     public int getAlturaDefault() {
-        return alturaDefault;
+        return activador.getAlturaDefault();
+
     }
 
     public void subirNivel() {

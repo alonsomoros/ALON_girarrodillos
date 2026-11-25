@@ -15,15 +15,13 @@ public class Arquero extends Figura {
 
     public Arquero(Player player) {
         super(player);
-        alturaDefault = 4;
-        activador = new Activador(alturaDefault);
+        activador = new Activador(4);
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
     }
 
     public Arquero(IA ia) {
         super(ia);
-        alturaDefault = 4;
-        activador = new Activador(alturaDefault);
+        activador = new Activador(4);
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
     }
 

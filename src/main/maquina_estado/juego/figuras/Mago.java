@@ -14,16 +14,14 @@ public class Mago extends Figura {
 
     public Mago(Player player) {
         super(player);
-        alturaDefault = 5;
-        activador = new Activador(alturaDefault);
+        activador = new Activador(5);
 
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
     }
 
     public Mago(IA ia) {
         super(ia);
-        alturaDefault = 5;
-        activador = new Activador(alturaDefault);
+        activador = new Activador(5);
 
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
     }

@@ -110,7 +110,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **2.14** `Figura.getCompaniero()` usa `playerDuenio` (nulo en la IA → NPE con Sacerdote IA): usar `getDuenio()`.
 - [x] **2.15** Asesino: alinear efecto con `Instrucciones.txt` (retrasa al héroe rival al que menos le falta) o corregir el texto; decidir y anotar.
 - [x] **2.16** `EsqueletoPlayer.terminadoDeProcesarAtaques`: se pone a `true` y no se resetea; reiniciarlo al empezar cada ronda.
-- [ ] **2.17** `Activador.aumentarAltura` usa `alturaDefault` como techo mientras `Figura.alturaDefault` es otro campo duplicado: dejar una única fuente.
+- [x] **2.17** `Activador.aumentarAltura` usa `alturaDefault` como techo mientras `Figura.alturaDefault` es otro campo duplicado: dejar una única fuente.
 
 ### 2E. Reglas escritas
 - [ ] **2.18** `rec/texto/Instrucciones.txt`: reescribir la regla de energía (D1) y cualquier cosa que el código haga distinto tras 2.13/2.15.

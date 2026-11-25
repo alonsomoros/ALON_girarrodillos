@@ -14,15 +14,13 @@ public class Caballero extends Figura {
 
     public Caballero(Player player) {
         super(player);
-        alturaDefault = 3;
-        activador = new Activador(alturaDefault);
+        activador = new Activador(3);
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
     }
 
     public Caballero(IA ia) {
         super(ia);
-        alturaDefault = 3;
-        activador = new Activador(alturaDefault);
+        activador = new Activador(3);
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
     }
 

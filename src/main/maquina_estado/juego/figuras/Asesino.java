@@ -14,15 +14,13 @@ public class Asesino extends Figura {
 
     public Asesino(Player player) {
         super(player);
-        alturaDefault = 3;
-        activador = new Activador(alturaDefault);
+        activador = new Activador(3);
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.ASESINO_STATS);
     }
 
     public Asesino(IA ia) {
         super(ia);
-        alturaDefault = 3;
-        activador = new Activador(alturaDefault);
+        activador = new Activador(3);
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.ASESINO_STATS);
     }
 
