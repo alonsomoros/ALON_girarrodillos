@@ -23,6 +23,12 @@ public class GestorPrincipal implements Runnable {
     private AudioPlayer audioPlayer;
 
     private volatile boolean enFuncionamiento = false;
+    private static volatile boolean cierreSolicitado = false;
+
+    // Pide cerrar el juego: el bucle termina, libera el audio y la ventana, y sale
+    public static void solicitarCierre() {
+        cierreSolicitado = true;
+    }
 
     // Constructor
     // Main
@@ -83,7 +89,8 @@ public class GestorPrincipal implements Runnable {
 
         enFuncionamiento = true;
 
-        while (enFuncionamiento) {
+        while (enFuncionamiento && !cierreSolicitado) {
+
             final long inicioBucle = System.nanoTime();                             // Tiempo actual del bucle
 
             tiempoTranscurrido = inicioBucle - referenciaActualizacion; // Tiempo transcurrido desde referenciaActualizacion hasta inicioBucle
@@ -125,7 +132,13 @@ public class GestorPrincipal implements Runnable {
                 referenciaContador = System.nanoTime();
             }
         }
+
+        // Cierre ordenado (se llega aquí al pulsar Esc)
+        AudioPlayer.getInstance().stopSound();
+        ventana.dispose();
+        System.exit(0);
     }
+
 
     private void actualizar() {
         Raton.getInstance().actualizar(SuperficieDeDibujo.getInstance());

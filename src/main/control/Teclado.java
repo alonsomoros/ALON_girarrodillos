@@ -1,5 +1,7 @@
 package main.control;
 
+import main.GestorPrincipal;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -36,11 +38,9 @@ public class Teclado implements KeyListener {
                 espacio.teclaPulsada();
                 break;
             case KeyEvent.VK_ESCAPE:
-//                int teclaEsc = JOptionPane.showConfirmDialog(null, "Confirmación para cerrar", "¿Desea cerrar la ventana?", JOptionPane.YES_NO_OPTION);
-//                if (teclaEsc == JOptionPane.YES_OPTION) {
-                System.exit(0);
+                GestorPrincipal.solicitarCierre(); // El bucle principal cierra todo de forma ordenada
                 break;
-//
+
             case KeyEvent.VK_ENTER:
                 X.teclaPulsada();
                 break;
