@@ -58,7 +58,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **1.9** Los textos de depuración en pantalla (`Raton.dibujar`: "Raton x…", "Click Izquierdo"; contador de objetos en `GestorMenuPrincipal`) solo si `Depurar.ACTIVO`.
 
 ### 1C. Bucle principal e hilos
-- [ ] **1.10** `GestorPrincipal.run()`: limitar el dibujado (dormir con `Thread.sleep` el sobrante del frame); `enFuncionamiento` pasa a `volatile`. *Verif.:* CPU del juego baja claramente vs. línea base (0.5).
+- [x] **1.10** `GestorPrincipal.run()`: limitar el dibujado (dormir con `Thread.sleep` el sobrante del frame); `enFuncionamiento` pasa a `volatile`. *Verif.:* CPU del juego baja claramente vs. línea base (0.5).
 - [ ] **1.11** `Tecla`: `pulsada/procesada/ultimaPulsacion` → `volatile` (se escriben en el hilo de Swing y se leen en el del juego).
 - [ ] **1.12** Sustituir `java.util.Timer` del parpadeo de la luz (`GestorGirarrodillos`) por un contador de frames en `actualizar()`; eliminar `crearParpadeoLuz` y el hilo.
 

@@ -11,7 +11,6 @@ import main.maquina_estado.GestorEstados;
 import java.awt.Transparency;
 import java.io.IOException;
 
-
 public class GestorPrincipal implements Runnable {
 
     // Atributos
@@ -23,7 +22,7 @@ public class GestorPrincipal implements Runnable {
     private GestorEstados gestorEstados;
     private AudioPlayer audioPlayer;
 
-    private boolean enFuncionamiento = false;
+    private volatile boolean enFuncionamiento = false;
 
     // Constructor
     // Main
@@ -102,6 +101,17 @@ public class GestorPrincipal implements Runnable {
 
             dibujar();
             framesAcumulados++;
+
+            // Dormir lo que sobre del frame para no ocupar un núcleo entero dibujando sin parar
+            // (en Windows parkNanos es muy impreciso, por eso se duerme de 1 ms en 1 ms)
+            while (System.nanoTime() - inicioBucle < NS_POR_ACTUALIZACION) {
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
 
             if (System.nanoTime() - referenciaContador > NS_POR_SEGUNDO) { // Mostrar los FPS y APS cada segundo
                 Depurar.log("FPS: " + framesAcumulados + " APS: " + actualizacionesAcumuladas);
