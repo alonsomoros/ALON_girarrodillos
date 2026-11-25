@@ -208,6 +208,16 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - 1.19 quedó dentro del commit de 1.18 (se aplicaron juntas); el commit 1.19 solo tacha la casilla.
 - Pendiente de ti: **1.24** (aportar el `.ttf`; hasta entonces las fuentes siguen siendo "Algerian" y "AniMe Matrix" del sistema).
 
+### Resultados al cerrar la Fase 2
+- **18 pruebas** en `scripts\probar.bat`, todas en verde (rodillos, ataques, bastión, Mago, bomba, nivel/XP, Sacerdote de la IA, Asesino, regla de energía).
+- Partida completa con el juego real (jugador vs IA): 57 FPS, ~8 % de CPU, sin errores en consola.
+- **Hallazgo grave (2.19):** los ataques golpeaban al propio dueño. `Ataque.actualizar` pasaba `getDuenio()` como objetivo, así que tus ataques te quitaban vida a ti y los de la IA se la quitaban a ella. Detectado al escribir la prueba de la bomba.
+- 2.2 y 2.3 se hicieron en un solo commit (separarlos dejaba el proyecto sin compilar).
+- 2.6: ya existían todos los sprites del rodillo; la tarea quedó como una prueba que lo vigila.
+- 2.15: el Asesino ahora retrasa al héroe rival al que le queda menos energía (como dice `Instrucciones.txt`), y no al que tiene enfrente.
+- 2.12: la subida de nivel se comprueba al llenarse la XP (también la que da el rodillo), no solo tras atacar.
+- 2.18: la regla "3 del mismo tipo + 1" ya era coherente con el código si se entiende que un símbolo con número N cuenta como N. Solo se aclaró el texto.
+
 ## Verificación general
 
 - **Por tarea:** `scripts\compilar.bat` sin errores → arrancar juego → comprobar lo indicado en "Verif.".

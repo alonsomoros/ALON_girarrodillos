@@ -13,6 +13,7 @@ Desde la raíz del proyecto (las rutas `rec/...` son relativas):
 ```
 scripts\compilar.bat
 scripts\ejecutar.bat
+scripts\probar.bat   # pruebas de lógica (sin librerías)
 ```
 
 En un IDE (VS Code, IntelliJ…): JDK 21 y ejecuta `main.GestorPrincipal` con la raíz del proyecto como directorio de trabajo.
