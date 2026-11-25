@@ -251,7 +251,20 @@ public class PruebasJuego {
             verificar(p.getBastion().getAltura() == 1, "bastión con martillos 2+1=3: " + p.getBastion().getAltura());
         });
 
+        prueba("nuevaPartida() crea jugador e IA nuevos (vida, figuras y rodillos reiniciados)", () -> {
+            GestorGirarrodillos g = new GestorGirarrodillos();
+            Player p1 = g.player;
+            IA ia1 = g.ia;
+            p1.setVida(1);
+            ia1.setVida(0);
+            g.nuevaPartida();
+            verificar(g.player != p1 && g.ia != ia1, "no se recrearon");
+            verificar(g.player.getVida() == main.Constantes.VIDA && g.ia.getVida() == main.Constantes.VIDA, "vida no reiniciada");
+            verificar(g.player.getEnemigo() == g.ia && g.ia.getEnemigo() == g.player, "enemigos mal enlazados");
+        });
+
         prueba("el jugador y la IA tienen rodillos distintos", () -> {
+
 
 
 

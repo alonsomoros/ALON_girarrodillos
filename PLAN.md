@@ -164,8 +164,8 @@ que se van tachando en un `PLAN.md` dentro del repo.
 ### 4A. Fin de partida y reinicio
 - [ ] **4.1** `GestorGirarrodillos`: detectar `vida <= 0` en jugador o IA tras resolver los ataques.
 - [ ] **4.2** Estado/pantalla `FinPartida` (victoria/derrota): texto + fondo existente + "Enter para volver al menú".
-- [ ] **4.3** Quitar `static` de `player` e `ia` en `GestorGirarrodillos`; método `nuevaPartida()` que los recrea.
-- [ ] **4.4** El botón "Jugar" del menú llama a `nuevaPartida()`. *Verif.:* jugar 2 partidas seguidas sin reiniciar el programa.
+- [x] **4.3** Quitar `static` de `player` e `ia` en `GestorGirarrodillos`; método `nuevaPartida()` que los recrea.
+- [x] **4.4** El botón "Jugar" del menú llama a `nuevaPartida()`. *Verif.:* jugar 2 partidas seguidas sin reiniciar el programa.
 
 ### 4B. IA
 - [ ] **4.5** IA elige 2 héroes al azar (usar `seleccionarFigurasAleatoria`, ya existe) y fija sus posiciones 1 y 2.

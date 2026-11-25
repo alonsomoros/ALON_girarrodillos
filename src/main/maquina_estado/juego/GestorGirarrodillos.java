@@ -16,8 +16,8 @@ import java.awt.Rectangle;
 
 
 public class GestorGirarrodillos implements IEstadoJuego, IAudio {
-    private static Player player;
-    private static IA ia;
+    Player player; // De paquete: las pruebas los usan
+    IA ia;
     private int turno;
     private static final int FRAMES_POR_PARPADEO = 45; // 750 ms a 60 actualizaciones por segundo
 
@@ -26,14 +26,13 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
     private int contadorParpadeo;
 
     public GestorGirarrodillos() {
+        nuevaPartida();
+    }
 
-        if (ia == null) {
-            ia = new IA();
-        }
-
-        if (player == null) {
-            player = new Player();
-        }
+    // Empieza una partida desde cero: nuevos jugador e IA, turno 0
+    public void nuevaPartida() {
+        ia = new IA();
+        player = new Player();
 
         player.setEnemigo(ia);
         ia.setEnemigo(player);
@@ -42,6 +41,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
         puedeFijar = false;
         turno = 0;
     }
+
 
     @Override
     public void actualizar() {
