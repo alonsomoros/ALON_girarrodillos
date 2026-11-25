@@ -1,0 +1,113 @@
+package main.maquina_estado.juego;
+
+import main.Constantes;
+import main.herramientas.CargadorRecursos;
+import main.herramientas.Dibujador;
+import main.maquina_estado.IEstadoJuego;
+import main.maquina_estado.juego.figuras.*;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class IA extends EsqueletoPlayer implements IEstadoJuego {
+
+    public IA() {
+        super();
+        figurasDisponibles = new ArrayList<>(Arrays.asList(new Arquero(this), new Mago(this), new Caballero(this), new Asesino(this), new Ingeniero(this), new Sacerdote(this)));
+
+        seleccionFiguras(figurasDisponibles);
+        establecerRodillo(Constantes.RODILLOS.RP_Cuadrado3, Constantes.RODILLOS.RP_Rombo3, Constantes.RODILLOS.RP_RomboNivel, Constantes.RODILLOS.RP_Rombo3, Constantes.RODILLOS.RP_Cuadrado3);
+    }
+
+    public void actualizar() {
+
+        if (figuraDerecha.posicion != 0 && figuraIzquierda.posicion != 0) {
+            figuraDerecha.actualizar();
+            figuraIzquierda.actualizar();
+        }
+
+        if (!figurasAtacando()) {
+            if (terminadoDeProcesarAtaques) {
+                getRodillo().abrirRodillo();
+            }
+        }
+    }
+
+    @Override
+    public void dibujar(Graphics graficos) { // Hay que hacer una clase IA que sea parecida
+        this.dibujarVida(graficos);
+
+        // Dibujar bastion
+//        if (this.bastion.getAltura() > 0) {
+//            this.bastion.dibujarBastion(graficos, this, Constantes.COORDENADAS.BASTION_IA);
+//        }
+
+        // Dibujar figuras
+        if (getFiguraIzquierda() != null) {
+            getFiguraIzquierda().dibujar(graficos, getFiguraIzquierda().getPosicion());
+        }
+
+        if (getFiguraDerecha() != null) {
+            getFiguraDerecha().dibujar(graficos, getFiguraDerecha().getPosicion());
+        }
+    }
+
+    protected void dibujarVida(Graphics graficos) {
+        Dibujador.TEXTO.dibujar(graficos, getVidaString(), 621, 165, color);
+    }
+
+    protected void dibujarBastion(Graphics graficos) {
+        switch (bastion.getAltura()) {
+            case 1:
+                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_1), Constantes.COORDENADAS.BASTION_IA);
+                break;
+            case 2:
+                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_2), Constantes.COORDENADAS.BASTION_IA);
+                break;
+            case 3:
+                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_3), Constantes.COORDENADAS.BASTION_IA);
+                break;
+            case 4:
+                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_4), Constantes.COORDENADAS.BASTION_IA);
+                break;
+            case 5:
+                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_5), Constantes.COORDENADAS.BASTION_IA);
+                break;
+        }
+    }
+
+    protected void dibujarRodillo(Graphics graficos) {
+        rodillo.dibujar(graficos, Constantes.COORDENADAS.RODILLO_IA);
+    }
+
+    public ArrayList<Figura> getFigurasDisponibles() {
+        return figurasDisponibles;
+    }
+
+    public void seleccionarFigurasAleatoria(ArrayList<Figura> figurasDisponibles) {
+        int i = 0;
+        while (i < 2) {
+            int index = (int) (Math.random() * figurasDisponibles.size());
+            Figura figura = figurasDisponibles.get(index);
+            if (figuraIzquierda == null) {
+                setFiguraIzquierda(figura);
+                i++;
+            } else if (figuraDerecha == null && figuraIzquierda != figura) {
+                setFiguraDerecha(figura);
+                i++;
+            }
+
+
+        }
+    }
+
+    public void seleccionFiguras(ArrayList<Figura> figurasDisponibles) { // Arreglar para que sea agnóstico de los números
+        Figura f1 = figurasDisponibles.get(0);
+        f1.setPosicion(1);
+        Figura f2 = figurasDisponibles.get(1);
+        f2.setPosicion(2);
+        setFiguraIzquierda(f1);
+        setFiguraDerecha(f2);
+    }
+}
