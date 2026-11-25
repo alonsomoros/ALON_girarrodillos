@@ -233,7 +233,23 @@ public class PruebasJuego {
             verificar(!p.terminadoDeProcesarAtaques, "ronda con ataques: debería quedar false");
         });
 
+        prueba("regla de energía: los símbolos suman su valor y a partir de 3 la barra baja suma-2", () -> {
+            Player p = new Player();
+            Figura izq = new main.maquina_estado.juego.figuras.Mago(p);   // altura 5
+            Figura der = new main.maquina_estado.juego.figuras.Mago(p);
+            p.setFiguraIzquierda(izq);
+            p.setFiguraDerecha(der);
+            // cuadrado1 + cuadrado2 + cuadrado1 = 4 -> baja 2; rombo1 solo = 1 -> no baja; martillos 1+2 = 3 -> bastión +1
+            p.calcularSalidaRodillo(new String[]{"cuadrado1", "cuadrado2", "cuadrado1", "rombo1", "martillo1"});
+            verificar(izq.getActivador().getAltura() == 3, "izquierdo: " + izq.getActivador().getAltura());
+            verificar(der.getActivador().getAltura() == 5, "derecho: " + der.getActivador().getAltura());
+            verificar(p.getBastion().getAltura() == 0, "bastión con 1 martillo: " + p.getBastion().getAltura());
+            p.calcularSalidaRodillo(new String[]{"martillo2", "martillo1", "roto", "roto", "roto"});
+            verificar(p.getBastion().getAltura() == 1, "bastión con martillos 2+1=3: " + p.getBastion().getAltura());
+        });
+
         prueba("el jugador y la IA tienen rodillos distintos", () -> {
+
 
 
 
