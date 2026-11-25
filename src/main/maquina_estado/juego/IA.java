@@ -58,26 +58,6 @@ public class IA extends EsqueletoPlayer implements IEstadoJuego {
         Dibujador.TEXTO.dibujar(graficos, getVidaString(), 621, 165, color);
     }
 
-    protected void dibujarBastion(Graphics graficos) {
-        switch (bastion.getAltura()) {
-            case 1:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_1), Constantes.COORDENADAS.BASTION_IA);
-                break;
-            case 2:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_2), Constantes.COORDENADAS.BASTION_IA);
-                break;
-            case 3:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_3), Constantes.COORDENADAS.BASTION_IA);
-                break;
-            case 4:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_4), Constantes.COORDENADAS.BASTION_IA);
-                break;
-            case 5:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.BASTION.BASTION_PLAYER_5), Constantes.COORDENADAS.BASTION_IA);
-                break;
-        }
-    }
-
     protected void dibujarRodillo(Graphics graficos) {
         rodillo.dibujar(graficos, Constantes.COORDENADAS.RODILLO_IA);
     }
