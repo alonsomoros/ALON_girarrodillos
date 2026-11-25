@@ -13,6 +13,7 @@ import main.herramientas.Dibujador;
 import main.herramientas.MedidorString;
 import main.maquina_estado.IAudio;
 import main.maquina_estado.IEstadoJuego;
+import main.maquina_estado.Estado;
 import main.maquina_estado.GestorEstados;
 import main.maquina_estado.juego.IA;
 
@@ -26,6 +27,8 @@ public class GestorMenuPrincipal implements IEstadoJuego, IAudio {
     private static final int[] coordenadasEtiquetas = {
             Constantes.MITAD_VENTANA_ANCHO, Constantes.MITAD_VENTANA_ALTO // Cargar Partida
     };
+    // Estado al que lleva cada etiqueta del menú, en el mismo orden que GestorEtiquetas: Jugar, Tienda, Musica, Creditos
+    private static final Estado[] DESTINOS = {Estado.JUEGO, Estado.TIENDA, Estado.MUSICA, Estado.CREDITOS};
     private static final ArrayList<Etiqueta> secciones;
 
     static {
@@ -67,7 +70,7 @@ public class GestorMenuPrincipal implements IEstadoJuego, IAudio {
 //                        Dibujador.IMAGEN.dibujar(SuperficieDeDibujo.getInstance().graficos2D, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ICONO.FLECHA_ETIQUETA), etiqueta.getHitbox().x, etiqueta.getHitbox().y);
 //                    }
                     Raton.getInstance().reiniciarClickIzquierdo(); // Un clic = una sola acción
-                    GestorEstados.getInstance().cambiarEstadoActual(etiqueta.getId());
+                    GestorEstados.getInstance().cambiarEstadoActual(DESTINOS[secciones.indexOf(etiqueta)]);
 
                 }
             }

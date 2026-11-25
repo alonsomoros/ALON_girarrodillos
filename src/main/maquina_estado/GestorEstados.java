@@ -2,7 +2,6 @@ package main.maquina_estado;
 
 import main.herramientas.Depurar;
 import main.AudioPlayer;
-import main.GestorPrincipal;
 import main.control.GestorControles;
 import main.maquina_estado.creditos.GestorCreditos;
 import main.maquina_estado.juego.GestorGirarrodillos;
@@ -11,11 +10,13 @@ import main.maquina_estado.menu_inicial.GestorMenuPrincipal;
 import main.maquina_estado.tienda.GestorTienda;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.Map;
 
 public class GestorEstados {
 
-    private final ArrayList<IEstadoJuego> estadosDelJuego;
+    private final Map<Estado, IEstadoJuego> estadosDelJuego = new EnumMap<>(Estado.class);
+    private Estado estadoActualId;
     private IEstadoJuego estadoActual;
     private static GestorEstados instance;
     private boolean iniciado;
@@ -23,15 +24,14 @@ public class GestorEstados {
     // Constructor
     public GestorEstados() {
         AudioPlayer.getInstance().stopSound();
-        estadosDelJuego = new ArrayList<>();
-        estadosDelJuego.add(new GestorGirarrodillos());
-        estadosDelJuego.add(new GestorTienda());
-        estadosDelJuego.add(new GestorMenuMusica());
-        estadosDelJuego.add(new GestorCreditos());
-        estadosDelJuego.add(new GestorMenuPrincipal());
+        estadosDelJuego.put(Estado.JUEGO, new GestorGirarrodillos());
+        estadosDelJuego.put(Estado.TIENDA, new GestorTienda());
+        estadosDelJuego.put(Estado.MUSICA, new GestorMenuMusica());
+        estadosDelJuego.put(Estado.CREDITOS, new GestorCreditos());
+        estadosDelJuego.put(Estado.MENU, new GestorMenuPrincipal());
 
         iniciado = false;
-        cambiarEstadoActual(4);
+        cambiarEstadoActual(Estado.MENU);
     }
 
     public static synchronized GestorEstados getInstance() {
@@ -44,9 +44,9 @@ public class GestorEstados {
     public void actualizar() {
         long tiempoActual = System.nanoTime();
 
-        if (!estadoActual.getClass().equals(GestorMenuPrincipal.class)) {
+        if (estadoActualId != Estado.MENU) {
             GestorControles.teclado.procesarTecla(GestorControles.teclado.X, () -> {
-                cambiarEstadoActual(4);
+                cambiarEstadoActual(Estado.MENU);
             }, tiempoActual);
         }
         estadoActual.actualizar();
@@ -56,24 +56,18 @@ public class GestorEstados {
         estadoActual.dibujar(graficos);
     }
 
-    public void cambiarEstadoActual(final int nuevoEstado) {
-        Depurar.log("Cambiando estado a: " + estadosDelJuego.get(nuevoEstado).getClass().getSimpleName());
+    public void cambiarEstadoActual(final Estado nuevoEstado) {
+        Depurar.log("Cambiando estado a: " + nuevoEstado);
 
-        if (nuevoEstado == 4) {
-            if (iniciado) {
-                estadoActual = estadosDelJuego.get(nuevoEstado);
-            } else {
-                estadoActual = estadosDelJuego.get(nuevoEstado);
-                IAudio audio = (IAudio) estadoActual;
-                audio.activarAudio();
-            }
-        } else {
+        estadoActualId = nuevoEstado;
+        estadoActual = estadosDelJuego.get(nuevoEstado);
+
+        // Al volver al menú no se reinicia la música (salvo en el arranque)
+        if (nuevoEstado != Estado.MENU) {
             iniciado = true;
-            estadoActual = estadosDelJuego.get(nuevoEstado);
-            IAudio audio = (IAudio) estadoActual;
-            audio.activarAudio();
+            ((IAudio) estadoActual).activarAudio();
+        } else if (!iniciado) {
+            ((IAudio) estadoActual).activarAudio();
         }
-//        AudioPlayer.getInstance().stopSound();
-
     }
 }

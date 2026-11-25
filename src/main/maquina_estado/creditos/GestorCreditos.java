@@ -5,6 +5,7 @@ import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.herramientas.Dibujador;
 import main.herramientas.MedidorString;
+import main.maquina_estado.Estado;
 import main.maquina_estado.GestorEstados;
 import main.maquina_estado.IAudio;
 import main.maquina_estado.IEstadoJuego;
@@ -48,7 +49,7 @@ public class GestorCreditos implements IEstadoJuego, IAudio {
             index = 5;
         } else {
             AudioPlayer.getInstance().stopSound();
-            GestorEstados.getInstance().cambiarEstadoActual(4);
+            GestorEstados.getInstance().cambiarEstadoActual(Estado.MENU);
         }
     }
 
