@@ -274,7 +274,21 @@ public class PruebasJuego {
             verificar(g.evaluarResultado() == ResultadoPartida.DERROTA, "derrota");
         });
 
+        prueba("la IA elige 2 héroes distintos al azar en las posiciones 1 y 2", () -> {
+            java.util.Set<String> combinaciones = new java.util.HashSet<>();
+            for (int i = 0; i < 100; i++) {
+                IA ia = new IA();
+                Figura izq = ia.getFiguraIzquierda(), der = ia.getFiguraDerecha();
+                verificar(izq != null && der != null && izq != der, "héroes repetidos o nulos");
+                verificar(izq.getClass() != der.getClass(), "mismo tipo de héroe");
+                verificar(izq.getPosicion() == 1 && der.getPosicion() == 2, "posiciones " + izq.getPosicion() + "," + der.getPosicion());
+                combinaciones.add(izq.getClass().getSimpleName() + "+" + der.getClass().getSimpleName());
+            }
+            verificar(combinaciones.size() >= 5, "poca variedad: " + combinaciones.size());
+        });
+
         prueba("el jugador y la IA tienen rodillos distintos", () -> {
+
 
 
 

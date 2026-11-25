@@ -9,6 +9,7 @@ import main.maquina_estado.juego.figuras.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class IA extends EsqueletoPlayer implements IEstadoJuego {
 
@@ -16,7 +17,7 @@ public class IA extends EsqueletoPlayer implements IEstadoJuego {
         super();
         figurasDisponibles = new ArrayList<>(Arrays.asList(new Arquero(this), new Mago(this), new Caballero(this), new Asesino(this), new Ingeniero(this), new Sacerdote(this)));
 
-        seleccionFiguras(figurasDisponibles);
+        seleccionarFigurasAleatorias();
         establecerRodillo(Constantes.RODILLOS.R2_Prob); // Rodillo simple sin "roto" (D5)
 
     }
@@ -58,29 +59,17 @@ public class IA extends EsqueletoPlayer implements IEstadoJuego {
         Dibujador.TEXTO.dibujar(graficos, getVidaString(), 621, 165, color);
     }
 
-    public void seleccionarFigurasAleatoria(ArrayList<Figura> figurasDisponibles) {
-        int i = 0;
-        while (i < 2) {
-            int index = (int) (Math.random() * figurasDisponibles.size());
-            Figura figura = figurasDisponibles.get(index);
-            if (figuraIzquierda == null) {
-                setFiguraIzquierda(figura);
-                i++;
-            } else if (figuraDerecha == null && figuraIzquierda != figura) {
-                setFiguraDerecha(figura);
-                i++;
-            }
+    // La IA elige dos héroes distintos al azar: el izquierdo (posición 1) y el derecho (posición 2)
+    private void seleccionarFigurasAleatorias() {
+        ArrayList<Figura> barajadas = new ArrayList<>(figurasDisponibles);
+        Collections.shuffle(barajadas);
 
+        Figura izquierda = barajadas.get(0);
+        izquierda.setPosicion(1);
+        setFiguraIzquierda(izquierda);
 
-        }
-    }
-
-    public void seleccionFiguras(ArrayList<Figura> figurasDisponibles) { // Arreglar para que sea agnóstico de los números
-        Figura f1 = figurasDisponibles.get(0);
-        f1.setPosicion(1);
-        Figura f2 = figurasDisponibles.get(1);
-        f2.setPosicion(2);
-        setFiguraIzquierda(f1);
-        setFiguraDerecha(f2);
+        Figura derecha = barajadas.get(1);
+        derecha.setPosicion(2);
+        setFiguraDerecha(derecha);
     }
 }
