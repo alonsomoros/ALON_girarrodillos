@@ -151,7 +151,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
             Player.getRodillo().girarRodillo();
             IA.getRodillo().girarRodillo();
             turno++;
-            System.out.println("Turno: " + turno);
+            Depurar.log("Turno: " + turno);
         }, tiempoActual);
 
         if (puedeFijar) {

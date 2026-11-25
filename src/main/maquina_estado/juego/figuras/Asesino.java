@@ -1,5 +1,6 @@
 package main.maquina_estado.juego.figuras;
 
+import main.herramientas.Depurar;
 import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
@@ -27,12 +28,12 @@ public class Asesino extends Figura {
 
     @Override
     public void atacar(Graphics graphics) {
-        System.out.println("Asesino atacando");
+        Depurar.log("Asesino atacando");
     }
 
     @Override
     public void atacarEspecial(Graphics g) {
-        System.out.println("Asesino atacando especial");
+        Depurar.log("Asesino atacando especial");
     }
 
     public int getStat1() {

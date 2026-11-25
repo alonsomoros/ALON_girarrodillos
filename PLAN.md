@@ -54,7 +54,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 
 ### 1B. Depuración y consola
 - [x] **1.7** Crear `herramientas/Depurar.java` (`static boolean ACTIVO`, `log(String)`).
-- [ ] **1.8** Pasar a `Depurar.log` (o borrar) los `System.out.println` por frame/evento: `Ataque.actualizar/dibujar`, `Figura.atacarNormal`, `GestorEstados`, `GestorGirarrodillos` ("Turno"), FPS en `GestorPrincipal`.
+- [x] **1.8** Pasar a `Depurar.log` (o borrar) los `System.out.println` por frame/evento: `Ataque.actualizar/dibujar`, `Figura.atacarNormal`, `GestorEstados`, `GestorGirarrodillos` ("Turno"), FPS en `GestorPrincipal`.
 - [ ] **1.9** Los textos de depuración en pantalla (`Raton.dibujar`: "Raton x…", "Click Izquierdo"; contador de objetos en `GestorMenuPrincipal`) solo si `Depurar.ACTIVO`.
 
 ### 1C. Bucle principal e hilos

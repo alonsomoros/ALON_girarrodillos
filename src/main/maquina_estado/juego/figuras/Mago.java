@@ -1,5 +1,6 @@
 package main.maquina_estado.juego.figuras;
 
+import main.herramientas.Depurar;
 import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
@@ -29,12 +30,12 @@ public class Mago extends Figura {
 
     @Override
     public void atacar(Graphics graphics) {
-        System.out.println("Mago atacando");
+        Depurar.log("Mago atacando");
     }
 
     @Override
     public void atacarEspecial(Graphics g) {
-        System.out.println("Mago atacando especial");
+        Depurar.log("Mago atacando especial");
     }
 
     public int getStat1() {

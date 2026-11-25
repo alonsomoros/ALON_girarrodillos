@@ -1,5 +1,6 @@
 package main;
 
+import main.herramientas.Depurar;
 import main.control.Raton;
 import main.graficos.SuperficieDeDibujo;
 import main.graficos.Ventana;
@@ -103,7 +104,7 @@ public class GestorPrincipal implements Runnable {
             framesAcumulados++;
 
             if (System.nanoTime() - referenciaContador > NS_POR_SEGUNDO) { // Mostrar los FPS y APS cada segundo
-                System.out.println("FPS: " + framesAcumulados + " APS: " + actualizacionesAcumuladas);
+                Depurar.log("FPS: " + framesAcumulados + " APS: " + actualizacionesAcumuladas);
 
                 Constantes.APS = actualizacionesAcumuladas;
                 Constantes.FPS = framesAcumulados;
