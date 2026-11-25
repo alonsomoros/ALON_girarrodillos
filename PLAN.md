@@ -40,7 +40,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **0.3** `.gitignore`: añadir `out/`, `*.class`, `desktop.ini`, `rec/musica/OST.zip`; `git rm --cached` de los `desktop.ini` ya subidos.
 - [x] **0.4** Quitar `import com.sun.source.tree.BreakTree;` de `control/Etiqueta.java` (import del compilador, sin uso). *Verif.:* compila.
 - [x] **0.5** Línea base: ejecutar el juego y anotar en `PLAN.md > Hallazgos` qué se ve/rompe hoy (FPS reales, CPU del proceso, errores de consola, qué estados abren). Solo documentación.
-- [ ] **0.6** Crear `README.md` mínimo: requisitos (JDK 21), cómo compilar/ejecutar, controles (W/A/S/D, E, Espacio, Enter, Esc).
+- [x] **0.6** Crear `README.md` mínimo: requisitos (JDK 21), cómo compilar/ejecutar, controles (W/A/S/D, E, Espacio, Enter, Esc).
 
 ## FASE 1 — Rendimiento, recursos y bugs de UI/audio  (rama `fase-1-rendimiento`)
 
