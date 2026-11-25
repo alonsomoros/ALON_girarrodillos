@@ -72,22 +72,6 @@ public class CargadorRecursos {
         GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 
         BufferedImage imagenAcelerada = gc.createCompatibleImage(imagen.getWidth(null), imagen.getHeight(null), Transparency.TRANSLUCENT);
-        for (int y = 0; y < imagen.getHeight(); y++) {
-            for (int x = 0; x < imagen.getWidth(); x++) {
-                // Comprobar si el píxel actual es transparente
-                if ((imagen.getRGB(x, y) >> 24) == 0x00) {
-                    // Comprobar si algún píxel vecino es opaco
-                    if (tieneVecinoOpaco(imagen, x, y)) {
-                        // Si es así, pintar el píxel actual en la imagen de bordes
-//                        imagen.setRGB(x, y, Color.WHITE.getRGB());
-                    } else {
-//                        imagen.setRGB(x, y, Color.BLACK.getRGB());
-                    }
-                } else {
-//                    imagen.setRGB(x, y, Color.BLACK.getRGB());
-                }
-            }
-        }
 
         Graphics graficos = imagenAcelerada.getGraphics();
         graficos.drawImage(imagen, 0, 0, null);
@@ -134,27 +118,6 @@ public class CargadorRecursos {
 
         return contenido.toString();
 
-    }
-
-    private static boolean tieneVecinoOpaco(BufferedImage image, int x, int y) {
-        // Coordenadas de los vecinos
-        int[] dx = {-1, 0, 1, -1, 1, -1, 0, 1};
-        int[] dy = {-1, -1, -1, 0, 0, 1, 1, 1};
-
-        // Comprobar cada vecino
-        for (int i = 0; i < dx.length; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-
-            // Comprobar si está dentro de los límites de la imagen
-            if (nx >= 0 && nx < image.getWidth() && ny >= 0 && ny < image.getHeight()) {
-                // Comprobar si el vecino es opaco
-                if ((image.getRGB(nx, ny) >> 24) != 0x00) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     public static Font cargarFuente(final String ruta) {
