@@ -53,7 +53,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **1.6** Precargar en el arranque lo que se usa en partida (rodillo, bases, activadores, bastiones, tablero) desde `GestorPrincipal` usando `CacheImagenes.precargar`.
 
 ### 1B. Depuración y consola
-- [ ] **1.7** Crear `herramientas/Depurar.java` (`static boolean ACTIVO`, `log(String)`).
+- [x] **1.7** Crear `herramientas/Depurar.java` (`static boolean ACTIVO`, `log(String)`).
 - [ ] **1.8** Pasar a `Depurar.log` (o borrar) los `System.out.println` por frame/evento: `Ataque.actualizar/dibujar`, `Figura.atacarNormal`, `GestorEstados`, `GestorGirarrodillos` ("Turno"), FPS en `GestorPrincipal`.
 - [ ] **1.9** Los textos de depuración en pantalla (`Raton.dibujar`: "Raton x…", "Click Izquierdo"; contador de objetos en `GestorMenuPrincipal`) solo si `Depurar.ACTIVO`.
 
