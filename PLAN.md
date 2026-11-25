@@ -37,7 +37,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 
 - [x] **0.1** Copiar este plan a `PLAN.md` en la raíz del repo. *Commit:* `0.1: añadir PLAN.md`
 - [x] **0.2** Crear `scripts/compilar.bat` y `scripts/ejecutar.bat` que usen el JDK 21 (el `java` del PATH es 1.8; localizar la ruta de Corretto 21 usada por IntelliJ) y compilen `src/**/*.java` a `out/production/Girarodillo`, ejecutando desde la raíz (las rutas `rec/...` son relativas). *Verif.:* `scripts\compilar.bat` termina sin errores y `scripts\ejecutar.bat` abre la ventana.
-- [ ] **0.3** `.gitignore`: añadir `out/`, `*.class`, `desktop.ini`, `rec/musica/OST.zip`; `git rm --cached` de los `desktop.ini` ya subidos.
+- [x] **0.3** `.gitignore`: añadir `out/`, `*.class`, `desktop.ini`, `rec/musica/OST.zip`; `git rm --cached` de los `desktop.ini` ya subidos.
 - [ ] **0.4** Quitar `import com.sun.source.tree.BreakTree;` de `control/Etiqueta.java` (import del compilador, sin uso). *Verif.:* compila.
 - [ ] **0.5** Línea base: ejecutar el juego y anotar en `PLAN.md > Hallazgos` qué se ve/rompe hoy (FPS reales, CPU del proceso, errores de consola, qué estados abren). Solo documentación.
 - [ ] **0.6** Crear `README.md` mínimo: requisitos (JDK 21), cómo compilar/ejecutar, controles (W/A/S/D, E, Espacio, Enter, Esc).

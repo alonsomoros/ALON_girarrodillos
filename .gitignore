@@ -1,2 +1,5 @@
 .idea/*
-out/*
+out/
+*.class
+desktop.ini
+rec/musica/OST.zip
