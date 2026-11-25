@@ -162,8 +162,8 @@ que se van tachando en un `PLAN.md` dentro del repo.
 ## FASE 4 — Terminar el juego  (rama `fase-4-cierre`)
 
 ### 4A. Fin de partida y reinicio
-- [ ] **4.1** `GestorGirarrodillos`: detectar `vida <= 0` en jugador o IA tras resolver los ataques.
-- [ ] **4.2** Estado/pantalla `FinPartida` (victoria/derrota): texto + fondo existente + "Enter para volver al menú".
+- [x] **4.1** `GestorGirarrodillos`: detectar `vida <= 0` en jugador o IA tras resolver los ataques.
+- [x] **4.2** Estado/pantalla `FinPartida` (victoria/derrota): texto + fondo existente + "Enter para volver al menú".
 - [x] **4.3** Quitar `static` de `player` e `ia` en `GestorGirarrodillos`; método `nuevaPartida()` que los recrea.
 - [x] **4.4** El botón "Jugar" del menú llama a `nuevaPartida()`. *Verif.:* jugar 2 partidas seguidas sin reiniciar el programa.
 

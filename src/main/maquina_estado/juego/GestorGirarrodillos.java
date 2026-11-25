@@ -19,6 +19,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
     Player player; // De paquete: las pruebas los usan
     IA ia;
     private int turno;
+    private ResultadoPartida resultado = ResultadoPartida.JUGANDO;
     private static final int FRAMES_POR_PARPADEO = 45; // 750 ms a 60 actualizaciones por segundo
 
     private boolean circuloParpadeante, puedeFijar;
@@ -40,11 +41,33 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
         crearParpadeoLuz();
         puedeFijar = false;
         turno = 0;
+        resultado = ResultadoPartida.JUGANDO;
+    }
+
+    // Quién ha ganado según las coronas (ambas a 0 es empate)
+    ResultadoPartida evaluarResultado() {
+        boolean playerCaido = player.getVida() <= 0;
+        boolean iaCaida = ia.getVida() <= 0;
+        if (playerCaido && iaCaida) {
+            return ResultadoPartida.EMPATE;
+        } else if (iaCaida) {
+            return ResultadoPartida.VICTORIA;
+        } else if (playerCaido) {
+            return ResultadoPartida.DERROTA;
+        }
+        return ResultadoPartida.JUGANDO;
+    }
+
+    public ResultadoPartida getResultado() {
+        return resultado;
     }
 
 
     @Override
     public void actualizar() {
+        if (resultado != ResultadoPartida.JUGANDO) {
+            return; // Partida terminada: Enter vuelve al menú (GestorEstados)
+        }
         actualizarParpadeo();
 
         if (player.seleccionandoFiguras()) {
@@ -55,6 +78,10 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
                 player.actualizar();
                 ia.actualizar();
             } else { // Si no hay figuras atacando
+                resultado = evaluarResultado(); // Ya se resolvieron todos los ataques
+                if (resultado != ResultadoPartida.JUGANDO) {
+                    return;
+                }
                 switch (turno) {
                     case 0:
                         abrirRodillos();
@@ -125,7 +152,35 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
             dibujarTrianguloEleccion(graficos, Triangulo.TRIANGULO3, Triangulo.TRIANGULO4);
         }
         dibujarLucesTurno(graficos);
+        dibujarFinDePartida(graficos);
     }
+
+    private void dibujarFinDePartida(Graphics graficos) {
+        if (resultado == ResultadoPartida.JUGANDO) {
+            return;
+        }
+        Dibujador.RECTANGULO_RELLENO.dibujar(graficos, new Rectangle(0, 0, Constantes.ANCHO_JUEGO, Constantes.ALTO_JUEGO), new Color(0, 0, 0, 170));
+
+        String titulo;
+        Color color;
+        switch (resultado) {
+            case VICTORIA:
+                titulo = "VICTORIA";
+                color = new Color(0xE4DEB0);
+                break;
+            case DERROTA:
+                titulo = "DERROTA";
+                color = new Color(0xD66A5E);
+                break;
+            default:
+                titulo = "EMPATE";
+                color = new Color(0xD6BFAD);
+                break;
+        }
+        Dibujador.TEXTO.dibujarConSombra(graficos, titulo, Constantes.MITAD_VENTANA_ANCHO, Constantes.MITAD_VENTANA_ALTO, 90, color);
+        Dibujador.TEXTO.dibujar(graficos, "Enter: volver al menu", Constantes.MITAD_VENTANA_ANCHO, Constantes.MITAD_VENTANA_ALTO + 80, 24, Color.WHITE);
+    }
+
 
     private void dibujarTrianguloEleccion(Graphics graficos, Triangulo t1, Triangulo t2) {
         Color colorTriangulo = new Color(0xD6BFAD);

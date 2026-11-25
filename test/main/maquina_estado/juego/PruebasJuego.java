@@ -263,7 +263,19 @@ public class PruebasJuego {
             verificar(g.player.getEnemigo() == g.ia && g.ia.getEnemigo() == g.player, "enemigos mal enlazados");
         });
 
+        prueba("fin de partida: victoria, derrota, empate o sigue jugando según las coronas", () -> {
+            GestorGirarrodillos g = new GestorGirarrodillos();
+            verificar(g.evaluarResultado() == ResultadoPartida.JUGANDO, "inicio");
+            g.ia.setVida(0);
+            verificar(g.evaluarResultado() == ResultadoPartida.VICTORIA, "victoria");
+            g.player.setVida(0);
+            verificar(g.evaluarResultado() == ResultadoPartida.EMPATE, "empate");
+            g.ia.setVida(5);
+            verificar(g.evaluarResultado() == ResultadoPartida.DERROTA, "derrota");
+        });
+
         prueba("el jugador y la IA tienen rodillos distintos", () -> {
+
 
 
 
