@@ -171,7 +171,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **4.5** IA elige 2 héroes al azar (usar `seleccionarFigurasAleatoria`, ya existe) y fija sus posiciones 1 y 2.
 - [x] **4.6** IA: fijado heurístico de canales entre tiradas (D5).
 - [x] **4.7** Dibujar el bastión de la IA (hoy comentado en `IA.dibujar`).
-- [ ] **4.8** Ajustar probabilidades de rodillo de IA para que sea batible pero no trivial (3 partidas de prueba, anotar resultado).
+- [x] **4.8** Ajustar probabilidades de rodillo de IA para que sea batible pero no trivial (3 partidas de prueba, anotar resultado). **Resultado:** simulando 300 partidas con la misma estrategia en ambos lados (`test/.../SimulacionPartidas.java`): IA 44,7 %, jugador 43 %, empates 12 %, ~9 rondas por partida. Equilibrado: una persona que juegue mejor que la heurística gana más, así que no se tocan las probabilidades.
 
 ### 4C. Tienda y sonido
 - [ ] **4.9** Documento de diseño mínimo de la tienda (1 página en `docs/tienda.md`): qué se compra, con qué moneda, dónde se guarda. *Se te enseña antes de seguir.*
