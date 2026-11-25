@@ -16,6 +16,7 @@ public class PruebasLogica {
     public static void main(final String[] args) {
         System.out.println("Pruebas de logica");
         main.AudioPlayer.efectosActivos = false; // sin sonidos durante las pruebas
+        main.maquina_estado.tienda.Progreso.usarSoloEnMemoria(); // sin tocar tu guardado real
 
 
         prueba("las probabilidades de los rodillos de juego suman 1", () -> {
@@ -61,6 +62,8 @@ public class PruebasLogica {
         });
 
         PruebasJuego.ejecutar();
+        main.maquina_estado.tienda.PruebasTienda.ejecutar();
+
 
         pruebas.Ejecutor.resumenYSalir();
     }

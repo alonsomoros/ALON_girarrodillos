@@ -175,7 +175,12 @@ que se van tachando en un `PLAN.md` dentro del repo.
 
 ### 4C. Tienda y sonido
 - [x] **4.9** Documento de diseño mínimo de la tienda (1 página en `docs/tienda.md`): qué se compra, con qué moneda, dónde se guarda. *Se te enseña antes de seguir.*
-- [ ] **4.10** Implementar la tienda según 4.9 (se subdividirá en tareas 4.10a… cuando esté aprobado el diseño).
+- [ ] **4.10** Implementar la tienda según `docs/tienda.md` (aprobado: IA siempre con `R2_Prob`):
+  - [x] **4.10a** `Progreso` (monedas, comprados, equipado; guardado en `guardado.properties`) con pruebas.
+  - [ ] **4.10b** Tablas `R3_Prob` y `R4_Prob` en `Constantes` + prueba de que suman 1.
+  - [ ] **4.10c** `Player` usa el rodillo equipado.
+  - [ ] **4.10d** `GestorTienda`: filas, ratón, comprar y equipar.
+  - [ ] **4.10e** Dar monedas al terminar la partida y mostrarlas en la pantalla de fin.
 - [x] **4.11** (placeholders sintéticos generados con Java; sustitúyelos cuando quieras) Efectos de sonido (`boton.wav`, ataque, victoria/derrota) en `rec/sonidos/`.
 - [x] **4.12** Reproducirlos con `AudioPlayer.playSoundOnce` (click de botón, ataque, fin de partida).
 
