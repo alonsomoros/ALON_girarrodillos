@@ -8,6 +8,17 @@ import static pruebas.Ejecutor.verificar;
 public class PruebasTienda {
 
     public static void ejecutar() {
+        prueba("la tienda tiene un rodillo, nombre, descripción y precio por cada hueco", () -> {
+            int n = Progreso.PRECIOS.length;
+            verificar(main.Constantes.RODILLOS.DE_TIENDA.length == n, "tablas");
+            verificar(main.Constantes.RODILLOS.NOMBRES_TIENDA.length == n, "nombres");
+            verificar(main.Constantes.RODILLOS.DESCRIPCIONES_TIENDA.length == n, "descripciones");
+            for (java.util.HashMap<main.Constantes.RODILLOS.Elementos, Double> t : main.Constantes.RODILLOS.DE_TIENDA) {
+                verificar(t != null && !t.isEmpty(), "tabla vacía");
+            }
+        });
+
+
         prueba("Progreso nuevo: 0 monedas, solo el Rodillo 1 y equipado", () -> {
             Progreso p = new Progreso(null);
             verificar(p.getMonedas() == 0, "monedas");

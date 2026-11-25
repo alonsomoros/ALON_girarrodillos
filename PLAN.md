@@ -177,7 +177,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **4.9** Documento de diseño mínimo de la tienda (1 página en `docs/tienda.md`): qué se compra, con qué moneda, dónde se guarda. *Se te enseña antes de seguir.*
 - [ ] **4.10** Implementar la tienda según `docs/tienda.md` (aprobado: IA siempre con `R2_Prob`):
   - [x] **4.10a** `Progreso` (monedas, comprados, equipado; guardado en `guardado.properties`) con pruebas.
-  - [ ] **4.10b** Tablas `R3_Prob` y `R4_Prob` en `Constantes` + prueba de que suman 1.
+  - [x] **4.10b** Tablas `R3_Prob` y `R4_Prob` en `Constantes` + prueba de que suman 1.
   - [ ] **4.10c** `Player` usa el rodillo equipado.
   - [ ] **4.10d** `GestorTienda`: filas, ratón, comprar y equipar.
   - [ ] **4.10e** Dar monedas al terminar la partida y mostrarlas en la pantalla de fin.

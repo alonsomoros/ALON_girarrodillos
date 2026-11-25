@@ -254,8 +254,8 @@ public class Constantes {
 
         public static final HashMap<Elementos, Double> R1_Prob = new HashMap<>(); // Rodillo simple con roto, y solo 2 niveles, muy raro nivel
         public static final HashMap<Elementos, Double> R2_Prob = new HashMap<>(); // Rodillo simple sin roto
-        public static final HashMap<Elementos, Double> R3_Prob = new HashMap<>(); // Rodillo simple
-        public static final HashMap<Elementos, Double> R4_Prob = new HashMap<>(); // Rodillo simple
+        public static final HashMap<Elementos, Double> R3_Prob = new HashMap<>(); // Más símbolos de valor 2-3 y más fondos azules (tienda, 10 monedas)
+        public static final HashMap<Elementos, Double> R4_Prob = new HashMap<>(); // Muy ofensivo: muchos 2 y 3 y bastante EXP (tienda, 20 monedas)
         public static final HashMap<Elementos, Double> R5_Prob = new HashMap<>(); // Rodillo simple
 
         static {
@@ -285,6 +285,46 @@ public class Constantes {
             R2_Prob.put(Elementos.martillo2,        0.1);
             R2_Prob.put(Elementos.cuadradoNivel2,   0.025);
             R2_Prob.put(Elementos.romboNivel2,      0.025);
+
+            // Rodillo 3
+
+            R3_Prob.put(Elementos.cuadrado1,        0.10);
+            R3_Prob.put(Elementos.rombo1,           0.10);
+            R3_Prob.put(Elementos.martillo1,        0.10);
+            R3_Prob.put(Elementos.cuadrado2,        0.12);
+            R3_Prob.put(Elementos.rombo2,           0.12);
+            R3_Prob.put(Elementos.martillo2,        0.08);
+            R3_Prob.put(Elementos.cuadradoNivel1,   0.10);
+            R3_Prob.put(Elementos.romboNivel1,      0.10);
+            R3_Prob.put(Elementos.cuadradoNivel2,   0.05);
+            R3_Prob.put(Elementos.romboNivel2,      0.05);
+            R3_Prob.put(Elementos.cuadrado3,        0.04);
+            R3_Prob.put(Elementos.rombo3,           0.04);
+
+            // Rodillo 4
+            R4_Prob.put(Elementos.cuadrado2,        0.14);
+            R4_Prob.put(Elementos.rombo2,           0.14);
+            R4_Prob.put(Elementos.martillo2,        0.10);
+            R4_Prob.put(Elementos.cuadrado3,        0.10);
+            R4_Prob.put(Elementos.rombo3,           0.10);
+            R4_Prob.put(Elementos.martillo3,        0.06);
+            R4_Prob.put(Elementos.cuadrado1,        0.06);
+            R4_Prob.put(Elementos.rombo1,           0.06);
+            R4_Prob.put(Elementos.cuadradoNivel1,   0.06);
+            R4_Prob.put(Elementos.romboNivel1,      0.06);
+            R4_Prob.put(Elementos.cuadradoNivel2,   0.06);
+            R4_Prob.put(Elementos.romboNivel2,      0.06);
         }
+
+        // Rodillos que se pueden tener en la tienda (índice = rodillo; mismo orden que Progreso.PRECIOS)
+        @SuppressWarnings("unchecked")
+        public static final HashMap<Elementos, Double>[] DE_TIENDA = new HashMap[]{R1_Prob, R2_Prob, R3_Prob, R4_Prob};
+        public static final String[] NOMBRES_TIENDA = {"Rodillo 1", "Rodillo 2", "Rodillo 3", "Rodillo 4"};
+        public static final String[] DESCRIPCIONES_TIENDA = {
+                "El de siempre: incluye simbolos rotos.",
+                "Sin simbolos rotos.",
+                "Mas simbolos de valor 2 y 3 y mas fondos azules (EXP).",
+                "Muy ofensivo: muchos 2 y 3 y bastante EXP."};
     }
+
 }
