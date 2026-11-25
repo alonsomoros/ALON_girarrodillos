@@ -218,7 +218,23 @@ public class PruebasJuego {
             verificar(ia.getVida() == vidaIA - asesino.getStat2(), "vida IA " + vidaIA + " -> " + ia.getVida());
         });
 
+        prueba("terminadoDeProcesarAtaques se recalcula en cada ronda", () -> {
+            Player p = new Player();
+            Figura a = new main.maquina_estado.juego.figuras.Arquero(p);
+            Figura b = new main.maquina_estado.juego.figuras.Sacerdote(p);
+            a.setPosicion(3);
+            b.setPosicion(4);
+            p.setFiguraIzquierda(a);
+            p.setFiguraDerecha(b);
+            p.actualizarEstados(); // nadie se activa
+            verificar(p.terminadoDeProcesarAtaques, "ronda sin ataques: debería quedar true");
+            a.getActivador().setAltura(0);
+            p.actualizarEstados(); // la figura ataca
+            verificar(!p.terminadoDeProcesarAtaques, "ronda con ataques: debería quedar false");
+        });
+
         prueba("el jugador y la IA tienen rodillos distintos", () -> {
+
 
 
 

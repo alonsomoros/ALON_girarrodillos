@@ -231,6 +231,8 @@ public class EsqueletoPlayer {
     }
 
     protected void actualizarEstados() {
+        terminadoDeProcesarAtaques = false; // Se decide de nuevo en cada ronda
+
 
         lanzarAtaque(figuraIzquierda);
         lanzarAtaque(figuraDerecha);
