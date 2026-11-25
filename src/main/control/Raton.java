@@ -31,15 +31,17 @@ public class Raton extends MouseAdapter {
         this.cursor = configuracion.createCustomCursor(imagen, punta, "Cursor por defecto");
 
         posicion = new Point();
+        instance = this; // El Raton de la superficie es el único
         superficieDeDibujo.addMouseListener(this);
         superficieDeDibujo.addMouseMotionListener(this);
     }
 
     public static synchronized Raton getInstance() {
         if (instance == null) {
-            instance = new Raton(SuperficieDeDibujo.getInstance());
+            SuperficieDeDibujo.getInstance(); // Su constructor crea el Raton (y lo registra en instance)
         }
         return instance;
+
     }
 
     //Si quiero dibujar mi propio ratón

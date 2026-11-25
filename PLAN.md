@@ -63,7 +63,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **1.12** Sustituir `java.util.Timer` del parpadeo de la luz (`GestorGirarrodillos`) por un contador de frames en `actualizar()`; eliminar `crearParpadeoLuz` y el hilo.
 
 ### 1D. Ratón y menús
-- [ ] **1.13** `Raton` duplicado: `SuperficieDeDibujo` hace `new Raton(this)` y `Raton.getInstance()` crea otro → un único `Raton` (que `getInstance` devuelva el de la superficie).
+- [x] **1.13** `Raton` duplicado: `SuperficieDeDibujo` hace `new Raton(this)` y `Raton.getInstance()` crea otro → un único `Raton` (que `getInstance` devuelva el de la superficie).
 - [ ] **1.14** `GestorEtiquetas.getInstance()` devuelve `new` cada vez (nunca guarda `instance`): corregir singleton.
 - [ ] **1.15** Un clic sobre una etiqueta del menú principal cambia de estado **una vez** (llamar a `Raton.reiniciarClickIzquierdo()` tras actuar); igual en menú de música. Hoy dispara cada frame mientras se mantiene.
 - [ ] **1.16** `Etiqueta` mide texto con `SuperficieDeDibujo.graficos2D` (Graphics guardado de por vida). Medir con un `BufferedImage` 1×1 propio en `MedidorString`; así se puede borrar `inicializarGraficos()` en la Fase 3.
