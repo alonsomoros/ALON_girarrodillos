@@ -48,7 +48,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **1.1** Crear `herramientas/CacheImagenes.java`: `Map<String,BufferedImage>`, métodos `obtener(ruta, Transparency)`, `precargar(String...)`, `limpiar()`, y un `boolean activa` configurable. Sin usarla aún.
 - [x] **1.2** `CargadorRecursos.cargarImagenCompatibleOpaca/Translucida` consultan la caché antes de leer del disco. *Verif.:* el juego se ve igual; en consola ya no hay lecturas repetidas.
 - [x] **1.3** Borrar el bucle de píxeles inútil de `cargarImagenCompatibleTranslucida` y el método `tieneVecinoOpaco`.
-- [ ] **1.4** Archivo de imagen inexistente: dejar de lanzar `NullPointerException`; devolver una imagen "placeholder" (32×32 magenta) y avisar **una sola vez** por ruta.
+- [x] **1.4** Archivo de imagen inexistente: dejar de lanzar `NullPointerException`; devolver una imagen "placeholder" (32×32 magenta) y avisar **una sola vez** por ruta.
 - [ ] **1.5** `Dibujador.IMAGEN.dibujarRotado`: cachear la imagen volteada (mapa por `Image`) en vez de recalcularla cada frame.
 - [ ] **1.6** Precargar en el arranque lo que se usa en partida (rodillo, bases, activadores, bastiones, tablero) desde `GestorPrincipal` usando `CacheImagenes.precargar`.
 

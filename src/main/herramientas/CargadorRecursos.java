@@ -4,12 +4,52 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 
 public class CargadorRecursos {
 
+    private static final Set<String> rutasAvisadas = new HashSet<>();
+
+    // Lee la imagen del disco. Si no existe o no se puede leer devuelve un cuadrado magenta
+    // (y avisa una sola vez por ruta) en lugar de romper el juego con un NullPointerException.
+    private static BufferedImage leerImagen(final String ruta) {
+        File file = new File(ruta);
+        String problema = null;
+
+        if (!file.exists()) {
+            problema = "No existe el archivo";
+        } else if (!file.canRead()) {
+            problema = "No se puede leer el archivo";
+        } else {
+            try {
+                BufferedImage imagen = ImageIO.read(file);
+                if (imagen != null) {
+                    return imagen;
+                }
+                problema = "Formato de imagen no reconocido";
+            } catch (IOException e) {
+                problema = "Error leyendo la imagen (" + e.getMessage() + ")";
+            }
+        }
+
+        if (rutasAvisadas.add(ruta)) {
+            System.err.println(problema + ": " + ruta);
+        }
+        return crearPlaceholder();
+    }
+
+    private static BufferedImage crearPlaceholder() {
+        BufferedImage placeholder = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = placeholder.createGraphics();
+        g.setColor(Color.MAGENTA);
+        g.fillRect(0, 0, 32, 32);
+        g.dispose();
+        return placeholder;
+    }
 
     // Se carga una imagen normal y se comprueba si se cumplen los requisitos de poder acelerarla por la grafica propia
     public static BufferedImage cargarImagenCompatibleOpaca(final String ruta) {
@@ -18,21 +58,7 @@ public class CargadorRecursos {
             return enCache;
         }
 
-        BufferedImage imagen = null;
-
-        File file = new File(ruta);
-        if (!file.exists()) {
-            System.out.println("File does not exist: " + ruta);
-        } else if (!file.canRead()) {
-            System.out.println("Cannot read file: " + ruta);
-        } else {
-            try {
-                imagen = ImageIO.read(file);
-            } catch (IOException e) {
-                System.out.println("Error reading the image: " + ruta);
-                throw new RuntimeException(e);
-            }
-        }
+        BufferedImage imagen = leerImagen(ruta);
 
         GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 
@@ -53,21 +79,7 @@ public class CargadorRecursos {
             return enCache;
         }
 
-        BufferedImage imagen = null;
-
-        File file = new File(ruta);
-        if (!file.exists()) {
-            System.out.println("File does not exist: " + ruta);
-        } else if (!file.canRead()) {
-            System.out.println("Cannot read file: " + ruta);
-        } else {
-            try {
-                imagen = ImageIO.read(file);
-            } catch (IOException e) {
-                System.out.println("Error reading the image: " + ruta);
-                throw new RuntimeException(e);
-            }
-        }
+        BufferedImage imagen = leerImagen(ruta);
 
         GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 
