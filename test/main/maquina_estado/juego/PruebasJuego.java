@@ -35,7 +35,15 @@ public class PruebasJuego {
         verificar(!f.estaAtacando, "la figura no termina de atacar");
     }
 
+    // Mapa de probabilidades con un solo símbolo (el canal siempre da ese)
+    private static java.util.HashMap<Elementos, Double> un(final Elementos e) {
+        java.util.HashMap<Elementos, Double> m = new java.util.HashMap<>();
+        m.put(e, 1.0);
+        return m;
+    }
+
     public static void ejecutar() {
+
         Ataque.duracionPorDefecto = 30; // animaciones cortas para las pruebas
 
         prueba("Mago: sus 2 ataques se animan en secuencia y dan la XP una sola vez", () -> {
@@ -285,6 +293,17 @@ public class PruebasJuego {
                 combinaciones.add(izq.getClass().getSimpleName() + "+" + der.getClass().getSimpleName());
             }
             verificar(combinaciones.size() >= 5, "poca variedad: " + combinaciones.size());
+        });
+
+        prueba("la IA fija solo los símbolos valiosos (valor 2+, o con EXP) y no los rotos ni los de valor 1", () -> {
+            IA ia = new IA();
+            ia.establecerRodillo(un(Elementos.cuadrado3), un(Elementos.cuadrado1), un(Elementos.romboNivel1),
+                    un(Elementos.roto), un(Elementos.martillo2));
+            ia.decidirFijados();
+            boolean[] esperado = {true, false, true, false, true};
+            for (int i = 0; i < 5; i++) {
+                verificar(ia.getRodillo().estaFijado(i) == esperado[i], "canal " + i + " fijado=" + ia.getRodillo().estaFijado(i));
+            }
         });
 
         prueba("el jugador y la IA tienen rodillos distintos", () -> {

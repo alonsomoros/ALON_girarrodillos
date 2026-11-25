@@ -151,6 +151,16 @@ public class Rodillo {
         return this.lineaPrincipal;
     }
 
+    public boolean estaFijado(int index) {
+        return index >= 0 && index < MAX_ELEM && fijados[index];
+    }
+
+    public void setFijado(int index, boolean fijado) {
+        if (index >= 0 && index < MAX_ELEM) {
+            fijados[index] = fijado;
+        }
+    }
+
     public void fijarCanal(int index) {
         if (index >= 0 && index < MAX_ELEM) {
             fijados[index] = !fijados[index];

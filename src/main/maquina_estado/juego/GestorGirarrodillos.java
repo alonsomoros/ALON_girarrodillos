@@ -212,7 +212,11 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
         long tiempoActual = System.nanoTime();
 
         GestorControles.teclado.procesarTecla(GestorControles.teclado.teclaE, () -> {
+            if (turno >= 1) { // Después de la 1.ª tirada la IA ya puede fijar canales
+                ia.decidirFijados();
+            }
             player.getRodillo().girarRodillo();
+
             ia.getRodillo().girarRodillo();
             turno++;
             Depurar.log("Turno: " + turno);

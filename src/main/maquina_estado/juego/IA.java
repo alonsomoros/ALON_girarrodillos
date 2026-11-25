@@ -59,6 +59,19 @@ public class IA extends EsqueletoPlayer implements IEstadoJuego {
         Dibujador.TEXTO.dibujar(graficos, getVidaString(), 621, 165, color);
     }
 
+    // Entre tiradas la IA fija los canales que le interesan y vuelve a tirar el resto (D5)
+    public void decidirFijados() {
+        Constantes.RODILLOS.Elementos[] actual = rodillo.getSalidaRodillo();
+        for (int i = 0; i < actual.length; i++) {
+            rodillo.setFijado(i, esValioso(actual[i]));
+        }
+    }
+
+    // Vale la pena conservar los símbolos de valor 2 o 3 y los que dan EXP (fondo azul); el resto se vuelve a tirar
+    static boolean esValioso(final Constantes.RODILLOS.Elementos elemento) {
+        return elemento.tipo != Constantes.RODILLOS.Tipo.ROTO && (elemento.valor >= 2 || elemento.daExperiencia);
+    }
+
     // La IA elige dos héroes distintos al azar: el izquierdo (posición 1) y el derecho (posición 2)
     private void seleccionarFigurasAleatorias() {
         ArrayList<Figura> barajadas = new ArrayList<>(figurasDisponibles);
