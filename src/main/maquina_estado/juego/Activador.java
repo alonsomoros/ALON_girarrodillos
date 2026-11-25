@@ -52,49 +52,9 @@ public class Activador {
 
 
     public void dibujarActivador(Graphics graficos, Point coordenadas, boolean esIzquierda) {
-        switch (altura) {
-            case 0:
-                if (esIzquierda) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ACTIVADORES.ACTIVADOR_CUADRADO_0), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ACTIVADORES.ACTIVADOR_ROMBO_0), coordenadas);
-                }
-                break;
-            case 1:
-                if (esIzquierda) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ACTIVADORES.ACTIVADOR_CUADRADO_1), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ACTIVADORES.ACTIVADOR_ROMBO_1), coordenadas);
-                }
-                break;
-            case 2:
-                if (esIzquierda) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ACTIVADORES.ACTIVADOR_CUADRADO_2), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ACTIVADORES.ACTIVADOR_ROMBO_2), coordenadas);
-                }
-                break;
-            case 3:
-                if (esIzquierda) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ACTIVADORES.ACTIVADOR_CUADRADO_3), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ACTIVADORES.ACTIVADOR_ROMBO_3), coordenadas);
-                }
-                break;
-            case 4:
-                if (esIzquierda) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ACTIVADORES.ACTIVADOR_CUADRADO_4), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ACTIVADORES.ACTIVADOR_ROMBO_4), coordenadas);
-                }
-                break;
-            case 5:
-                if (esIzquierda) {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ACTIVADORES.ACTIVADOR_CUADRADO_5), coordenadas);
-                } else {
-                    Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ACTIVADORES.ACTIVADOR_ROMBO_5), coordenadas);
-                }
-                break;
+        String[] rutas = esIzquierda ? Constantes.RUTAS.ACTIVADORES.CUADRADO : Constantes.RUTAS.ACTIVADORES.ROMBO;
+        if (altura >= 0 && altura < rutas.length) {
+            Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(rutas[altura]), coordenadas);
         }
     }
 }
