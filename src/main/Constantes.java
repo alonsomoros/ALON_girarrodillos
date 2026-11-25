@@ -137,16 +137,14 @@ public class Constantes {
             public static final String BASTION_PLAYER_4 = "rec/sprites/bastion/bastion_4.png";
             public static final String BASTION_PLAYER_5 = "rec/sprites/bastion/bastion_5.png";
 
-            public static final String BASTION_IA_1 = "rec/sprites/bastion/bastion1.png";
-            public static final String BASTION_IA_2 = "rec/sprites/bastion/bastion2.png";
-            public static final String BASTION_IA_3 = "rec/sprites/bastion/bastion3.png";
-            public static final String BASTION_IA_4 = "rec/sprites/bastion/bastion4.png";
-            public static final String BASTION_IA_5 = "rec/sprites/bastion/bastion5.png";
 
             // Indexados por la altura del bastión (0 = sin bastión, 1 a 5)
             public static final String[] PLAYER = {null, BASTION_PLAYER_1, BASTION_PLAYER_2, BASTION_PLAYER_3,
                     BASTION_PLAYER_4, BASTION_PLAYER_5};
-            public static final String[] IA = {null, BASTION_IA_1, BASTION_IA_2, BASTION_IA_3, BASTION_IA_4, BASTION_IA_5};
+            // Los PNG propios de la IA (bastion1..5.png) nunca existieron: de momento reutiliza los del jugador.
+            // La IA no dibuja su bastión todavía (tarea 4.7 decide posición y volteo).
+            public static final String[] IA = PLAYER;
+
 
         }
 

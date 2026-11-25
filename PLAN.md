@@ -136,7 +136,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **3.8** `Activador.dibujarActivador` → array (≈45 líneas menos).
 - [x] **3.9** `Bastion.dibujarBastion` → array; unificar la rama Player/IA con un parámetro.
 - [x] **3.10** Borrar `IA.dibujarBastion` (duplicado) y las constantes sueltas ya sin uso.
-- [ ] **3.11** Resolver las rutas `bastion1..5.png` de la IA que no existen: reutilizar las del jugador (volteadas con 1.5) o añadir los PNG 👤.
+- [x] **3.11** Resolver las rutas `bastion1..5.png` de la IA que no existen: reutilizar las del jugador (volteadas con 1.5) o añadir los PNG 👤.
 
 ### 3C. Enums y polimorfismo
 - [ ] **3.12** `Constantes.RODILLOS.Elementos` con campos (`tipo`, `valor`, `experiencia`) y `calcularSalidaRodillo` sin `switch` de Strings; `Rodillo` guarda `Elementos[]` en vez de `String[]`.
