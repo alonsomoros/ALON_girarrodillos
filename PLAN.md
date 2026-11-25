@@ -71,7 +71,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 ### 1E. Audio
 - [x] **1.17** `AudioPlayer`: inicializar `clips = new HashMap<>()` (hoy `null` → NPE en `preloadSound`).
 - [x] **1.18** `AudioPlayer.stopSound`: corregir el orden (`stop()` luego `close()`) y no exigir `isRunning()` para cerrar.
-- [ ] **1.19** `AudioPlayer.playSoundOnce`: cerrar el `Clip` al terminar con un `LineListener` (hoy fuga de líneas de audio).
+- [x] **1.19** `AudioPlayer.playSoundOnce`: cerrar el `Clip` al terminar con un `LineListener` (hoy fuga de líneas de audio).
 - [ ] **1.20** 👤 Convertir los 3 `.mp3` a `.wav` y subirlos (D6).
 - [ ] **1.21** `Constantes.RUTAS.MUSICA`: apuntar solo a archivos que existen; `CREDITOS` (`Moorlands.wav`, inexistente) → elegir una pista real; `rec/sonidos/boton.wav` → quitar la constante hasta que haya sonido (se retoma en 4.x).
 - [ ] **1.22** `GestorEtiquetas.initEtiquetasMenuMusica`: tolerar que `rec/musica` no exista o esté vacío (hoy `listFiles()` puede ser `null`) y que el menú muestre solo pistas `.wav` válidas.
