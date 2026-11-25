@@ -4,6 +4,8 @@ import main.Constantes;
 import main.control.GestorControles;
 import main.herramientas.Dibujador;
 import main.maquina_estado.IEstadoJuego;
+import main.maquina_estado.tienda.Progreso;
+
 import main.maquina_estado.juego.figuras.*;
 
 import java.awt.*;
@@ -19,7 +21,8 @@ public class Player extends EsqueletoPlayer implements IEstadoJuego {
         figurasDisponibles = new ArrayList<>(Arrays.asList(new Arquero(this), new Mago(this), new Caballero(this), new Asesino(this), new Ingeniero(this), new Sacerdote(this)));
         figuraIndex = figurasDisponibles.get(0);
 
-        establecerRodillo(Constantes.RODILLOS.R1_Prob);
+        // El jugador usa el rodillo que tiene equipado en la tienda
+        establecerRodillo(Constantes.RODILLOS.DE_TIENDA[Progreso.getInstance().getEquipado()]);
     }
 
     // ------------------- Estado Juego -------------------

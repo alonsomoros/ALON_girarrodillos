@@ -7,7 +7,32 @@ import static pruebas.Ejecutor.verificar;
 
 public class PruebasTienda {
 
+    // Cuántas veces sale un símbolo roto en 3000 giros del rodillo del jugador recién creado
+    private static int rotosEnGiros() {
+        main.maquina_estado.juego.Player jugador = new main.maquina_estado.juego.Player();
+        int rotos = 0;
+        for (int i = 0; i < 3000; i++) {
+            jugador.getRodillo().girarRodillo();
+            for (main.Constantes.RODILLOS.Elementos e : jugador.getRodillo().getSalidaRodillo()) {
+                if (e == main.Constantes.RODILLOS.Elementos.roto) {
+                    rotos++;
+                }
+            }
+        }
+        return rotos;
+    }
+
     public static void ejecutar() {
+        prueba("el jugador usa el rodillo equipado (Rodillo 1 tiene rotos; el 2 no)", () -> {
+            Progreso.usarSoloEnMemoria();
+            verificar(rotosEnGiros() > 0, "el Rodillo 1 debería dar símbolos rotos");
+            Progreso.getInstance().ganarMonedas(5);
+            Progreso.getInstance().comprar(1); // lo equipa
+            verificar(rotosEnGiros() == 0, "el Rodillo 2 no debería dar rotos");
+            Progreso.usarSoloEnMemoria(); // deja el estado limpio para las demás pruebas
+        });
+
+
         prueba("la tienda tiene un rodillo, nombre, descripción y precio por cada hueco", () -> {
             int n = Progreso.PRECIOS.length;
             verificar(main.Constantes.RODILLOS.DE_TIENDA.length == n, "tablas");
