@@ -25,6 +25,7 @@ public class Ataque {
         this.activo = true;
         this.index = 0;
         terminadaAnimacion = false;
+        iniciar(); // Cada ataque lleva su propio cronómetro
 
         if (figuraAtacante instanceof Mago) {
             ataqueMagoIndex = 0;
@@ -75,8 +76,10 @@ public class Ataque {
         return ataqueMagoIndex == 0;
     }
 
-    public void ejecutarAtaque() {
+    /** (Re)inicia el cronómetro del ataque. */
+    public void iniciar() {
         this.startTime = System.currentTimeMillis();
     }
+
 }
 

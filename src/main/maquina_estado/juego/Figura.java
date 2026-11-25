@@ -125,7 +125,6 @@ public abstract class Figura implements AtaquesFiguras {
                 break;
         }
         GestorAtaques.ataques.add(ataque);
-        GestorAtaques.ejecutarAtaques();
     }
 
     public void atacarEspecial() { // Hace dos de daño independientemente e ignora bastiones
@@ -145,7 +144,7 @@ public abstract class Figura implements AtaquesFiguras {
                 break;
         }
         GestorAtaques.ataques.add(ataqueEspecial);
-        GestorAtaques.ejecutarAtaques();
+
     }
 
     public void dibujarBase(Graphics graficos, Point coordenadas, boolean esCuadrado) {

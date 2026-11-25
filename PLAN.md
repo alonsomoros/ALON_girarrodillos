@@ -97,7 +97,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **2.6** (verificado: ya existen todos los sprites; añadida la prueba que lo vigila) `Rodillo.girarRodillo`: no dejar que `lateral1/lateral2` contengan símbolos que no existen como sprite (revisar `roto.png`, `*Lateral.png` por cada `Elementos`). 
 
 ### 2C. Ataques
-- [ ] **2.7** `Ataque`: arranca su propio cronómetro en el constructor (`iniciar()`); desaparece `GestorAtaques.ejecutarAtaques()` y deja de reiniciar los ataques en curso.
+- [x] **2.7** `Ataque`: arranca su propio cronómetro en el constructor (`iniciar()`); desaparece `GestorAtaques.ejecutarAtaques()` y deja de reiniciar los ataques en curso.
 - [ ] **2.8** Eliminar la lista estática `GestorAtaques.ataques` (nunca se vaciaba).
 - [ ] **2.9** `EsqueletoPlayer.actualizarEstados`: el bloque de `figuraDerecha` comprobaba `figuraIzquierda instanceof Mago`. Extraer `lanzarAtaque(Figura f)` y usarlo para ambas. *Prueba:* Mago a la derecha ataca 2 veces; no-Mago a la derecha, 1.
 - [ ] **2.10** Mago (D3): la figura mantiene una **cola** de ataques (`Deque<Ataque>`); se animan en secuencia y cada uno aplica su efecto al terminar (el 1.º respeta bastión, el 2.º lo ignora).
