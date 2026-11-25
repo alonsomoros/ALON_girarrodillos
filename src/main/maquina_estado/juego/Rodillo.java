@@ -7,7 +7,9 @@ import main.Constantes.RODILLOS.Elementos;
 import main.maquina_estado.IRodillo;
 
 import java.awt.*;
-import java.util.*;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Rodillo {
     private static final int MAX_ELEM = 5;
