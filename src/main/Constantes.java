@@ -185,6 +185,14 @@ public class Constantes {
         public static final Point RODILLO_PLAYER = new Point(448, 490);
         //        public static final Point RODILLO_IA = new Point(448, 60);
         public static final Point RODILLO_IA = new Point(448, 25);
+
+        // Las mismas coordenadas por posición de figura (índice = posición - 1)
+        public static final Point[] FIGURA = {FIGURA_1, FIGURA_2, FIGURA_3, FIGURA_4};
+        public static final Point[] ACTIVADOR = {ACTIVADOR_1, ACTIVADOR_2, ACTIVADOR_3, ACTIVADOR_4};
+        public static final Point[] BASE = {BASE_1, BASE_2, BASE_3, BASE_4};
+        public static final Point[] STATS = {STATS_1, STATS_2, STATS_3, STATS_4};
+        public static final Point[][] ATAQUE = {ATAQUE_1, ATAQUE_2, ATAQUE_3, ATAQUE_4};
+
     }
     // Jugador
 
