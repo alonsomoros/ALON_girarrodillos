@@ -72,7 +72,20 @@ public class EsqueletoPlayer {
         return this.figuraDerecha;
     }
 
+    // El héroe al que le queda menos energía para actuar; si empatan, el que está enfrente del atacante
+    public Figura getFiguraMasCercaDeActuar(Figura atacante) {
+        int alturaIzquierda = figuraIzquierda.getActivador().getAltura();
+        int alturaDerecha = figuraDerecha.getActivador().getAltura();
+        if (alturaIzquierda < alturaDerecha) {
+            return figuraIzquierda;
+        } else if (alturaDerecha < alturaIzquierda) {
+            return figuraDerecha;
+        }
+        return getFiguraEnfrente(atacante);
+    }
+
     public Figura getFiguraEnfrente(Figura figura) {
+
         if (figura.getPosicion() % 2 == 0) {
             return this.figuraDerecha;
         } else {

@@ -190,7 +190,36 @@ public class PruebasJuego {
                     "activador del compañero: " + arquero.getActivador().getAltura());
         });
 
+        prueba("Asesino: retrasa al héroe rival al que le queda menos energía y daña a la corona sin pasar por el bastión", () -> {
+            Player p = new Player();
+            IA ia = new IA();
+            p.setEnemigo(ia);
+            ia.setEnemigo(p);
+            Figura asesino = new main.maquina_estado.juego.figuras.Asesino(p);
+            Figura otro = new main.maquina_estado.juego.figuras.Sacerdote(p);
+            asesino.setPosicion(3);
+            otro.setPosicion(4);
+            p.setFiguraIzquierda(asesino);
+            p.setFiguraDerecha(otro);
+            asesino.getActivador().setAltura(0);
+            otro.getActivador().setAltura(3);
+            Figura rivalIzq = new main.maquina_estado.juego.figuras.Mago(ia);
+            Figura rivalDer = new main.maquina_estado.juego.figuras.Mago(ia);
+            ia.setFiguraIzquierda(rivalIzq);
+            ia.setFiguraDerecha(rivalDer);
+            rivalIzq.getActivador().setAltura(4);
+            rivalDer.getActivador().setAltura(1); // le queda menos: es el que se retrasa
+            ia.getBastion().aumentarAltura(5);
+            int vidaIA = ia.getVida();
+            p.actualizarEstados();
+            esperarFinDeAtaques(asesino);
+            verificar(rivalDer.getActivador().getAltura() == 1 + asesino.getStat1(), "derecho: " + rivalDer.getActivador().getAltura());
+            verificar(rivalIzq.getActivador().getAltura() == 4, "izquierdo: " + rivalIzq.getActivador().getAltura());
+            verificar(ia.getVida() == vidaIA - asesino.getStat2(), "vida IA " + vidaIA + " -> " + ia.getVida());
+        });
+
         prueba("el jugador y la IA tienen rodillos distintos", () -> {
+
 
 
 

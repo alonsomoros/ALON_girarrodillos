@@ -28,7 +28,9 @@ public class GestorAtaques {
                 break;
             case "Asesino": // Ignora bastion
                 enemigo.recibirAtaque(figuraAtacante.getStat2());
-                enemigo.getFiguraEnfrente(figuraAtacante).getActivador().aumentarAltura(figuraAtacante.getStat1());
+                // Retrasa al héroe rival al que le queda menos energía para actuar
+                enemigo.getFiguraMasCercaDeActuar(figuraAtacante).getActivador().aumentarAltura(figuraAtacante.getStat1());
+
                 break;
             case "Caballero": // Normal
                 if (enemigo.tieneBation()) { // Si el enemigo tiene bastion y es mayor que el ataque

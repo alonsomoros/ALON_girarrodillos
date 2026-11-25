@@ -108,7 +108,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 ### 2D. Efectos de figura
 - [x] **2.13** Daño al bastión (D2): Caballero, Ingeniero y Mago pasan a `disminuirAltura(stat2)`. *Prueba:* bastión 2 + stat2 3 → bastión 0 (nunca sube).
 - [x] **2.14** `Figura.getCompaniero()` usa `playerDuenio` (nulo en la IA → NPE con Sacerdote IA): usar `getDuenio()`.
-- [ ] **2.15** Asesino: alinear efecto con `Instrucciones.txt` (retrasa al héroe rival al que menos le falta) o corregir el texto; decidir y anotar.
+- [x] **2.15** Asesino: alinear efecto con `Instrucciones.txt` (retrasa al héroe rival al que menos le falta) o corregir el texto; decidir y anotar.
 - [ ] **2.16** `EsqueletoPlayer.terminadoDeProcesarAtaques`: se pone a `true` y no se resetea; reiniciarlo al empezar cada ronda.
 - [ ] **2.17** `Activador.aumentarAltura` usa `alturaDefault` como techo mientras `Figura.alturaDefault` es otro campo duplicado: dejar una única fuente.
 
