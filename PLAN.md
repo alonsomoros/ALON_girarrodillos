@@ -69,7 +69,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **1.16** `Etiqueta` mide texto con `SuperficieDeDibujo.graficos2D` (Graphics guardado de por vida). Medir con un `BufferedImage` 1×1 propio en `MedidorString`; así se puede borrar `inicializarGraficos()` en la Fase 3.
 
 ### 1E. Audio
-- [ ] **1.17** `AudioPlayer`: inicializar `clips = new HashMap<>()` (hoy `null` → NPE en `preloadSound`).
+- [x] **1.17** `AudioPlayer`: inicializar `clips = new HashMap<>()` (hoy `null` → NPE en `preloadSound`).
 - [ ] **1.18** `AudioPlayer.stopSound`: corregir el orden (`stop()` luego `close()`) y no exigir `isRunning()` para cerrar.
 - [ ] **1.19** `AudioPlayer.playSoundOnce`: cerrar el `Clip` al terminar con un `LineListener` (hoy fuga de líneas de audio).
 - [ ] **1.20** 👤 Convertir los 3 `.mp3` a `.wav` y subirlos (D6).

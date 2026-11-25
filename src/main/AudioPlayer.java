@@ -3,12 +3,14 @@ package main;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
+
 
 public class AudioPlayer {
 
     private Clip currentClip;
-    private Map<String, Clip> clips;
+    private final Map<String, Clip> clips = new HashMap<>();
     private static AudioPlayer instance;
 
     public static synchronized AudioPlayer getInstance() {
