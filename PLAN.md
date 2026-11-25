@@ -113,7 +113,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **2.17** `Activador.aumentarAltura` usa `alturaDefault` como techo mientras `Figura.alturaDefault` es otro campo duplicado: dejar una única fuente.
 
 ### 2E. Reglas escritas
-- [ ] **2.18** `rec/texto/Instrucciones.txt`: reescribir la regla de energía (D1) y cualquier cosa que el código haga distinto tras 2.13/2.15.
+- [x] **2.18** `rec/texto/Instrucciones.txt`: reescribir la regla de energía (D1) y cualquier cosa que el código haga distinto tras 2.13/2.15.
 
 **Cierre de fase 2:** `scripts/probar.bat` en verde + partida completa a mano. Merge + push (con tu OK).
 
