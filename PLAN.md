@@ -74,7 +74,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **1.19** `AudioPlayer.playSoundOnce`: cerrar el `Clip` al terminar con un `LineListener` (hoy fuga de líneas de audio).
 - [x] **1.20** (hecho con ffmpeg) Convertir los 3 `.mp3` a `.wav` y subirlos (D6).
 - [x] **1.21** `Constantes.RUTAS.MUSICA`: apuntar solo a archivos que existen; `CREDITOS` (`Moorlands.wav`, inexistente) → elegir una pista real; `rec/sonidos/boton.wav` → quitar la constante hasta que haya sonido (se retoma en 4.x).
-- [ ] **1.22** `GestorEtiquetas.initEtiquetasMenuMusica`: tolerar que `rec/musica` no exista o esté vacío (hoy `listFiles()` puede ser `null`) y que el menú muestre solo pistas `.wav` válidas.
+- [x] **1.22** `GestorEtiquetas.initEtiquetasMenuMusica`: tolerar que `rec/musica` no exista o esté vacío (hoy `listFiles()` puede ser `null`) y que el menú muestre solo pistas `.wav` válidas.
 
 ### 1F. Fuentes
 - [ ] **1.23** `CargadorRecursos.cargarFuente(ruta)` real con `Font.createFont` + `registerFont`, con *fallback* a `Font.SANS_SERIF` si falta el `.ttf`.

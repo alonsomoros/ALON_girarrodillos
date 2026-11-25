@@ -41,8 +41,15 @@ public class GestorEtiquetas {
 
     private void initEtiquetasMenuMusica() {
         int margen = 0;
-        for (File archivo : new File("rec/musica").listFiles()) {
-            if (archivo.getName().endsWith(".wav")) {
+        File[] archivos = new File("rec/musica").listFiles();
+        if (archivos == null) { // La carpeta no existe o no se puede leer
+            Etiqueta.resetId();
+            return;
+        }
+        java.util.Arrays.sort(archivos); // Orden estable por nombre
+        for (File archivo : archivos) {
+            if (archivo.isFile() && archivo.getName().toLowerCase().endsWith(".wav")) {
+
                 String nombre = MedidorString.eliminarSubcadena(archivo.getName(), ".wav");
                 margen += 25;
                 etiquetasMenuMusica.add(new Etiqueta(nombre, Constantes.ANCHO_JUEGO / 2, 200 + margen, Constantes.FUENTES.FUENTE_TEXTO, 20));
