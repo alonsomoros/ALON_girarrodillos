@@ -218,6 +218,15 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - 2.12: la subida de nivel se comprueba al llenarse la XP (también la que da el rodillo), no solo tras atacar.
 - 2.18: la regla "3 del mismo tipo + 1" ya era coherente con el código si se entiende que un símbolo con número N cuenta como N. Solo se aclaró el texto.
 
+### Resultados al cerrar la Fase 3
+- Código en `src/`: **4268 → 3683 líneas** (la fase restó 871 y sumó 286). Las 18 pruebas siguen en verde y una partida real va a 57 FPS, ~8 % de CPU, sin errores.
+- 3.2 y 3.3 se mezclaron en un commit (la migración de las figuras y el borrado de los constructores viejos).
+- 3.14: las etiquetas del menú ya no dependen de su `id`; `GestorMenuPrincipal` tiene una tabla `DESTINOS` explícita (Jugar, Tienda, Musica, Creditos).
+- 3.18: se mantuvo el buffer de 4 (comportamiento original); `inicializarBuffer()` solo lo crea.
+- 3.20: se borró también `CargadorRecursos.unzip` (con su comentario en `GestorPrincipal`). Si lo necesitas para extraer `OST.zip`, está en el historial de git.
+- 3.23: Esc ya no hace `System.exit` desde el hilo de eventos; pide el cierre al bucle, que libera audio y ventana.
+- `Constantes.RODILLOS.R3_Prob`, `R4_Prob` y `R5_Prob` siguen sin usarse; se dejan por si la tienda los necesita (4.x).
+
 ## Verificación general
 
 - **Por tarea:** `scripts\compilar.bat` sin errores → arrancar juego → comprobar lo indicado en "Verif.".
