@@ -162,27 +162,32 @@ que se van tachando en un `PLAN.md` dentro del repo.
 ## FASE 4 — Terminar el juego  (rama `fase-4-cierre`)
 
 ### 4A. Fin de partida y reinicio
-- [ ] **4.1** `GestorGirarrodillos`: detectar `vida <= 0` en jugador o IA tras resolver los ataques.
-- [ ] **4.2** Estado/pantalla `FinPartida` (victoria/derrota): texto + fondo existente + "Enter para volver al menú".
-- [ ] **4.3** Quitar `static` de `player` e `ia` en `GestorGirarrodillos`; método `nuevaPartida()` que los recrea.
-- [ ] **4.4** El botón "Jugar" del menú llama a `nuevaPartida()`. *Verif.:* jugar 2 partidas seguidas sin reiniciar el programa.
+- [x] **4.1** `GestorGirarrodillos`: detectar `vida <= 0` en jugador o IA tras resolver los ataques.
+- [x] **4.2** Estado/pantalla `FinPartida` (victoria/derrota): texto + fondo existente + "Enter para volver al menú".
+- [x] **4.3** Quitar `static` de `player` e `ia` en `GestorGirarrodillos`; método `nuevaPartida()` que los recrea.
+- [x] **4.4** El botón "Jugar" del menú llama a `nuevaPartida()`. *Verif.:* jugar 2 partidas seguidas sin reiniciar el programa.
 
 ### 4B. IA
-- [ ] **4.5** IA elige 2 héroes al azar (usar `seleccionarFigurasAleatoria`, ya existe) y fija sus posiciones 1 y 2.
-- [ ] **4.6** IA: fijado heurístico de canales entre tiradas (D5).
-- [ ] **4.7** Dibujar el bastión de la IA (hoy comentado en `IA.dibujar`).
-- [ ] **4.8** Ajustar probabilidades de rodillo de IA para que sea batible pero no trivial (3 partidas de prueba, anotar resultado).
+- [x] **4.5** IA elige 2 héroes al azar (usar `seleccionarFigurasAleatoria`, ya existe) y fija sus posiciones 1 y 2.
+- [x] **4.6** IA: fijado heurístico de canales entre tiradas (D5).
+- [x] **4.7** Dibujar el bastión de la IA (hoy comentado en `IA.dibujar`).
+- [x] **4.8** Ajustar probabilidades de rodillo de IA para que sea batible pero no trivial (3 partidas de prueba, anotar resultado). **Resultado:** simulando 300 partidas con la misma estrategia en ambos lados (`test/.../SimulacionPartidas.java`): IA 44,7 %, jugador 43 %, empates 12 %, ~9 rondas por partida. Equilibrado: una persona que juegue mejor que la heurística gana más, así que no se tocan las probabilidades.
 
 ### 4C. Tienda y sonido
-- [ ] **4.9** Documento de diseño mínimo de la tienda (1 página en `docs/tienda.md`): qué se compra, con qué moneda, dónde se guarda. *Se te enseña antes de seguir.*
-- [ ] **4.10** Implementar la tienda según 4.9 (se subdividirá en tareas 4.10a… cuando esté aprobado el diseño).
-- [ ] **4.11** 👤 Efectos de sonido (`boton.wav`, ataque, victoria/derrota) en `rec/sonidos/`.
-- [ ] **4.12** Reproducirlos con `AudioPlayer.playSoundOnce` (click de botón, ataque, fin de partida).
+- [x] **4.9** Documento de diseño mínimo de la tienda (1 página en `docs/tienda.md`): qué se compra, con qué moneda, dónde se guarda. *Se te enseña antes de seguir.*
+- [x] **4.10** Implementar la tienda según `docs/tienda.md` (aprobado: IA siempre con `R2_Prob`):
+  - [x] **4.10a** `Progreso` (monedas, comprados, equipado; guardado en `guardado.properties`) con pruebas.
+  - [x] **4.10b** Tablas `R3_Prob` y `R4_Prob` en `Constantes` + prueba de que suman 1.
+  - [x] **4.10c** `Player` usa el rodillo equipado.
+  - [x] **4.10d** `GestorTienda`: filas, ratón, comprar y equipar.
+  - [x] **4.10e** Dar monedas al terminar la partida y mostrarlas en la pantalla de fin.
+- [x] **4.11** (placeholders sintéticos generados con Java; sustitúyelos cuando quieras) Efectos de sonido (`boton.wav`, ataque, victoria/derrota) en `rec/sonidos/`.
+- [x] **4.12** Reproducirlos con `AudioPlayer.playSoundOnce` (click de botón, ataque, fin de partida).
 
 ### 4D. Pulido final
-- [ ] **4.13** Actualizar `Instrucciones.txt` y `creditos.txt` con el estado real final.
-- [ ] **4.14** Revisión final: `grep` de `println`, avisos del compilador, FPS/CPU final vs. línea base, README definitivo.
-- [ ] **4.15** (Opcional) `scripts/empaquetar.bat` con `jar` de JDK para distribuir `.jar` + carpeta `rec/`.
+- [x] **4.13** Actualizar `Instrucciones.txt` y `creditos.txt` con el estado real final.
+- [x] **4.14** Revisión final: `grep` de `println`, avisos del compilador, FPS/CPU final vs. línea base, README definitivo.
+- [x] **4.15** (Opcional) `scripts/empaquetar.bat` con `jar` de JDK para distribuir `.jar` + carpeta `rec/`.
 
 **Cierre:** merge + push + etiqueta `v1.0`.
 
@@ -226,6 +231,17 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - 3.20: se borró también `CargadorRecursos.unzip` (con su comentario en `GestorPrincipal`). Si lo necesitas para extraer `OST.zip`, está en el historial de git.
 - 3.23: Esc ya no hace `System.exit` desde el hilo de eventos; pide el cierre al bucle, que libera audio y ventana.
 - `Constantes.RODILLOS.R3_Prob`, `R4_Prob` y `R5_Prob` siguen sin usarse; se dejan por si la tienda los necesita (4.x).
+
+### Resultados al cerrar la Fase 4 (final del plan)
+- **32 pruebas** en verde. Partida real: 57 FPS, ~12 % de CPU; menú: ~25 %. Compila sin avisos y no queda ningún `println` suelto (solo vía `Depurar`).
+- Fin de partida con pantalla de victoria/derrota/empate, monedas y reinicio (Jugar empieza una partida nueva); IA con héroes al azar, fijado de canales y bastión visible.
+- Tienda implementada según `docs/tienda.md` (4 rodillos, monedas, guardado en `guardado.properties`).
+- Efectos de sonido: son **provisionales** (tonos generados con Java). Sustituye los `.wav` de `rec/sonidos/` por los tuyos con el mismo nombre.
+- `creditos.txt` no se tocó: son créditos ficticios del estudio que ya tenías.
+- 4.1 y 4.2 se hicieron juntas, y 4.3 y 4.4 también (`nuevaPartida()` cubre ambas).
+- Se detectó (y corrigió a tiempo con una prueba) un error mío al editar las tablas: `R2_Prob` perdió una entrada al añadir R3/R4; la prueba "las probabilidades suman 1" lo cazó antes de subirlo.
+- Opcional hecho: `scripts\empaquetar.bat` genera un `.jar` jugable.
+- Pendiente de ti: **1.24** (`.ttf` de la fuente) y, si quieres, sonidos definitivos.
 
 ## Verificación general
 

@@ -41,7 +41,24 @@ public class Dibujador {
             return op.filter(imagenBuff, null);
         }
 
+        // Igual que las volteadas en horizontal, pero boca abajo (espejo vertical)
+        private static final Map<Image, BufferedImage> volteadasVertical = new IdentityHashMap<>();
+
+        public static void dibujarVolteadoVertical(final Graphics g, final Image imagen, final Point punto) {
+            BufferedImage reflejada = volteadasVertical.get(imagen);
+            if (reflejada == null) {
+                BufferedImage original = (BufferedImage) imagen;
+                AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
+                tx.translate(0, -original.getHeight());
+                reflejada = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR).filter(original, null);
+                volteadasVertical.put(imagen, reflejada);
+            }
+            g.drawImage(reflejada, punto.x, punto.y, null);
+            numeroObjetosDibujados++;
+        }
+
         public static void dibujarRotado(final Graphics g, final Image imagen, final Point punto) {
+
             BufferedImage reflectedImage = volteadas.get(imagen);
             if (reflectedImage == null) {
                 reflectedImage = voltear((BufferedImage) imagen);

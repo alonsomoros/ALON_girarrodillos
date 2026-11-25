@@ -15,11 +15,17 @@ public class PruebasLogica {
 
     public static void main(final String[] args) {
         System.out.println("Pruebas de logica");
+        main.AudioPlayer.efectosActivos = false; // sin sonidos durante las pruebas
+        main.maquina_estado.tienda.Progreso.usarSoloEnMemoria(); // sin tocar tu guardado real
+
 
         prueba("las probabilidades de los rodillos de juego suman 1", () -> {
             Map<String, HashMap<Constantes.RODILLOS.Elementos, Double>> rodillos = new HashMap<>();
             rodillos.put("R1", Constantes.RODILLOS.R1_Prob);
             rodillos.put("R2", Constantes.RODILLOS.R2_Prob);
+            rodillos.put("R3", Constantes.RODILLOS.R3_Prob);
+            rodillos.put("R4", Constantes.RODILLOS.R4_Prob);
+
             for (Map.Entry<String, HashMap<Constantes.RODILLOS.Elementos, Double>> e : rodillos.entrySet()) {
                 double suma = 0;
                 for (double p : e.getValue().values()) {
@@ -59,6 +65,8 @@ public class PruebasLogica {
         });
 
         PruebasJuego.ejecutar();
+        main.maquina_estado.tienda.PruebasTienda.ejecutar();
+
 
         pruebas.Ejecutor.resumenYSalir();
     }

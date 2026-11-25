@@ -42,8 +42,6 @@ public class GestorMenuMusica implements IEstadoJuego, IAudio {
 
         for (Etiqueta etiqueta : secciones) {
             if (etiqueta.getHitbox().intersects(Raton.getInstance().obtenerRectanguloPosicion())) {
-//                System.out.println(etiqueta.getNombre());
-//                System.out.println(etiqueta.getId());
                 seccionNueva = etiqueta;
                 if (Raton.getInstance().obtenerClickIzquierdo()) {
                     Raton.getInstance().reiniciarClickIzquierdo(); // Un clic = una sola acción

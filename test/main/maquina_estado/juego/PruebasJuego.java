@@ -35,7 +35,15 @@ public class PruebasJuego {
         verificar(!f.estaAtacando, "la figura no termina de atacar");
     }
 
+    // Mapa de probabilidades con un solo símbolo (el canal siempre da ese)
+    private static java.util.HashMap<Elementos, Double> un(final Elementos e) {
+        java.util.HashMap<Elementos, Double> m = new java.util.HashMap<>();
+        m.put(e, 1.0);
+        return m;
+    }
+
     public static void ejecutar() {
+
         Ataque.duracionPorDefecto = 30; // animaciones cortas para las pruebas
 
         prueba("Mago: sus 2 ataques se animan en secuencia y dan la XP una sola vez", () -> {
@@ -251,7 +259,72 @@ public class PruebasJuego {
             verificar(p.getBastion().getAltura() == 1, "bastión con martillos 2+1=3: " + p.getBastion().getAltura());
         });
 
+        prueba("nuevaPartida() crea jugador e IA nuevos (vida, figuras y rodillos reiniciados)", () -> {
+            GestorGirarrodillos g = new GestorGirarrodillos();
+            Player p1 = g.player;
+            IA ia1 = g.ia;
+            p1.setVida(1);
+            ia1.setVida(0);
+            g.nuevaPartida();
+            verificar(g.player != p1 && g.ia != ia1, "no se recrearon");
+            verificar(g.player.getVida() == main.Constantes.VIDA && g.ia.getVida() == main.Constantes.VIDA, "vida no reiniciada");
+            verificar(g.player.getEnemigo() == g.ia && g.ia.getEnemigo() == g.player, "enemigos mal enlazados");
+        });
+
+        prueba("fin de partida: victoria, derrota, empate o sigue jugando según las coronas", () -> {
+            GestorGirarrodillos g = new GestorGirarrodillos();
+            verificar(g.evaluarResultado() == ResultadoPartida.JUGANDO, "inicio");
+            g.ia.setVida(0);
+            verificar(g.evaluarResultado() == ResultadoPartida.VICTORIA, "victoria");
+            g.player.setVida(0);
+            verificar(g.evaluarResultado() == ResultadoPartida.EMPATE, "empate");
+            g.ia.setVida(5);
+            verificar(g.evaluarResultado() == ResultadoPartida.DERROTA, "derrota");
+        });
+
+        prueba("la IA elige 2 héroes distintos al azar en las posiciones 1 y 2", () -> {
+            java.util.Set<String> combinaciones = new java.util.HashSet<>();
+            for (int i = 0; i < 100; i++) {
+                IA ia = new IA();
+                Figura izq = ia.getFiguraIzquierda(), der = ia.getFiguraDerecha();
+                verificar(izq != null && der != null && izq != der, "héroes repetidos o nulos");
+                verificar(izq.getClass() != der.getClass(), "mismo tipo de héroe");
+                verificar(izq.getPosicion() == 1 && der.getPosicion() == 2, "posiciones " + izq.getPosicion() + "," + der.getPosicion());
+                combinaciones.add(izq.getClass().getSimpleName() + "+" + der.getClass().getSimpleName());
+            }
+            verificar(combinaciones.size() >= 5, "poca variedad: " + combinaciones.size());
+        });
+
+        prueba("la IA fija solo los símbolos valiosos (valor 2+, o con EXP) y no los rotos ni los de valor 1", () -> {
+            IA ia = new IA();
+            ia.establecerRodillo(un(Elementos.cuadrado3), un(Elementos.cuadrado1), un(Elementos.romboNivel1),
+                    un(Elementos.roto), un(Elementos.martillo2));
+            ia.decidirFijados();
+            boolean[] esperado = {true, false, true, false, true};
+            for (int i = 0; i < 5; i++) {
+                verificar(ia.getRodillo().estaFijado(i) == esperado[i], "canal " + i + " fijado=" + ia.getRodillo().estaFijado(i));
+            }
+        });
+
+        prueba("al terminar la partida se dan las monedas (3 victoria, 1 empate, 1 derrota) una sola vez", () -> {
+            main.maquina_estado.tienda.Progreso.usarSoloEnMemoria();
+            GestorGirarrodillos g = new GestorGirarrodillos();
+            g.terminarPartida(ResultadoPartida.VICTORIA);
+            verificar(main.maquina_estado.tienda.Progreso.getInstance().getMonedas() == 3 && g.getMonedasGanadas() == 3, "victoria");
+            g.nuevaPartida();
+            verificar(g.getMonedasGanadas() == 0 && g.getResultado() == ResultadoPartida.JUGANDO, "nueva partida limpia");
+            g.terminarPartida(ResultadoPartida.DERROTA);
+            g.nuevaPartida();
+            g.terminarPartida(ResultadoPartida.EMPATE);
+            verificar(main.maquina_estado.tienda.Progreso.getInstance().getMonedas() == 3 + 1 + 1, "total " + main.maquina_estado.tienda.Progreso.getInstance().getMonedas());
+            main.maquina_estado.tienda.Progreso.usarSoloEnMemoria();
+        });
+
         prueba("el jugador y la IA tienen rodillos distintos", () -> {
+
+
+
+
 
 
 

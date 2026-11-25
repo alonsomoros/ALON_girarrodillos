@@ -62,6 +62,11 @@ public class GestorEstados {
         estadoActualId = nuevoEstado;
         estadoActual = estadosDelJuego.get(nuevoEstado);
 
+        if (nuevoEstado == Estado.JUEGO) { // Cada vez que se pulsa Jugar empieza una partida nueva
+            ((GestorGirarrodillos) estadoActual).nuevaPartida();
+        }
+
+
         // Al volver al menú no se reinicia la música (salvo en el arranque)
         if (nuevoEstado != Estado.MENU) {
             iniciado = true;

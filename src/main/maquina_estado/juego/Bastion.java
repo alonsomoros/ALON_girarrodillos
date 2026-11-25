@@ -16,7 +16,12 @@ public class Bastion {
     public void dibujarBastion(Graphics graficos, EsqueletoPlayer duenio, Point coordenadas) {
         String[] rutas = (duenio instanceof Player) ? Constantes.RUTAS.BASTION.PLAYER : Constantes.RUTAS.BASTION.IA;
         if (altura >= 1 && altura < rutas.length) {
-            Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(rutas[altura]), coordenadas);
+            Image imagen = CargadorRecursos.cargarImagenCompatibleTranslucida(rutas[altura]);
+            if (duenio instanceof Player) {
+                Dibujador.IMAGEN.dibujar(graficos, imagen, coordenadas);
+            } else { // El bastión de la IA es el del jugador boca abajo
+                Dibujador.IMAGEN.dibujarVolteadoVertical(graficos, imagen, coordenadas);
+            }
         }
     }
 

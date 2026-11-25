@@ -8,7 +8,7 @@ La mesa tiene un juego de cuatro rodillos predeterminados a cada lado, que se co
 
 Girar rodillos
 
-Los jugadores tienen hasta tres tiradas por ronda. Tira con (Una tecla). Los rodillos se pueden recorrer con <- y -> y bloquear y desbloquear con (una tecla) entre tirada.
+Los jugadores tienen hasta tres tiradas por ronda. Tira con E. Entre tiradas, mueve el puntero por los canales con A y D y bloquea o desbloquea el canal con Espacio. Al terminar la tercera tirada se aplican los resultados.
 
 Energía
 
@@ -54,6 +54,18 @@ Sacerdote
 
 Es un héroe de apoyo. Cura la corona de su equipo y proporciona energía a su héroe compañero.
 
+
+Elegir héroes
+
+Antes de empezar eliges a tus dos héroes: A y D para cambiar de héroe y Espacio para confirmar (primero el izquierdo, luego el derecho). La máquina elige los suyos al azar.
+
+Fin de la partida y monedas
+
+La partida termina cuando la corona de alguien llega a 0 (si caen las dos a la vez, es empate). Ganas monedas al terminar: 3 por victoria, 1 por empate y 1 por derrota. Enter vuelve al menú y Esc cierra el juego.
+
+Tienda
+
+En la tienda gastas las monedas en rodillos mejores: haz clic en un rodillo para comprarlo (se equipa solo) o para equiparlo si ya lo tienes. Tu progreso se guarda automáticamente.
 
 Consejos
 

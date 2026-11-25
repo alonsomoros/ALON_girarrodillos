@@ -117,6 +117,7 @@ public class EsqueletoPlayer {
         return figuraDerecha.estaAtacando || figuraIzquierda.estaAtacando;
     }
 
+    @SuppressWarnings("unchecked")
     public void establecerRodillo(HashMap<Constantes.RODILLOS.Elementos, Double> p) {
         HashMap<Constantes.RODILLOS.Elementos, Double>[] rodilloPlayer = new HashMap[5];
         for (int i = 0; i < 5; i++) {
@@ -125,6 +126,7 @@ public class EsqueletoPlayer {
         rodillo = new Rodillo(rodilloPlayer);
     }
 
+    @SuppressWarnings("unchecked")
     public void establecerRodillo(HashMap<Constantes.RODILLOS.Elementos, Double> p1, HashMap<Constantes.RODILLOS.Elementos, Double> p2, HashMap<Constantes.RODILLOS.Elementos, Double> p3, HashMap<Constantes.RODILLOS.Elementos, Double> p4, HashMap<Constantes.RODILLOS.Elementos, Double> p5) {
         HashMap<Constantes.RODILLOS.Elementos, Double>[] rodilloPlayer = new HashMap[5];
 
