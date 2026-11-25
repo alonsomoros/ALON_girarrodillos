@@ -23,6 +23,22 @@ public class PruebasTienda {
     }
 
     public static void ejecutar() {
+        prueba("GestorTienda: clic en una fila sin monedas avisa; con monedas compra y equipa; luego equipa", () -> {
+            Progreso.usarSoloEnMemoria();
+            GestorTienda t = new GestorTienda();
+            t.accionSobreFila(2); // cuesta 10, hay 0
+            verificar(t.getMensaje().startsWith("No tienes"), "mensaje: " + t.getMensaje());
+            verificar(!Progreso.getInstance().estaComprado(2), "compró sin dinero");
+            Progreso.getInstance().ganarMonedas(15);
+            t.accionSobreFila(2);
+            verificar(Progreso.getInstance().estaComprado(2) && Progreso.getInstance().getEquipado() == 2, "no compró/equipó");
+            verificar(Progreso.getInstance().getMonedas() == 5, "monedas " + Progreso.getInstance().getMonedas());
+            t.accionSobreFila(0); // el inicial ya es suyo: solo se equipa
+            verificar(Progreso.getInstance().getEquipado() == 0 && Progreso.getInstance().getMonedas() == 5, "equipar no debe cobrar");
+            Progreso.usarSoloEnMemoria();
+        });
+
+
         prueba("el jugador usa el rodillo equipado (Rodillo 1 tiene rotos; el 2 no)", () -> {
             Progreso.usarSoloEnMemoria();
             verificar(rotosEnGiros() > 0, "el Rodillo 1 debería dar símbolos rotos");

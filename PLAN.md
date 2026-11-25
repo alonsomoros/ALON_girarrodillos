@@ -179,7 +179,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
   - [x] **4.10a** `Progreso` (monedas, comprados, equipado; guardado en `guardado.properties`) con pruebas.
   - [x] **4.10b** Tablas `R3_Prob` y `R4_Prob` en `Constantes` + prueba de que suman 1.
   - [x] **4.10c** `Player` usa el rodillo equipado.
-  - [ ] **4.10d** `GestorTienda`: filas, ratón, comprar y equipar.
+  - [x] **4.10d** `GestorTienda`: filas, ratón, comprar y equipar.
   - [ ] **4.10e** Dar monedas al terminar la partida y mostrarlas en la pantalla de fin.
 - [x] **4.11** (placeholders sintéticos generados con Java; sustitúyelos cuando quieras) Efectos de sonido (`boton.wav`, ataque, victoria/derrota) en `rec/sonidos/`.
 - [x] **4.12** Reproducirlos con `AudioPlayer.playSoundOnce` (click de botón, ataque, fin de partida).
