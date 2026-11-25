@@ -142,7 +142,7 @@ que se van tachando en un `PLAN.md` dentro del repo.
 - [x] **3.12** `Constantes.RODILLOS.Elementos` con campos (`tipo`, `valor`, `experiencia`) y `calcularSalidaRodillo` sin `switch` de Strings; `Rodillo` guarda `Elementos[]` en vez de `String[]`.
 - [x] **3.13** Cada figura implementa `aplicarEfecto(Ataque)`; `GestorAtaques.procesarFinalAtaque` (switch por `getSimpleName()`) se reparte entre las clases y `GestorAtaques` se elimina.
 - [x] **3.14** `GestorEstados`: `enum Estado {JUEGO, TIENDA, MUSICA, CREDITOS, MENU}` en lugar de índices (`cambiarEstadoActual(4)`) y de depender del `id` de `Etiqueta` en `GestorMenuPrincipal`.
-- [ ] **3.15** `GestorCreditos`: la cadena `if` de 6 tramos → `index = min(5, t / (duracion/6))` + array de fondos.
+- [x] **3.15** `GestorCreditos`: la cadena `if` de 6 tramos → `index = min(5, t / (duracion/6))` + array de fondos.
 
 ### 3D. Código muerto (un commit por elemento, comprobando con búsqueda que no se usa)
 - [ ] **3.16** `AtaquesFiguras` y los `atacar(Graphics)/atacarEspecial(Graphics)` que solo imprimen.

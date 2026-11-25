@@ -17,6 +17,13 @@ import java.awt.*;
 public class GestorCreditos implements IEstadoJuego, IAudio {
     private long startTime;
     private long duracion;
+    // Fondos en el orden en que aparecen; algunos se ajustan al tamaño del juego
+    private static final String[] FONDOS = {
+            Constantes.RUTAS.FONDOS.CREDITOS.CASCADA, Constantes.RUTAS.FONDOS.CREDITOS.ACANTILADO,
+            Constantes.RUTAS.FONDOS.CREDITOS.PANTANO, Constantes.RUTAS.FONDOS.CREDITOS.RAMA,
+            Constantes.RUTAS.FONDOS.CREDITOS.RUINAS, Constantes.RUTAS.FONDOS.CREDITOS.ARBOL};
+    private static final boolean[] ESCALAR_FONDO = {false, true, false, false, false, true};
+
     private int index = 0;
     private final String creditos;
     private final String[] creditosLineas;
@@ -35,18 +42,9 @@ public class GestorCreditos implements IEstadoJuego, IAudio {
 
         tiempoTranscurrido = System.currentTimeMillis() - startTime;
 
-        if (tiempoTranscurrido <= duracion / 6) {
-            index = 0;
-        } else if (tiempoTranscurrido > duracion / 6 && tiempoTranscurrido <= duracion / 6 * 2) {
-            index = 1;
-        } else if (tiempoTranscurrido > duracion / 6 * 2 && tiempoTranscurrido <= duracion / 6 * 3) {
-            index = 2;
-        } else if (tiempoTranscurrido > duracion / 6 * 3 && tiempoTranscurrido <= duracion / 6 * 4) {
-            index = 3;
-        } else if (tiempoTranscurrido > duracion / 6 * 4 && tiempoTranscurrido <= duracion / 6 * 5) {
-            index = 4;
-        } else if (tiempoTranscurrido > duracion / 6 * 5 && tiempoTranscurrido <= duracion) {
-            index = 5;
+        if (tiempoTranscurrido <= duracion) {
+            // El tiempo se reparte a partes iguales entre los fondos
+            index = (int) Math.min(FONDOS.length - 1, tiempoTranscurrido / (duracion / FONDOS.length));
         } else {
             AudioPlayer.getInstance().stopSound();
             GestorEstados.getInstance().cambiarEstadoActual(Estado.MENU);
@@ -56,25 +54,11 @@ public class GestorCreditos implements IEstadoJuego, IAudio {
     @Override
     public void dibujar(Graphics graficos) {
         // Dibujar fondo
-        switch (index) {
-            case 0:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleOpaca(Constantes.RUTAS.FONDOS.CREDITOS.CASCADA), 0,0);
-                break;
-            case 1:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleOpaca(Constantes.RUTAS.FONDOS.CREDITOS.ACANTILADO), 0, 0, Constantes.ANCHO_JUEGO, Constantes.ALTO_JUEGO);
-                break;
-            case 2:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleOpaca(Constantes.RUTAS.FONDOS.CREDITOS.PANTANO), 0, 0);
-                break;
-            case 3:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleOpaca(Constantes.RUTAS.FONDOS.CREDITOS.RAMA), 0, 0);
-                break;
-            case 4:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleOpaca(Constantes.RUTAS.FONDOS.CREDITOS.RUINAS), 0, 0);
-                break;
-            case 5:
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleOpaca(Constantes.RUTAS.FONDOS.CREDITOS.ARBOL), 0, 0, Constantes.ANCHO_JUEGO, Constantes.ALTO_JUEGO);
-                break;
+        Image fondo = CargadorRecursos.cargarImagenCompatibleOpaca(FONDOS[index]);
+        if (ESCALAR_FONDO[index]) {
+            Dibujador.IMAGEN.dibujar(graficos, fondo, 0, 0, Constantes.ANCHO_JUEGO, Constantes.ALTO_JUEGO);
+        } else {
+            Dibujador.IMAGEN.dibujar(graficos, fondo, 0, 0);
         }
         dibujarCreditos(graficos);
     }
