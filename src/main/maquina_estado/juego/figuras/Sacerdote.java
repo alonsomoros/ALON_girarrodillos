@@ -5,6 +5,7 @@ import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
 import main.maquina_estado.juego.Figura;
+import main.maquina_estado.juego.Ataque;
 import main.maquina_estado.juego.EsqueletoPlayer;
 
 import java.awt.*;
@@ -36,6 +37,18 @@ public class Sacerdote extends Figura {
     @Override
     public void atacarEspecial(Graphics g) {
         Depurar.log("Sacerdote atacando especial");
+    }
+
+    // Cura la corona de su equipo y da energía a su compañero
+    @Override
+    protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
+        if (getDuenio().getVida() != Constantes.VIDA_MAXIMA) {
+            getDuenio().recibirCuracion(getStat1());
+        }
+
+        if (getCompaniero().getActivador().getAltura() > 0) {
+            getCompaniero().getActivador().disminuirAltura(getStat2());
+        }
     }
 
     public int getStat1() { // Curacion

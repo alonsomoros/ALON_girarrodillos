@@ -5,6 +5,7 @@ import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
 import main.maquina_estado.juego.Figura;
+import main.maquina_estado.juego.Ataque;
 import main.maquina_estado.juego.EsqueletoPlayer;
 
 
@@ -28,6 +29,16 @@ public class Arquero extends Figura {
         Depurar.log("Arquero atacando especial");
     }
 
+
+    // Ataca a 3 de altura: si el bastión llega a 3 o más lo frena (baja 3); si no, golpea la corona
+    @Override
+    protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
+        if (enemigo.tieneBation() && enemigo.getBastion().getAltura() >= 3) {
+            enemigo.getBastion().disminuirAltura(3);
+        } else {
+            enemigo.recibirAtaque(getStat1());
+        }
+    }
 
     public int getStat1() {
         return switch (nivel) {

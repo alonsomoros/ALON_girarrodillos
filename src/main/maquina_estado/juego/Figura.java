@@ -161,6 +161,29 @@ public abstract class Figura implements AtaquesFiguras {
         Dibujador.TEXTO.dibujar(graficos, this.getStat1() + "              " + this.getStat2(), coordenadas.x + 100, coordenadas.y + 45, new Color(0xFF8A7D72, true));
     }
 
+    public static final int DANIO_BOMBA = 2;
+
+    // Efecto de un ataque cuando termina su animación
+    public final void resolverAtaque(Ataque ataque, EsqueletoPlayer enemigo) {
+        if (ataque.esEspecial()) { // Bomba: daño directo, ignora el bastión
+            enemigo.recibirAtaque(DANIO_BOMBA);
+            return;
+        }
+        aplicarEfecto(ataque, enemigo);
+    }
+
+    // Cada héroe define cómo golpea (el enemigo es el objetivo del ataque)
+    protected abstract void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo);
+
+    // Golpe "normal": si el enemigo tiene bastión lo frena (baja stat2); si no, daña la corona (stat1)
+    protected void golpeNormal(EsqueletoPlayer enemigo) {
+        if (enemigo.tieneBation()) {
+            enemigo.getBastion().disminuirAltura(getStat2());
+        } else {
+            enemigo.recibirAtaque(getStat1());
+        }
+    }
+
     public abstract int getStat1();
 
     public abstract int getStat2();

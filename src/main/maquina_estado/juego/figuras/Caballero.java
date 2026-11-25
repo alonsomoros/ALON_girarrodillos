@@ -5,6 +5,7 @@ import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
 import main.maquina_estado.juego.Figura;
+import main.maquina_estado.juego.Ataque;
 import main.maquina_estado.juego.EsqueletoPlayer;
 
 import java.awt.*;
@@ -25,6 +26,11 @@ public class Caballero extends Figura {
     @Override
     public void atacarEspecial(Graphics g) {
         Depurar.log("Caballero atacando especial");
+    }
+
+    @Override
+    protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
+        golpeNormal(enemigo);
     }
 
     public int getStat1() {

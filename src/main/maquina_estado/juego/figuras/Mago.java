@@ -5,6 +5,7 @@ import main.Constantes;
 import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
 import main.maquina_estado.juego.Figura;
+import main.maquina_estado.juego.Ataque;
 import main.maquina_estado.juego.EsqueletoPlayer;
 
 import java.awt.*;
@@ -31,6 +32,16 @@ public class Mago extends Figura {
     @Override
     public int getNumeroAtaques() {
         return 2;
+    }
+
+    // Ataca x2: el 1.º a nivel de suelo (lo frena el bastión) y el 2.º vuela a altura máxima
+    @Override
+    protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
+        if (ataque.ignoraBastion()) {
+            enemigo.recibirAtaque(getStat1());
+        } else {
+            golpeNormal(enemigo);
+        }
     }
 
     public int getStat1() {
