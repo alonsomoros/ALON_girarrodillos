@@ -45,7 +45,7 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 - [x] **5.2** Fondos de menú, tienda, créditos y música usan la versión escalada a 1280x640. *Verif.:* la RAM baja de ~450 MB (medido con `medir.ps1`).
 - [ ] **5.3** Inventario de `rec/wallpapers`: hay 12 "Captura de pantalla (…).png" y otras imágenes que el código no usa. Moverlas a `rec/_archivo/` (tú decides si borrar). *Solo tras tu OK.*
 - [x] **5.4** `main.motor.Tiempo`: contador de actualizaciones (ticks) que avanza en `GestorPrincipal.actualizar()` y conversión ms↔ticks. Pruebas.
-- [ ] **5.5** `main.motor.Interpolador`: easing puros (lineal, easeIn/Out, easeInOut, rebote, elástico, easeOutBack). Pruebas de valores en 0, 0.5 y 1.
+- [x] **5.5** `main.motor.Interpolador`: easing puros (lineal, easeIn/Out, easeInOut, rebote, elástico, easeOutBack). Pruebas de valores en 0, 0.5 y 1.
 - [ ] **5.6** `main.motor.Animacion`: carga una tira `nombre_Nf.png`, ms por frame, modos una vez/bucle/ping-pong, `frameActual(ticks)`. Pruebas de selección de frame.
 
 ### 5B. Efectos, secuencias y transiciones
