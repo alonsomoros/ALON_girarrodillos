@@ -64,7 +64,18 @@ public class PruebasLogica {
             }
         });
 
+        prueba("cargarEscalada devuelve el tamaño pedido, lo cachea y no rompe con rutas inexistentes", () -> {
+            java.awt.image.BufferedImage a = main.herramientas.CargadorRecursos.cargarEscalada("rec/wallpapers/Musica.png", 640, 320);
+            verificar(a.getWidth() == 640 && a.getHeight() == 320, "tamaño " + a.getWidth() + "x" + a.getHeight());
+            verificar(a == main.herramientas.CargadorRecursos.cargarEscalada("rec/wallpapers/Musica.png", 640, 320), "no se cachea");
+            java.awt.image.BufferedImage grande = main.herramientas.CargadorRecursos.cargarEscalada("rec/wallpapers/1.png", 1280, 640);
+            verificar(grande.getWidth() == 1280 && grande.getHeight() == 640, "fondo grande " + grande.getWidth());
+            java.awt.image.BufferedImage falta = main.herramientas.CargadorRecursos.cargarEscalada("rec/no_existe.png", 100, 50);
+            verificar(falta.getWidth() == 100 && falta.getHeight() == 50, "placeholder escalado");
+        });
+
         PruebasJuego.ejecutar();
+
         main.maquina_estado.tienda.PruebasTienda.ejecutar();
 
 

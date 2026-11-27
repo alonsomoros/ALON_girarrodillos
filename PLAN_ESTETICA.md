@@ -41,7 +41,7 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 ## FASE 5 — Cimientos: pipeline de recursos y mini-motor  (rama `fase-5-motor`)
 
 ### 5A. Recursos (alivia RAM y prepara el arte nuevo)
-- [ ] **5.1** `CargadorRecursos.cargarEscalada(ruta, ancho, alto)` con caché (la clave incluye el tamaño). Hoy los fondos de 3840x2400 se cargan enteros y se escalan en cada frame.
+- [x] **5.1** `CargadorRecursos.cargarEscalada(ruta, ancho, alto)` con caché (la clave incluye el tamaño). Hoy los fondos de 3840x2400 se cargan enteros y se escalan en cada frame.
 - [ ] **5.2** Fondos de menú, tienda, créditos y música usan la versión escalada a 1280x640. *Verif.:* la RAM baja de ~450 MB (medido con `medir.ps1`).
 - [ ] **5.3** Inventario de `rec/wallpapers`: hay 12 "Captura de pantalla (…).png" y otras imágenes que el código no usa. Moverlas a `rec/_archivo/` (tú decides si borrar). *Solo tras tu OK.*
 - [ ] **5.4** `main.motor.Tiempo`: contador de actualizaciones (ticks) que avanza en `GestorPrincipal.actualizar()` y conversión ms↔ticks. Pruebas.

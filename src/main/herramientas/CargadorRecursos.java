@@ -91,7 +91,57 @@ public class CargadorRecursos {
         return imagenAcelerada;
     }
 
+    // Carga una imagen ya reducida (o ampliada) al tamaño pedido y la cachea con ese tamaño. Pensada para los
+    // fondos grandes (3840x2400...): así no se guardan en memoria a tamaño completo ni se escalan en cada frame.
+    public static BufferedImage cargarEscalada(final String ruta, final int ancho, final int alto) {
+        return cargarEscalada(ruta, ancho, alto, Transparency.OPAQUE);
+    }
+
+    public static BufferedImage cargarEscalada(final String ruta, final int ancho, final int alto, final int transparencia) {
+        final String clave = ruta + "@" + ancho + "x" + alto;
+        BufferedImage enCache = CacheImagenes.obtener(clave, transparencia);
+        if (enCache != null) {
+            return enCache;
+        }
+
+        BufferedImage origen = leerImagen(ruta); // No se guarda en la caché: solo interesa la escalada
+        BufferedImage escalada = escalar(origen, ancho, alto, transparencia);
+        CacheImagenes.guardar(clave, transparencia, escalada);
+        return escalada;
+    }
+
+    // Escala con buena calidad: si se reduce a menos de la mitad, lo hace por pasos de la mitad (evita dientes de sierra)
+    private static BufferedImage escalar(final BufferedImage origen, final int ancho, final int alto, final int transparencia) {
+        BufferedImage actual = origen;
+        int w = origen.getWidth();
+        int h = origen.getHeight();
+
+        while (w / 2 >= ancho && h / 2 >= alto) {
+            w /= 2;
+            h /= 2;
+            actual = dibujarEscalada(actual, w, h, transparencia);
+        }
+        if (w != ancho || h != alto) {
+            actual = dibujarEscalada(actual, ancho, alto, transparencia);
+        } else if (actual == origen) {
+            actual = dibujarEscalada(actual, ancho, alto, transparencia); // Mismo tamaño: solo la convierte a formato compatible
+        }
+        return actual;
+    }
+
+    private static BufferedImage dibujarEscalada(final BufferedImage origen, final int ancho, final int alto, final int transparencia) {
+        GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+        BufferedImage destino = gc.createCompatibleImage(ancho, alto, transparencia);
+        Graphics2D g = destino.createGraphics();
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g.drawImage(origen, 0, 0, ancho, alto, null);
+        g.dispose();
+        return destino;
+    }
+
     public static String leerArchivoTexto
+
 (final String ruta) {
         StringBuilder contenido = new StringBuilder();
 
