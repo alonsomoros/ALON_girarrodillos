@@ -81,8 +81,8 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 
 ### 6B. Ataques y daño
 - [x] **6.7a** **Cola de acciones por prioridad (lógica):** las activaciones de la ronda se resuelven de una en una en el orden Asesino, Sacerdote, Ingeniero, Mago, Guerrero, Arquero; el Sacerdote ayuda al compañero tras actuar este. Ver `docs/animaciones.md`. Con pruebas.
-- [ ] **6.7** `Ataque` con trayecto **interpolado** (curva suave con easing, rotación hacia el objetivo) en vez de saltar entre 3 puntos fijos.
-- [ ] **6.8** Ataque en 3 pasos con `Secuencia`: preparación (el héroe se ilumina y retrocede un píxel), proyectil, impacto. Duración total ≈ la actual (2 s) para no cambiar el ritmo.
+- [x] **6.7** `Ataque` con trayecto **interpolado** (curva suave con easing, rotación hacia el objetivo) en vez de saltar entre 3 puntos fijos.
+- [x] **6.8** Ataque en 3 pasos con `Secuencia`: preparación (el héroe se ilumina y retrocede un píxel), proyectil, impacto. Duración total ≈ la actual (2 s) para no cambiar el ritmo.
 - [ ] **6.9** **Impacto:** animación de 5 frames en el punto de golpe + `Destello` + sacudida pequeña + `impacto.wav`. 👤 `impacto_5f.png` (64x64 por frame). Placeholder: estallido de partículas.
 - [ ] **6.10** Variantes por héroe: estela de la flecha, bola de fuego con partículas, tajo del Caballero, destello del Sacerdote… y un sonido por héroe (6 `.wav`).
 - [ ] **6.11** **Números flotantes:** "-3" rojo sobre la corona, "+2" verde al curar, "-2" gris sobre el bastión; suben y se desvanecen (usa la fuente nueva cuando exista; antes, la actual).

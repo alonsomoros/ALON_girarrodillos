@@ -15,9 +15,10 @@ public class Caballero extends Figura {
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
     }
 
+    // Golpe normal: el muro lo frena (rebota en la trampilla central); sin muro llega a la corona
     @Override
-    protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
-        golpeNormal(enemigo);
+    protected java.util.List<Ataque> crearAtaques() {
+        return java.util.List.of(ataqueAlEnemigo(() -> enemigoTieneBastion(), () -> golpeNormal(getEnemigo()), 0));
     }
 
     @Override

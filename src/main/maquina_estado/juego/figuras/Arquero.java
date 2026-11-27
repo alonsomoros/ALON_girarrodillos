@@ -15,14 +15,20 @@ public class Arquero extends Figura {
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
     }
 
-    // Ataca a 3 de altura: si el bastión llega a 3 o más lo frena (baja 3); si no, golpea la corona
+    // Ataca a 3 de altura: si el bastión llega a 3 o más lo frena (baja 3); si no, pasa por encima y golpea la corona
     @Override
-    protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
-        if (enemigo.tieneBastion() && enemigo.getBastion().getAltura() >= 3) {
-            enemigo.getBastion().disminuirAltura(3);
-        } else {
-            enemigo.recibirAtaque(getStat1());
-        }
+    protected java.util.List<Ataque> crearAtaques() {
+        return java.util.List.of(ataqueAlEnemigo(this::muroDeTresOMas, () -> {
+            if (muroDeTresOMas()) {
+                getEnemigo().getBastion().disminuirAltura(3);
+            } else {
+                getEnemigo().recibirAtaque(getStat1());
+            }
+        }, 0));
+    }
+
+    private boolean muroDeTresOMas() {
+        return enemigoTieneBastion() && getEnemigo().getBastion().getAltura() >= 3;
     }
 
     @Override

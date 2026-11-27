@@ -5,6 +5,7 @@ import main.herramientas.CargadorRecursos;
 import main.maquina_estado.juego.Activador;
 import main.maquina_estado.juego.Figura;
 import main.maquina_estado.juego.Ataque;
+import main.maquina_estado.juego.Trampillas;
 import main.maquina_estado.juego.EsqueletoPlayer;
 
 public class Sacerdote extends Figura {
@@ -16,11 +17,12 @@ public class Sacerdote extends Figura {
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.SACERDOTE_STATS);
     }
 
-    // Cura la corona de su equipo y da energía a su compañero
+    // Aparece en su propia corona y cura (se ve siempre); después ayuda a su compañero dándole energía
     @Override
-    protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
-        getDuenio().recibirCuracion(getStat1()); // El tope de vida lo pone setVida
-        getCompaniero().recibirEnergia(getStat2());
+    protected java.util.List<Ataque> crearAtaques() {
+        return java.util.List.of(
+                ataqueEnPunto(this::coronaPropia, false, () -> getDuenio().recibirCuracion(getStat1())),
+                ataqueEnPunto(() -> Trampillas.esquina(getCompaniero().getPosicion()), false, () -> getCompaniero().recibirEnergia(getStat2())));
     }
 
     @Override

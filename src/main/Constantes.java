@@ -180,10 +180,6 @@ public class Constantes {
         public static final Point ACTIVADOR_3 = new Point(151, 288); // 151, 288
         public static final Point ACTIVADOR_4 = new Point(1022, 293); // 1022, 293
 
-        public static final Point[] ATAQUE_1 = new Point[]{new Point(385,170), new Point(442,268), new Point(528,395)};
-        public static final Point[] ATAQUE_2 = new Point[]{new Point(798,170), new Point(738,260), new Point(653,385)};
-        public static final Point[] ATAQUE_3 = new Point[]{new Point(385,350), new Point(445,262), new Point(527,148)};
-        public static final Point[] ATAQUE_4 = new Point[]{new Point(802,345), new Point(740,255), new Point(655,140)};
 
 
         public static final Point STATS_1 = new Point(216, 218); // 216, 218
@@ -214,7 +210,6 @@ public class Constantes {
         public static final Point[] ACTIVADOR = {ACTIVADOR_1, ACTIVADOR_2, ACTIVADOR_3, ACTIVADOR_4};
         public static final Point[] BASE = {BASE_1, BASE_2, BASE_3, BASE_4};
         public static final Point[] STATS = {STATS_1, STATS_2, STATS_3, STATS_4};
-        public static final Point[][] ATAQUE = {ATAQUE_1, ATAQUE_2, ATAQUE_3, ATAQUE_4};
 
     }
     // Jugador

@@ -100,11 +100,6 @@ public abstract class Figura {
         }
     }
 
-    /** Cuántos ataques hace al activarse (el Mago hace 2). */
-    public int getNumeroAtaques() {
-        return 1;
-    }
-
     /** Da energía a esta figura: si ya está activada (energía llena) llega después de que actúe; si no, al momento. */
     public void recibirEnergia(final int energia) {
         if (activador.getAltura() == 0) {
@@ -118,25 +113,15 @@ public abstract class Figura {
         return ataquesLanzados;
     }
 
-    private Point[] coordenadasAtaque() {
-        if (posicion < 1 || posicion > 4) {
-            return null; // Figura sin posición asignada
-        }
-        return Constantes.COORDENADAS.ATAQUE[posicion - 1];
-    }
-
-    // Al activarse crea sus ataques (getNumeroAtaques) y los encola. Los siguientes al primero ignoran el bastión.
+    // Al activarse crea sus ataques (cada héroe define los suyos en crearAtaques) y los encola
     public void atacarNormal() {
-        Point[] camino = coordenadasAtaque();
-        if (camino == null) {
+        if (posicion < 1 || posicion > 4) {
             return; // Figura sin posición asignada
         }
 
         this.estaAtacando = true;
         this.activacionPendiente = true;
-        for (int i = 0; i < getNumeroAtaques(); i++) {
-            Ataque nuevo = new Ataque(this, camino, ataqueImagen);
-            nuevo.setIgnoraBastion(i > 0);
+        for (Ataque nuevo : crearAtaques()) {
             colaAtaques.add(nuevo);
             ataquesLanzados++;
         }
@@ -147,20 +132,90 @@ public abstract class Figura {
         }
     }
 
-
-    public void atacarEspecial() { // Hace dos de daño independientemente e ignora bastiones
-        Point[] camino = coordenadasAtaque();
-        if (camino == null) {
+    // Bomba (héroe de oro con la barra llena): recorrido completo, sacudida fuerte y 2 de daño directo a la corona
+    public void atacarEspecial() {
+        if (posicion < 1 || posicion > 4) {
             return;
         }
 
-        Ataque bomba = new Ataque(this, camino, ataqueEspecialImagen);
-        bomba.setEspecial(true);
+        Ataque bomba = new Ataque(this, ataqueEspecialImagen, () -> {
+            Point e = Trampillas.esquina(posicion);
+            Point c = Trampillas.centro(posicion);
+            Point k = Trampillas.coronaEnemiga(posicion);
+            return java.util.List.of(Ataque.Paso.salir(e), Ataque.Paso.viajar(e, c), Ataque.Paso.viajar(c, k),
+                    Ataque.Paso.efecto(() -> main.motor.Sacudida.iniciar(10, 450)), Ataque.Paso.golpe(k),
+                    Ataque.Paso.efecto(() -> getEnemigo().recibirAtaque(DANIO_BOMBA)), Ataque.Paso.esconder(k));
+        });
         colaAtaques.add(bomba);
         if (colaAtaques.size() == 1) {
             bomba.iniciar();
         }
         this.estaAtacando = true;
+    }
+
+    /**
+     * Ataques de esta activación, en orden (se animan de uno en uno). Cada héroe los define; las funciones de ayuda de
+     * abajo montan los recorridos por las trampillas. Ver docs/animaciones.md.
+     */
+    protected abstract java.util.List<Ataque> crearAtaques();
+
+    /** Ataque con trayecto completo: sale de su esquina, pasa por el centro y llega a la corona enemiga (o rebota en el centro si el muro lo frena). */
+    protected Ataque ataqueAlEnemigo(final java.util.function.BooleanSupplier muroLoFrena, final Runnable efecto, final double pausaInicial) {
+        return new Ataque(this, ataqueImagen, () -> {
+            Point e = Trampillas.esquina(posicion);
+            Point c = Trampillas.centro(posicion);
+            Point k = Trampillas.coronaEnemiga(posicion);
+            java.util.List<Ataque.Paso> pasos = new java.util.ArrayList<>();
+            if (pausaInicial > 0) {
+                pasos.add(Ataque.Paso.esperar(null, pausaInicial));
+            }
+            pasos.add(Ataque.Paso.salir(e));
+            pasos.add(Ataque.Paso.viajar(e, c));
+            Point destino = c;
+            if (muroLoFrena == null || !muroLoFrena.getAsBoolean()) {
+                pasos.add(Ataque.Paso.viajar(c, k));
+                destino = k;
+            }
+            pasos.add(Ataque.Paso.golpe(destino));
+            pasos.add(Ataque.Paso.efecto(efecto));
+            pasos.add(Ataque.Paso.esconder(destino));
+            return pasos;
+        });
+    }
+
+    /** Ataque que aparece directamente en una trampilla (sin viajar): corona del asesino, martillo, curación... */
+    protected Ataque ataqueEnPunto(final java.util.function.Supplier<Point> trampilla, final boolean conGolpe, final Runnable efecto) {
+        return new Ataque(this, ataqueImagen, () -> {
+            Point t = trampilla.get();
+            java.util.List<Ataque.Paso> pasos = new java.util.ArrayList<>();
+            pasos.add(Ataque.Paso.salir(t));
+            pasos.add(conGolpe ? Ataque.Paso.golpe(t) : Ataque.Paso.esperar(t, 0.6));
+            pasos.add(Ataque.Paso.efecto(efecto));
+            pasos.add(Ataque.Paso.esconder(t));
+            return pasos;
+        });
+    }
+
+    /** Ataque con pasos propios, calculados al empezar (los usa el Asesino para elegir objetivo en ese momento). */
+    protected Ataque ataquePersonalizado(final java.util.function.Supplier<java.util.List<Ataque.Paso>> pasos) {
+        return new Ataque(this, ataqueImagen, pasos);
+    }
+
+    /** El enemigo tiene bastión (false si todavía no hay enemigo asignado, como en algunas pruebas). */
+    protected boolean enemigoTieneBastion() {
+        return getEnemigo() != null && getEnemigo().tieneBastion();
+    }
+
+    protected Point esquinaPropia() {
+        return Trampillas.esquina(posicion);
+    }
+
+    protected Point coronaPropia() {
+        return Trampillas.coronaPropia(posicion);
+    }
+
+    protected Point coronaEnemiga() {
+        return Trampillas.coronaEnemiga(posicion);
     }
 
     public void dibujarBase(Graphics graficos, Point coordenadas, boolean esCuadrado) {
@@ -176,18 +231,6 @@ public abstract class Figura {
     }
 
     public static final int DANIO_BOMBA = 2;
-
-    // Efecto de un ataque cuando termina su animación
-    public final void resolverAtaque(Ataque ataque, EsqueletoPlayer enemigo) {
-        if (ataque.esEspecial()) { // Bomba: daño directo, ignora el bastión
-            enemigo.recibirAtaque(DANIO_BOMBA);
-            return;
-        }
-        aplicarEfecto(ataque, enemigo);
-    }
-
-    // Cada héroe define cómo golpea (el enemigo es el objetivo del ataque)
-    protected abstract void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo);
 
     // Golpe "normal": si el enemigo tiene bastión lo frena (baja stat2); si no, daña la corona (stat1)
     protected void golpeNormal(EsqueletoPlayer enemigo) {

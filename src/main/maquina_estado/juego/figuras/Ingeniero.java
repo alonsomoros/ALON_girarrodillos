@@ -15,11 +15,12 @@ public class Ingeniero extends Figura {
 
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
     }
-    // Golpe normal y, como bonificación, eleva el bastión de su equipo en 2
+    // Primero el martillo en su lado de la corona (sube su bastión 2) y después el ataque, como el Caballero
     @Override
-    protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
-        golpeNormal(enemigo);
-        getDuenio().getBastion().aumentarAltura(2);
+    protected java.util.List<Ataque> crearAtaques() {
+        return java.util.List.of(
+                ataqueEnPunto(this::coronaPropia, false, () -> getDuenio().getBastion().aumentarAltura(2)),
+                ataqueAlEnemigo(() -> enemigoTieneBastion(), () -> golpeNormal(getEnemigo()), 0));
     }
 
     @Override

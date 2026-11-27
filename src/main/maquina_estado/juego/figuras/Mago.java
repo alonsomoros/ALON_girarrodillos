@@ -16,19 +16,12 @@ public class Mago extends Figura {
         stats = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.FIGURAS.GUERREROS_STATS);
     }
 
+    // Ataca x2: la 1.ª bola la frena el muro o pega en la corona; la 2.ª ignora cualquier muro y pega en la corona
     @Override
-    public int getNumeroAtaques() {
-        return 2;
-    }
-
-    // Ataca x2: el 1.º a nivel de suelo (lo frena el bastión) y el 2.º vuela a altura máxima
-    @Override
-    protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
-        if (ataque.ignoraBastion()) {
-            enemigo.recibirAtaque(getStat1());
-        } else {
-            golpeNormal(enemigo);
-        }
+    protected java.util.List<Ataque> crearAtaques() {
+        return java.util.List.of(
+                ataqueAlEnemigo(() -> enemigoTieneBastion(), () -> golpeNormal(getEnemigo()), 0),
+                ataqueAlEnemigo(null, () -> getEnemigo().recibirAtaque(getStat1()), 0.4));
     }
 
     @Override
