@@ -24,7 +24,7 @@ public class EsqueletoPlayer {
 
     public EsqueletoPlayer() {
         this.vida = Constantes.VIDA;
-        this.bastion = new Bastion();
+        this.bastion = new Bastion(this instanceof Player ? PUNTO_BASTION_JUGADOR : PUNTO_BASTION_IA);
 
         figuraIzquierda = null;
         figuraDerecha = null;
@@ -57,12 +57,25 @@ public class EsqueletoPlayer {
         } else this.vida = Math.min(vidaActualizada, Constantes.VIDA_MAXIMA);
     }
 
+    // Centros (en píxeles) donde aparecen los números flotantes: la corona de cada equipo y su bastión
+    private static final Point PUNTO_CORONA_JUGADOR = new Point(640, 440);
+    private static final Point PUNTO_CORONA_IA = new Point(640, 150);
+    private static final Point PUNTO_BASTION_JUGADOR = new Point(617, 395);
+    private static final Point PUNTO_BASTION_IA = new Point(617, 265);
+
     public void recibirAtaque(int danio) {
         this.setVida(this.getVida() - danio);
+        mostrarEnCorona("-" + danio, new Color(0xE0503C));
     }
 
     public void recibirCuracion(int curacion) {
         this.setVida(this.getVida() + curacion);
+        mostrarEnCorona("+" + curacion, new Color(0x6FCB6F)); // Se ve siempre, aunque la vida ya estuviera al máximo
+    }
+
+    private void mostrarEnCorona(final String texto, final Color color) {
+        Point p = this instanceof Player ? PUNTO_CORONA_JUGADOR : PUNTO_CORONA_IA;
+        main.motor.TextoFlotante.mostrar(texto, p.x, p.y, color);
     }
 
     public Figura getFiguraIzquierda() {

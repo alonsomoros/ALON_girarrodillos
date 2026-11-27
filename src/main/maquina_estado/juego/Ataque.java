@@ -27,6 +27,9 @@ public class Ataque {
 
     private static final double PESO_RECORRIDO_COMPLETO = 5.0;
 
+    /** Aspecto propio de cada héroe: estela del proyectil, tajo al golpear o destello al aparecer. */
+    public enum Estilo {NINGUNO, ESTELA_LARGA, ESTELA_CORTA, FUEGO, TAJO, DESTELLO}
+
     enum Tipo {SALIR, VIAJAR, GOLPE, ESPERAR, ESCONDER, EFECTO}
 
     /** Un paso de la línea de tiempo. Se crean con las funciones estáticas. */
@@ -128,7 +131,7 @@ public class Ataque {
         cursor = 0;
         iniciado = true;
         startTime = System.currentTimeMillis();
-        AudioPlayer.getInstance().playSoundOnce(Constantes.RUTAS.EFECTOS.ATAQUE);
+        AudioPlayer.getInstance().playSoundOnce(figuraAtacante.getSonidoAtaque());
     }
 
     public void actualizar() {
@@ -204,12 +207,27 @@ public class Ataque {
                 return;
         }
 
+        if (p.tipo == Tipo.VIAJAR) {
+            dibujarEstela(g, p, u, elevacion);
+        }
         int ancho = (int) Math.round(imagen.getWidth(null) * escala);
         int alto = (int) Math.round(imagen.getHeight(null) * escala);
         if (ancho > 0 && alto > 0) {
             g.drawImage(imagen, (int) Math.round(x - ancho / 2.0), (int) Math.round(y - elevacion - alto / 2.0), ancho, alto, null);
         }
 
+        Estilo estilo = figuraAtacante.getEstiloAtaque();
+        if (estilo == Estilo.TAJO && p.tipo == Tipo.GOLPE) { // Tajo: un arco blanco que barre el punto de impacto
+            dibujarTajo(g, x, y - elevacion, u);
+        }
+        if (estilo == Estilo.DESTELLO && (p.tipo == Tipo.SALIR || p.tipo == Tipo.ESPERAR)) { // Halo dorado del Sacerdote
+            int radio = (int) (20 + 10 * Math.sin(Math.PI * Math.min(1, u * 1.5)));
+            java.awt.Composite original = g.getComposite();
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (0.5 * (p.tipo == Tipo.SALIR ? u : 1 - u * 0.5))));
+            g.setColor(new Color(0xFFE08A));
+            g.fillOval((int) x - radio, (int) (y - elevacion) - radio, radio * 2, radio * 2);
+            g.setComposite(original);
+        }
         if (p.tipo == Tipo.GOLPE) { // Destello que crece y se desvanece
             int radio = (int) (14 + 30 * u);
             java.awt.Composite original = g.getComposite();
@@ -218,6 +236,46 @@ public class Ataque {
             g.fillOval((int) x - radio, (int) (y - elevacion) - radio, radio * 2, radio * 2);
             g.setComposite(original);
         }
+    }
+
+    // Copias del sprite detrás del proyectil (y chispas en el fuego del Mago), tanto más largas cuanto más rápido va
+    private void dibujarEstela(final Graphics2D g, final Paso p, final double u, final double elevacion) {
+        Estilo estilo = figuraAtacante.getEstiloAtaque();
+        int copias = estilo == Estilo.ESTELA_LARGA ? 4 : (estilo == Estilo.FUEGO ? 5 : (estilo == Estilo.ESTELA_CORTA ? 2 : 0));
+        if (copias == 0) {
+            return;
+        }
+        java.awt.Composite original = g.getComposite();
+        double fraccion = Interpolador.ENTRADA.aplicar(u);
+        for (int k = copias; k >= 1; k--) {
+            double antes = Math.max(0, Interpolador.ENTRADA.aplicar(Math.max(0, u - k * 0.045)));
+            double[] q = puntoDelRecorrido(p.ruta, antes);
+            float alfa = 0.45f * (1 - k / (float) (copias + 1));
+            double e = 1 - 0.07 * k;
+            int ancho = (int) (imagen.getWidth(null) * e);
+            int alto = (int) (imagen.getHeight(null) * e);
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alfa));
+            g.drawImage(imagen, (int) (q[0] - ancho / 2.0), (int) (q[1] - elevacion - alto / 2.0), ancho, alto, null);
+            if (estilo == Estilo.FUEGO && fraccion > 0.05) { // Brasas que se quedan atrás
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alfa + 0.15f));
+                g.setColor(new Color(0xFF9A2E));
+                int r = 5 - k / 2;
+                g.fillOval((int) q[0] - r + (k % 2 == 0 ? 6 : -6), (int) (q[1] - elevacion) - r + (k % 3 - 1) * 5, r * 2, r * 2);
+            }
+        }
+        g.setComposite(original);
+    }
+
+    private static void dibujarTajo(final Graphics2D g, final double cx, final double cy, final double u) {
+        java.awt.Composite original = g.getComposite();
+        java.awt.Stroke trazo = g.getStroke();
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) Math.max(0, 1 - u)));
+        g.setColor(Color.WHITE);
+        g.setStroke(new java.awt.BasicStroke(5f, java.awt.BasicStroke.CAP_ROUND, java.awt.BasicStroke.JOIN_ROUND));
+        int radio = 30;
+        g.drawArc((int) cx - radio, (int) cy - radio, radio * 2, radio * 2, 135, (int) (-120 * Math.min(1, u * 2.5)));
+        g.setStroke(trazo);
+        g.setComposite(original);
     }
 
     // Punto a la fracción f (0 a 1) de la longitud total de la ruta

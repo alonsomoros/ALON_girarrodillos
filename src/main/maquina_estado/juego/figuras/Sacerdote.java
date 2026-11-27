@@ -26,6 +26,11 @@ public class Sacerdote extends Figura {
     }
 
     @Override
+    public Ataque.Estilo getEstiloAtaque() {
+        return Ataque.Estilo.DESTELLO;
+    }
+
+    @Override
     public int getPrioridad() {
         return 2;
     }

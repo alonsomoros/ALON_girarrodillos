@@ -9,8 +9,15 @@ import java.awt.*;
 public class Bastion {
     private int altura;
 
+    private final Point centroTexto; // Dónde salen los números flotantes (null: no salen)
+
     public Bastion() {
+        this(null);
+    }
+
+    public Bastion(final Point centroTexto) {
         altura = 0;
+        this.centroTexto = centroTexto;
     }
 
     // Sprites propios de la IA (bastion_ia_1.png a bastion_ia_5.png, mismo tamaño que los del jugador): si no existen,
@@ -40,11 +47,13 @@ public class Bastion {
     }
 
     public void aumentarAltura(int altura) {
+        int antes = this.altura;
         this.altura += altura;
 
         if (this.altura > 5) {
             this.altura = 5;
         }
+        mostrarCambio(this.altura - antes);
     }
 
     public int getAltura() {
@@ -52,11 +61,20 @@ public class Bastion {
     }
 
     public void disminuirAltura(int altura) {
+        int antes = this.altura;
         this.altura -= altura;
 
         if (this.altura < 0) {
             this.altura = 0;
         }
+        mostrarCambio(this.altura - antes);
+    }
 
+    // Número flotante con lo que cambió de verdad (gris al bajar, claro al subir)
+    private void mostrarCambio(final int cambio) {
+        if (cambio != 0 && centroTexto != null) {
+            main.motor.TextoFlotante.mostrar((cambio > 0 ? "+" : "") + cambio, centroTexto.x, centroTexto.y,
+                    cambio > 0 ? new Color(0xE6E0D2) : new Color(0xB5ADA0));
+        }
     }
 }

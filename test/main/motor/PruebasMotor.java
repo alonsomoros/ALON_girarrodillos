@@ -281,5 +281,37 @@ public class PruebasMotor {
             Tiempo.avanzar();
             verificar(Tiempo.ahora() == antes + 2, "avanzar");
         });
+
+        prueba("TextoFlotante: sin destino no hace nada; con destino dura 900 ms y desaparece", () -> {
+            TextoFlotante.setDestino(null);
+            TextoFlotante.mostrar("-3", 10, 10, java.awt.Color.RED); // no debe fallar
+            GestorEfectos gestor = new GestorEfectos();
+            TextoFlotante.setDestino(gestor);
+            TextoFlotante.mostrar("-3", 10, 10, java.awt.Color.RED);
+            verificar(gestor.cantidad() == 1, "debería haber 1 texto: " + gestor.cantidad());
+            for (int i = 0; i < 70; i++) {
+                Tiempo.avanzar();
+                gestor.actualizar();
+            }
+            verificar(gestor.cantidad() == 0, "el texto debería haberse retirado: " + gestor.cantidad());
+            TextoFlotante.setDestino(null);
+        });
+
+        prueba("Bastión: solo muestra número si cambia de verdad (el tope de 5 y el 0 no cuentan)", () -> {
+            GestorEfectos gestor = new GestorEfectos();
+            TextoFlotante.setDestino(gestor);
+            main.maquina_estado.juego.Bastion b = new main.maquina_estado.juego.Bastion(new java.awt.Point(10, 10));
+            b.aumentarAltura(2);
+            verificar(gestor.cantidad() == 1, "subida 0 a 2");
+            b.aumentarAltura(9);
+            verificar(gestor.cantidad() == 2, "subida a 5 (tope)");
+            b.aumentarAltura(3);
+            verificar(gestor.cantidad() == 2, "sin cambio: no debe mostrar nada");
+            b.disminuirAltura(9);
+            verificar(gestor.cantidad() == 3 && b.getAltura() == 0, "bajada a 0");
+            b.disminuirAltura(2);
+            verificar(gestor.cantidad() == 3, "sin cambio: no debe mostrar nada");
+            TextoFlotante.setDestino(null);
+        });
     }
 }

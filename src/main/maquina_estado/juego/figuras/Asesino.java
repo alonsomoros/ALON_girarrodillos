@@ -33,6 +33,11 @@ public class Asesino extends Figura {
     }
 
     @Override
+    public Ataque.Estilo getEstiloAtaque() {
+        return Ataque.Estilo.ESTELA_CORTA;
+    }
+
+    @Override
     public int getPrioridad() {
         return 1;
     }

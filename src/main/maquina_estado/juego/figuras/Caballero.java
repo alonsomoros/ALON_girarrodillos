@@ -22,6 +22,11 @@ public class Caballero extends Figura {
     }
 
     @Override
+    public Ataque.Estilo getEstiloAtaque() {
+        return Ataque.Estilo.TAJO;
+    }
+
+    @Override
     public int getPrioridad() {
         return 5;
     }

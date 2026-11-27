@@ -35,6 +35,7 @@ public class GestorEstados {
 
     // Constructor
     public GestorEstados() {
+        main.motor.TextoFlotante.setDestino(efectos); // Daño, curación... salen en los efectos globales
         AudioPlayer.getInstance().stopSound();
         estadosDelJuego.put(Estado.JUEGO, new GestorGirarrodillos());
         estadosDelJuego.put(Estado.TIENDA, new GestorTienda());

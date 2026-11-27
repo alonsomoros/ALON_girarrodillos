@@ -32,6 +32,11 @@ public class Arquero extends Figura {
     }
 
     @Override
+    public Ataque.Estilo getEstiloAtaque() {
+        return Ataque.Estilo.ESTELA_LARGA;
+    }
+
+    @Override
     public int getPrioridad() {
         return 6;
     }

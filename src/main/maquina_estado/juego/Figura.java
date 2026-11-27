@@ -20,6 +20,7 @@ public abstract class Figura {
     // Ataques de esta activación, en orden: se animan de uno en uno
     private final Deque<Ataque> colaAtaques = new ArrayDeque<>();
     private boolean activacionPendiente; // true si al terminar hay que resetear activador y dar XP
+    private String sonidoAtaque;           // Se resuelve la primera vez que suena
     private int energiaPendiente;        // Energía que el Sacerdote da cuando esta figura termine de actuar
     protected int posicion;
     protected int nivel; // Del 1 al 3
@@ -236,6 +237,20 @@ public abstract class Figura {
         } else {
             enemigo.recibirAtaque(getStat1());
         }
+    }
+
+    /** Sonido propio del héroe (rec/sonidos/ataque_<héroe>.wav); si el archivo no existe suena el genérico. */
+    public String getSonidoAtaque() {
+        if (sonidoAtaque == null) {
+            String propio = Constantes.RUTAS.EFECTOS.RUTA_ATAQUE_HEROE + getClass().getSimpleName().toLowerCase() + ".wav";
+            sonidoAtaque = new java.io.File(propio).exists() ? propio : Constantes.RUTAS.EFECTOS.ATAQUE;
+        }
+        return sonidoAtaque;
+    }
+
+    /** Aspecto del ataque de este héroe (estela, tajo, destello...). Cada héroe lo cambia. */
+    public Ataque.Estilo getEstiloAtaque() {
+        return Ataque.Estilo.NINGUNO;
     }
 
     /** Orden de acción cuando varios héroes se activan en la misma ronda (1 = primero). */
