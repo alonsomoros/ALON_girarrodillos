@@ -45,6 +45,51 @@ public class PruebasMotor {
     }
 
     public static void ejecutar() {
+        prueba("Secuencia: los pasos ocurren en orden y en el tick correcto (100 ms = 6 ticks)", () -> {
+            java.util.List<String> reg = new java.util.ArrayList<>();
+            final int[] tick = {0};
+            Secuencia s = Secuencia.nueva()
+                    .hacer(() -> reg.add("inicio@" + tick[0]))
+                    .esperar(100)
+                    .hacer(() -> reg.add("tras-espera@" + tick[0]))
+                    .durante(100, t -> reg.add("t=" + Math.round(t * 6) + "@" + tick[0]))
+                    .hacer(() -> reg.add("fin@" + tick[0]));
+            verificar(!s.terminado(), "recién creada");
+            for (int i = 1; i <= 20; i++) {
+                tick[0] = i;
+                s.actualizar();
+            }
+            java.util.List<String> esperado = java.util.Arrays.asList(
+                    "inicio@1", "tras-espera@6", "t=1@7", "t=2@8", "t=3@9", "t=4@10", "t=5@11", "t=6@12", "fin@12");
+            verificar(reg.equals(esperado), "registro: " + reg);
+            verificar(s.terminado(), "debería haber terminado");
+        });
+
+        prueba("Secuencia: cancelar detiene los pasos pendientes y una secuencia vacía termina enseguida", () -> {
+            final int[] contador = {0};
+            Secuencia s = Secuencia.nueva().esperar(100).hacer(() -> contador[0]++);
+            for (int i = 0; i < 3; i++) {
+                s.actualizar();
+            }
+            s.cancelar();
+            verificar(s.terminado(), "cancelada");
+            for (int i = 0; i < 20; i++) {
+                s.actualizar();
+            }
+            verificar(contador[0] == 0, "no debía ejecutarse nada tras cancelar");
+            verificar(Secuencia.nueva().terminado(), "vacía");
+        });
+
+        prueba("Secuencia dentro de un GestorEfectos: avanza sola y se retira al acabar", () -> {
+            final int[] hecho = {0};
+            GestorEfectos g = new GestorEfectos();
+            g.agregar(Secuencia.nueva().esperar(50).hacer(() -> hecho[0]++));
+            for (int i = 0; i < 10; i++) {
+                g.actualizar();
+            }
+            verificar(hecho[0] == 1 && g.cantidad() == 0, "hecho=" + hecho[0] + " efectos=" + g.cantidad());
+        });
+
         prueba("GestorEfectos: se actualizan, se retiran al terminar y se dibujan por capas (fondo, medio, frente)", () -> {
             java.util.List<String> reg = new java.util.ArrayList<>();
             GestorEfectos g = new GestorEfectos();
