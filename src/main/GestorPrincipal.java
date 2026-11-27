@@ -6,6 +6,8 @@ import main.graficos.SuperficieDeDibujo;
 import main.graficos.Ventana;
 import main.herramientas.CacheImagenes;
 import main.herramientas.Dibujador;
+import main.motor.Tiempo;
+
 import main.maquina_estado.GestorEstados;
 
 import java.awt.Transparency;
@@ -141,6 +143,7 @@ public class GestorPrincipal implements Runnable {
 
 
     private void actualizar() {
+        Tiempo.avanzar();
         Raton.getInstance().actualizar(SuperficieDeDibujo.getInstance());
         gestorEstados.actualizar();
     }

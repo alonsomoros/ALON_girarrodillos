@@ -77,6 +77,8 @@ public class PruebasLogica {
         PruebasJuego.ejecutar();
 
         main.maquina_estado.tienda.PruebasTienda.ejecutar();
+        main.motor.PruebasMotor.ejecutar();
+
 
 
         pruebas.Ejecutor.resumenYSalir();
