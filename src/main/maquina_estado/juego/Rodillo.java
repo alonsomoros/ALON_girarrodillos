@@ -5,6 +5,8 @@ import main.herramientas.CargadorRecursos;
 import main.herramientas.Dibujador;
 import main.Constantes.RODILLOS.Elementos;
 import main.maquina_estado.IRodillo;
+import main.motor.Interpolador;
+import main.motor.Tiempo;
 
 import java.awt.*;
 import java.util.EnumMap;
@@ -14,7 +16,22 @@ import java.util.Map;
 public class Rodillo {
     private static final int MAX_ELEM = 5;
 
+    /** Alto de una ventana de canal (lateral 35 + central 62 + lateral 35), de una celda del giro y ancho del canal. */
+    private static final int ALTO_VENTANA = 132;
+    private static final int ALTO_CELDA = 62;
+    private static final int ANCHO_CANAL = 68;
+    private static final int TICKS_DESTELLO = 10;
+
+    /** Si es false el rodillo cambia de golpe, sin animación (pruebas y simulaciones). */
+    public static boolean animar = true;
+
     private int punteroPos;
+
+    // Estado de la animación de giro (se calcula a partir de Tiempo: no se actualiza nada por frame)
+    private final boolean[] girando = new boolean[MAX_ELEM];
+    private final long[] inicioGiro = new long[MAX_ELEM];
+    private final int[] celdasGiro = new int[MAX_ELEM];
+    private final Elementos[][] tira = new Elementos[MAX_ELEM][5 + MAX_ELEM]; // Celdas del giro: 5 + canal
 
     private final Point[] punteroTriangulo;
 
@@ -85,28 +102,103 @@ public class Rodillo {
 
         fijados = new boolean[MAX_ELEM];
 
-        girarRodillo();
+        sortear(false);
+    }
+
+    private int duracionGiro(final int canal) {
+        return 24 + 9 * canal; // Los canales frenan de izquierda a derecha, cada 0,15 s
+    }
+
+    private boolean enCurso(final int canal) {
+        return girando[canal] && Tiempo.ahora() - inicioGiro[canal] < duracionGiro(canal);
+    }
+
+    /** true mientras algún canal sigue girando (el juego espera antes de seguir con el turno). */
+    public boolean estaGirando() {
+        for (int i = 0; i < MAX_ELEM; i++) {
+            if (enCurso(i)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void dibujar(Graphics graficos, Point coordenadas) {
         for (int i = 0; i < MAX_ELEM; i++) {
-            Image imagen = CargadorRecursos.cargarImagenCompatibleOpaca("rec/sprites/rodillo/" + lineaPrincipal[i] + ".png");
-            Image iLateral1 = CargadorRecursos.cargarImagenCompatibleOpaca("rec/sprites/rodillo/" + lateral1[i] + "Lateral.png");
-            Image iLateral2 = CargadorRecursos.cargarImagenCompatibleOpaca("rec/sprites/rodillo/" + lateral2[i] + "Lateral.png");
+            int x = i == 0 ? coordenadas.x : coordenadas.x + i * 68 + 2;
+            int y = coordenadas.y;
 
-            if (i == 0) {
-                Dibujador.IMAGEN.dibujar(graficos, iLateral1, coordenadas.x, coordenadas.y);
-                Dibujador.IMAGEN.dibujar(graficos, imagen, coordenadas.x, coordenadas.y + 35);
-                Dibujador.IMAGEN.dibujar(graficos, iLateral2, coordenadas.x, coordenadas.y + 62 + 35);
+            if (enCurso(i)) {
+                dibujarGirando(graficos, i, x, y);
             } else {
-                Dibujador.IMAGEN.dibujar(graficos, iLateral1, coordenadas.x + i * 68 + 2, coordenadas.y);
-                Dibujador.IMAGEN.dibujar(graficos, imagen, coordenadas.x + i * 68 + 2, coordenadas.y + 35);
-                Dibujador.IMAGEN.dibujar(graficos, iLateral2, coordenadas.x + i * 68 + 2, coordenadas.y + 62 + 35);
+                Image imagen = CargadorRecursos.cargarImagenCompatibleOpaca("rec/sprites/rodillo/" + lineaPrincipal[i] + ".png");
+                Image iLateral1 = CargadorRecursos.cargarImagenCompatibleOpaca("rec/sprites/rodillo/" + lateral1[i] + "Lateral.png");
+                Image iLateral2 = CargadorRecursos.cargarImagenCompatibleOpaca("rec/sprites/rodillo/" + lateral2[i] + "Lateral.png");
+
+                Dibujador.IMAGEN.dibujar(graficos, iLateral1, x, y);
+                Dibujador.IMAGEN.dibujar(graficos, imagen, x, y + 35);
+                Dibujador.IMAGEN.dibujar(graficos, iLateral2, x, y + 62 + 35);
+                dibujarDestello(graficos, i, x, y);
             }
 
             if (fijados[i]) {
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ELEMENTOS_RODILLO.FIJADOR), coordenadas.x + i * 68 + 2, coordenadas.y);
+                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ELEMENTOS_RODILLO.FIJADOR), x, y);
             }
+        }
+    }
+
+    // Canal en movimiento: una tira de símbolos cae y frena sobre la columna final (ya decidida) con un rastro difuminado
+    private void dibujarGirando(final Graphics graficos, final int canal, final int x, final int y) {
+        double dur = duracionGiro(canal);
+        double t = Interpolador.limitar((Tiempo.ahora() - inicioGiro[canal]) / dur);
+        double recorrido = (double) ALTO_CELDA * celdasGiro[canal];
+        double d = recorrido * (1 - t) * (1 - t);          // Distancia que falta (frena al final)
+        double velocidad = 2 * recorrido * (1 - t) / dur;  // Píxeles por actualización
+
+        Graphics2D g = (Graphics2D) graficos.create(x, y, ANCHO_CANAL, ALTO_VENTANA);
+        try {
+            dibujarColumna(g, canal, (int) d);
+            // Rastro: copias más arriba y más transparentes, tanto más separadas cuanto más rápido va
+            int estela = (int) Math.min(velocidad * 0.5, 22);
+            if (estela >= 2) {
+                for (int k = 1; k <= 2; k++) {
+                    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, k == 1 ? 0.40f : 0.20f));
+                    dibujarColumna(g, canal, (int) d - estela * k);
+                }
+            }
+        } finally {
+            g.dispose();
+        }
+    }
+
+    // Dibuja la columna final desplazada d píxeles hacia abajo y, por encima, las celdas aleatorias que van llegando
+    private void dibujarColumna(final Graphics2D g, final int canal, final int d) {
+        dibujarSi(g, "rec/sprites/rodillo/" + lateral1[canal] + "Lateral.png", d, 35);
+        dibujarSi(g, "rec/sprites/rodillo/" + lineaPrincipal[canal] + ".png", d + 35, ALTO_CELDA);
+        dibujarSi(g, "rec/sprites/rodillo/" + lateral2[canal] + "Lateral.png", d + 97, 35);
+        for (int k = 1; k <= celdasGiro[canal]; k++) {
+            dibujarSi(g, "rec/sprites/rodillo/" + tira[canal][k - 1] + ".png", d - ALTO_CELDA * k, ALTO_CELDA);
+        }
+    }
+
+    // Solo carga y pinta lo que cae dentro de la ventana del canal
+    private void dibujarSi(final Graphics2D g, final String ruta, final int y, final int alto) {
+        if (y < ALTO_VENTANA && y + alto > 0) {
+            g.drawImage(CargadorRecursos.cargarImagenCompatibleOpaca(ruta), 0, y, null);
+        }
+    }
+
+    // Brillo breve al frenar el canal
+    private void dibujarDestello(final Graphics graficos, final int canal, final int x, final int y) {
+        if (!girando[canal]) {
+            return;
+        }
+        long desde = Tiempo.ahora() - (inicioGiro[canal] + duracionGiro(canal));
+        if (desde >= 0 && desde < TICKS_DESTELLO) {
+            Graphics2D g = (Graphics2D) graficos.create(x, y, ANCHO_CANAL, ALTO_VENTANA);
+            g.setColor(new Color(1f, 1f, 1f, 0.45f * (1 - desde / (float) TICKS_DESTELLO)));
+            g.fillRect(0, 0, ANCHO_CANAL, ALTO_VENTANA);
+            g.dispose();
         }
     }
 
@@ -133,16 +225,26 @@ public class Rodillo {
     }
 
     public void girarRodillo() {
-        for (int i = 0; i < MAX_ELEM; i++) {
+        sortear(animar);
+    }
 
+    // El resultado se decide aquí, al empezar; la animación solo lo enseña
+    private void sortear(final boolean conAnimacion) {
+        for (int i = 0; i < MAX_ELEM; i++) {
+            girando[i] = false;
             if (!fijados[i]) { // Solo gira si el canal no está fijado
                 lateral1[i] = Elementos.values()[(int) (Math.random() * Elementos.values().length)];
-
                 lineaPrincipal[i] = distribuciones[i].tirar();
-
-
                 lateral2[i] = Elementos.values()[(int) (Math.random() * Elementos.values().length)];
 
+                if (conAnimacion) {
+                    girando[i] = true;
+                    inicioGiro[i] = Tiempo.ahora();
+                    celdasGiro[i] = 5 + i;
+                    for (int k = 0; k < celdasGiro[i]; k++) {
+                        tira[i][k] = Elementos.values()[(int) (Math.random() * Elementos.values().length)];
+                    }
+                }
             }
         }
     }

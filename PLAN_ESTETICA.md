@@ -72,7 +72,7 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 ## FASE 6 — Sensación de juego en el tablero  (rama `fase-6-tablero`)
 
 ### 6A. Rodillo (lo que más se toca en cada turno)
-- [ ] **6.1** **Giro animado:** cada canal desliza sus símbolos en vertical (hay 3 por canal: lateral/principal/lateral) y frena escalonado de izquierda a derecha con rebote; el resultado ya está decidido al empezar (la lógica no cambia). `Rodillo` guarda estado `GIRANDO/PARADO`.
+- [x] **6.1** **Giro animado:** cada canal desliza sus símbolos en vertical (hay 3 por canal: lateral/principal/lateral) y frena escalonado de izquierda a derecha con rebote; el resultado ya está decidido al empezar (la lógica no cambia). `Rodillo` guarda estado `GIRANDO/PARADO`.
 - [ ] **6.2** Sonidos de giro y de "tic" al frenar cada canal (`giro.wav`, `tic.wav`). Provisionales generados; luego los tuyos con jsfxr.
 - [ ] **6.3** **Fijar canal animado:** el `Fijador` baja con easing y suena `fijar.wav`; al soltar sube.
 - [ ] **6.4** Puntero del rodillo con pulso suave (escala/brillo) en vez de triángulo fijo.

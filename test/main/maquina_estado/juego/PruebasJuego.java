@@ -259,6 +259,25 @@ public class PruebasJuego {
             verificar(p.getBastion().getAltura() == 1, "bastión con martillos 2+1=3: " + p.getBastion().getAltura());
         });
 
+        prueba("Rodillo: el resultado se decide al girar, el giro dura ~1 s, los canales fijados no giran", () -> {
+            Player p = new Player();
+            Rodillo r = p.getRodillo();
+            verificar(!r.estaGirando(), "recién creado no debe girar");
+            r.setFijado(0, true);
+            r.girarRodillo();
+            verificar(r.estaGirando(), "debe estar girando tras girarRodillo()");
+            Elementos[] salida = r.getSalidaRodillo().clone();
+            for (int i = 0; i < 70; i++) {
+                main.motor.Tiempo.avanzar();
+            }
+            verificar(!r.estaGirando(), "debe parar en 70 actualizaciones");
+            verificar(java.util.Arrays.equals(salida, r.getSalidaRodillo()), "el resultado cambió durante la animación");
+            Rodillo.animar = false;
+            r.girarRodillo();
+            Rodillo.animar = true;
+            verificar(!r.estaGirando(), "con animar=false no debe girar");
+        });
+
         prueba("nuevaPartida() crea jugador e IA nuevos (vida, figuras y rodillos reiniciados)", () -> {
             GestorGirarrodillos g = new GestorGirarrodillos();
             Player p1 = g.player;

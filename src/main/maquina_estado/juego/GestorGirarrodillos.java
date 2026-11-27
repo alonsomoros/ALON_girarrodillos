@@ -107,6 +107,8 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
             if (player.figurasAtacando() || ia.figurasAtacando()) {
                 player.actualizar();
                 ia.actualizar();
+            } else if (player.getRodillo().estaGirando() || ia.getRodillo().estaGirando()) {
+                return; // Los rodillos giran: el turno espera a que paren todos los canales
             } else { // Si no hay figuras atacando
                 ResultadoPartida actual = evaluarResultado(); // Ya se resolvieron todos los ataques
                 if (actual != ResultadoPartida.JUGANDO) {
