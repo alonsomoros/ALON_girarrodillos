@@ -1,16 +1,24 @@
 package main;
 
-import javax.sound.sampled.*;
+import main.motor.Sonidos;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-
+/**
+ * Música de fondo (un único clip en bucle) y acceso rápido a los efectos de sonido, que gestiona {@link Sonidos}.
+ */
 public class AudioPlayer {
 
+    // Las pruebas desactivan todo el audio para no llenar el equipo de música y pitidos
+    public static volatile boolean efectosActivos = true;
+
     private Clip currentClip;
-    private final Map<String, Clip> clips = new HashMap<>();
     private static AudioPlayer instance;
 
     public static synchronized AudioPlayer getInstance() {
@@ -23,7 +31,7 @@ public class AudioPlayer {
     public synchronized void playSound(String filePath) {
         stopSound();
         if (!efectosActivos) {
-            return; // Pruebas: sin música
+            return;
         }
 
         try {
@@ -31,11 +39,10 @@ public class AudioPlayer {
             File audioFile = new File(filePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 
-            // Obtiene un clip de audio
+            // Obtiene un clip de audio y carga el audio en él
             currentClip = AudioSystem.getClip();
-
-            // Abre el clip y carga el audio en él
             currentClip.open(audioStream);
+            refrescarVolumen();
 
             // Reproduce el clip en bucle
             currentClip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -47,73 +54,18 @@ public class AudioPlayer {
     public synchronized void stopSound() {
         if (currentClip != null) {
             currentClip.stop();
-            if (clips.containsValue(currentClip)) {
-                currentClip.setFramePosition(0); // Precargado: se conserva para poder reutilizarlo
-            } else {
-                currentClip.close();
-            }
+            currentClip.close();
             currentClip = null;
         }
-
     }
 
-    // Las pruebas desactivan los efectos para no llenar el audio de pitidos
-    public static volatile boolean efectosActivos = true;
-
-    public synchronized void playSoundOnce(String filePath) {
-        if (!efectosActivos) {
-            return;
-        }
-        try {
-
-            // Obtiene un flujo de entrada del archivo de audio
-            File audioFile = new File(filePath);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-
-            // Obtiene un clip de audio
-            Clip clip = AudioSystem.getClip();
-
-            // Abre el clip y carga el audio en él
-            clip.open(audioStream);
-
-            // Cuando termina, libera la línea de audio (si no, se acumulan hasta agotarlas)
-            clip.addLineListener(event -> {
-                if (event.getType() == LineEvent.Type.STOP) {
-                    clip.close();
-                }
-            });
-
-            // Reproduce el clip una vez
-            clip.start();
-
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
+    /** Efecto de sonido de una sola vez (puede solaparse con otros iguales). */
+    public void playSoundOnce(String filePath) {
+        Sonidos.getInstance().reproducir(filePath);
     }
 
-    public synchronized void preloadSound(String filePath) {
-        try {
-            File audioFile = new File(filePath);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
-            clips.put(filePath, clip);
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
+    /** Vuelve a aplicar a la música el volumen y el silencio actuales. */
+    public synchronized void refrescarVolumen() {
+        Sonidos.aplicarVolumen(currentClip, Sonidos.getInstance().volumenMusicaEfectivo());
     }
-
-    public synchronized void playPreloadedSound(String filePath, boolean loop) {
-        stopSound();
-        Clip clip = clips.get(filePath);
-        if (clip != null) {
-            if (loop) {
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            } else {
-                clip.start();
-            }
-            currentClip = clip;
-        }
-    }
-
 }
