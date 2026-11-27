@@ -1,6 +1,7 @@
 package main.maquina_estado.juego;
 
 import main.Constantes;
+import main.maquina_estado.juego.figuras.Asesino;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -74,6 +75,17 @@ public class EsqueletoPlayer {
 
     // El héroe al que le queda menos energía para actuar; si empatan, el que está enfrente del atacante
     public Figura getFiguraMasCercaDeActuar(Figura atacante) {
+        // Los asesinos no se atacan entre sí: actúan a la vez, así que el rival que se activa en esta ronda no es objetivo
+        boolean izquierdaValida = !esAsesinoActivadoContra(atacante, figuraIzquierda);
+        boolean derechaValida = !esAsesinoActivadoContra(atacante, figuraDerecha);
+        if (!izquierdaValida && !derechaValida) {
+            return null;
+        } else if (!izquierdaValida) {
+            return figuraDerecha;
+        } else if (!derechaValida) {
+            return figuraIzquierda;
+        }
+
         int alturaIzquierda = figuraIzquierda.getActivador().getAltura();
         int alturaDerecha = figuraDerecha.getActivador().getAltura();
         if (alturaIzquierda < alturaDerecha) {
@@ -82,6 +94,10 @@ public class EsqueletoPlayer {
             return figuraDerecha;
         }
         return getFiguraEnfrente(atacante);
+    }
+
+    private static boolean esAsesinoActivadoContra(final Figura atacante, final Figura candidata) {
+        return atacante instanceof Asesino && candidata instanceof Asesino && candidata.getActivador().getAltura() == 0;
     }
 
     public Figura getFiguraEnfrente(Figura figura) {

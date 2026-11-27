@@ -25,6 +25,11 @@ public class Arquero extends Figura {
         }
     }
 
+    @Override
+    public int getPrioridad() {
+        return 6;
+    }
+
     public int getStat1() {
         return switch (nivel) {
             case 1 -> 3;

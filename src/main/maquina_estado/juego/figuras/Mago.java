@@ -31,6 +31,11 @@ public class Mago extends Figura {
         }
     }
 
+    @Override
+    public int getPrioridad() {
+        return 4;
+    }
+
     public int getStat1() {
 
         return switch (nivel) {

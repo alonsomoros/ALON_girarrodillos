@@ -22,6 +22,7 @@ import java.awt.Rectangle;
 public class GestorGirarrodillos implements IEstadoJuego, IAudio {
     Player player; // De paquete: las pruebas los usan
     IA ia;
+    private ColaAcciones acciones; // Orden de acción de la ronda (se recrea con cada partida)
     private int turno;
     private ResultadoPartida resultado = ResultadoPartida.JUGANDO;
     private int monedasGanadas; // Recompensa de esta partida (0 mientras se juega)
@@ -42,6 +43,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
 
         player.setEnemigo(ia);
         ia.setEnemigo(player);
+        acciones = new ColaAcciones(player, ia);
 
         crearParpadeoLuz();
         puedeFijar = false;
@@ -104,7 +106,8 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
             player.seleccionFiguras(player.figurasDisponibles);
         }
         if (player.tieneFigurasElegidas()) {
-            if (player.figurasAtacando() || ia.figurasAtacando()) {
+            if (player.figurasAtacando() || ia.figurasAtacando() || acciones.estaActiva()) {
+                acciones.avanzar(); // Lanza la siguiente acción cuando termina la anterior
                 player.actualizar();
                 ia.actualizar();
             } else if (player.getRodillo().estaGirando() || ia.getRodillo().estaGirando()) {
@@ -148,10 +151,8 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
         cerrarRodillos();
 
         player.calcularSalidaRodillo(player.getRodillo().getSalidaRodillo());
-        player.actualizarEstados();
-
         ia.calcularSalidaRodillo(ia.getRodillo().getSalidaRodillo());
-        ia.actualizarEstados();
+        acciones.iniciarRonda(); // Los héroes activados actúan de uno en uno, por prioridad
 
         turno = 0;
     }

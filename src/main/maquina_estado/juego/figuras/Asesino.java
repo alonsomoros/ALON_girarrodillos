@@ -18,8 +18,16 @@ public class Asesino extends Figura {
     // Ignora el bastión y retrasa al héroe rival al que le queda menos energía para actuar
     @Override
     protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
+        Figura objetivo = enemigo.getFiguraMasCercaDeActuar(this); // null si solo hay un asesino rival que actúa a la vez
         enemigo.recibirAtaque(getStat2());
-        enemigo.getFiguraMasCercaDeActuar(this).getActivador().aumentarAltura(getStat1());
+        if (objetivo != null) {
+            objetivo.getActivador().aumentarAltura(getStat1());
+        }
+    }
+
+    @Override
+    public int getPrioridad() {
+        return 1;
     }
 
     public int getStat1() {

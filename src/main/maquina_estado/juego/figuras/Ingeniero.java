@@ -22,6 +22,11 @@ public class Ingeniero extends Figura {
         getDuenio().getBastion().aumentarAltura(2);
     }
 
+    @Override
+    public int getPrioridad() {
+        return 3;
+    }
+
     public int getStat1() {
         return switch (nivel) {
             case 1 -> 1;

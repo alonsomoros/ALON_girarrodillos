@@ -35,6 +35,52 @@ public class PruebasJuego {
         verificar(!f.estaAtacando, "la figura no termina de atacar");
     }
 
+    // Coloca dos figuras en un equipo (posiciones 1-2 para la IA, 3-4 para el jugador) con la altura de activador dada
+    private static void equipo(final EsqueletoPlayer e, final boolean arriba, final Figura izq, final int alturaIzq, final Figura der, final int alturaDer) {
+        izq.setPosicion(arriba ? 1 : 3);
+        der.setPosicion(arriba ? 2 : 4);
+        izq.getActivador().setAltura(alturaIzq);
+        der.getActivador().setAltura(alturaDer);
+        e.setFiguraIzquierda(izq);
+        e.setFiguraDerecha(der);
+    }
+
+    // Juega una ronda completa con ColaAcciones y devuelve el orden (nombres) en que actuaron los héroes
+    private static java.util.List<String> ordenDeRonda(final Player p, final IA ia) throws Exception {
+        ColaAcciones cola = new ColaAcciones(p, ia);
+        cola.iniciarRonda();
+        java.util.List<String> orden = new java.util.ArrayList<>();
+        Figura[] todas = {p.getFiguraIzquierda(), p.getFiguraDerecha(), ia.getFiguraIzquierda(), ia.getFiguraDerecha()};
+        java.util.Set<Figura> vistas = new java.util.HashSet<>();
+        long limite = System.currentTimeMillis() + 5000;
+        while ((cola.estaActiva() || p.figurasAtacando() || ia.figurasAtacando()) && System.currentTimeMillis() < limite) {
+            cola.avanzar();
+            for (Figura f : todas) {
+                if (f.estaAtacando && vistas.add(f)) {
+                    orden.add(f.getClass().getSimpleName());
+                }
+            }
+            p.actualizar();
+            ia.actualizar();
+            for (Figura f : todas) { // Una figura puede actuar dos veces en la ronda (ayuda del Sacerdote)
+                if (!f.estaAtacando) {
+                    vistas.remove(f);
+                }
+            }
+            Thread.sleep(2);
+        }
+        verificar(!cola.estaActiva(), "la ronda no termina");
+        return orden;
+    }
+
+    private static Player jugadorContraIA() {
+        Player p = new Player();
+        IA ia = new IA();
+        p.setEnemigo(ia);
+        ia.setEnemigo(p);
+        return p;
+    }
+
     // Mapa de probabilidades con un solo símbolo (el canal siempre da ese)
     private static java.util.HashMap<Elementos, Double> un(final Elementos e) {
         java.util.HashMap<Elementos, Double> m = new java.util.HashMap<>();
@@ -257,6 +303,62 @@ public class PruebasJuego {
             verificar(p.getBastion().getAltura() == 0, "bastión con 1 martillo: " + p.getBastion().getAltura());
             p.calcularSalidaRodillo(new Constantes.RODILLOS.Elementos[]{Elementos.martillo2, Elementos.martillo1, Elementos.roto, Elementos.roto, Elementos.roto});
             verificar(p.getBastion().getAltura() == 1, "bastión con martillos 2+1=3: " + p.getBastion().getAltura());
+        });
+
+        prueba("ColaAcciones: los héroes de ambos equipos actúan de uno en uno por prioridad (Ingeniero, Mago, Guerrero, Arquero)", () -> {
+            Player p = jugadorContraIA();
+            IA ia = (IA) p.getEnemigo();
+            equipo(p, false, new main.maquina_estado.juego.figuras.Arquero(p), 0, new main.maquina_estado.juego.figuras.Caballero(p), 0);
+            equipo(ia, true, new main.maquina_estado.juego.figuras.Mago(ia), 0, new main.maquina_estado.juego.figuras.Ingeniero(ia), 0);
+            java.util.List<String> orden = ordenDeRonda(p, ia);
+            verificar(orden.equals(java.util.List.of("Ingeniero", "Mago", "Caballero", "Arquero")), "orden: " + orden);
+        });
+
+        prueba("ColaAcciones: el Asesino retrasa antes de su turno al rival más cercano, que pierde la acción", () -> {
+            Player p = jugadorContraIA();
+            IA ia = (IA) p.getEnemigo();
+            equipo(p, false, new main.maquina_estado.juego.figuras.Asesino(p), 0, new main.maquina_estado.juego.figuras.Arquero(p), 4);
+            equipo(ia, true, new main.maquina_estado.juego.figuras.Caballero(ia), 0, new main.maquina_estado.juego.figuras.Mago(ia), 5);
+            java.util.List<String> orden = ordenDeRonda(p, ia);
+            verificar(orden.equals(java.util.List.of("Asesino")), "orden: " + orden);
+            verificar(ia.getFiguraIzquierda().getActivador().getAltura() == 1, "el Caballero debía quedar retrasado a 1");
+        });
+
+        prueba("ColaAcciones: dos Asesinos activados a la vez no se atacan entre sí", () -> {
+            Player p = jugadorContraIA();
+            IA ia = (IA) p.getEnemigo();
+            equipo(p, false, new main.maquina_estado.juego.figuras.Asesino(p), 0, new main.maquina_estado.juego.figuras.Arquero(p), 4);
+            equipo(ia, true, new main.maquina_estado.juego.figuras.Asesino(ia), 0, new main.maquina_estado.juego.figuras.Mago(ia), 5);
+            java.util.List<String> orden = ordenDeRonda(p, ia);
+            verificar(orden.equals(java.util.List.of("Asesino", "Asesino")), "ambos asesinos debían actuar: " + orden);
+        });
+
+        prueba("Sacerdote: si el compañero también actúa esta ronda, la energía llega después de que actúe", () -> {
+            Player p = jugadorContraIA();
+            IA ia = (IA) p.getEnemigo();
+            equipo(p, false, new main.maquina_estado.juego.figuras.Sacerdote(p), 0, new main.maquina_estado.juego.figuras.Caballero(p), 0);
+            equipo(ia, true, new main.maquina_estado.juego.figuras.Arquero(ia), 3, new main.maquina_estado.juego.figuras.Mago(ia), 5);
+            p.setVida(5);
+            java.util.List<String> orden = ordenDeRonda(p, ia);
+            verificar(orden.equals(java.util.List.of("Sacerdote", "Caballero")), "orden: " + orden);
+            verificar(p.getFiguraDerecha().getActivador().getAltura() == 1, "tras actuar queda a 3 - 2 de energía: " + p.getFiguraDerecha().getActivador().getAltura());
+            verificar(p.getVida() == 6, "el Sacerdote cura 1 en nivel 1: " + p.getVida());
+        });
+
+        prueba("Sacerdote: la energía que deja listo al compañero hace que actúe después de todos los demás", () -> {
+            Player p = jugadorContraIA();
+            IA ia = (IA) p.getEnemigo();
+            equipo(p, false, new main.maquina_estado.juego.figuras.Sacerdote(p), 0, new main.maquina_estado.juego.figuras.Caballero(p), 2);
+            equipo(ia, true, new main.maquina_estado.juego.figuras.Arquero(ia), 0, new main.maquina_estado.juego.figuras.Mago(ia), 5);
+            java.util.List<String> orden = ordenDeRonda(p, ia);
+            verificar(orden.equals(java.util.List.of("Sacerdote", "Arquero", "Caballero")), "orden: " + orden);
+        });
+
+        prueba("Vida máxima 12: el Sacerdote no cura por encima y la animación no cambia la regla", () -> {
+            Player p = jugadorContraIA();
+            p.setVida(11);
+            p.recibirCuracion(5);
+            verificar(p.getVida() == 12, "tope de vida: " + p.getVida());
         });
 
         prueba("Rodillo: el resultado se decide al girar, el giro dura ~1 s, los canales fijados no giran", () -> {

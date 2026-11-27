@@ -219,7 +219,7 @@ public class Constantes {
     }
     // Jugador
 
-    public static final int VIDA_MAXIMA = 20;
+    public static final int VIDA_MAXIMA = 12;
     public static final int VIDA = 10;
 
 

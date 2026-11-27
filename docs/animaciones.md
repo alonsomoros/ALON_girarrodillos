@@ -125,8 +125,7 @@ Reglas que salen de ahí:
   contra el estado de la ronda, de modo que el orden entre iguales no cambia el resultado.
 - Hoy el código lanza las activaciones a la vez; este orden es un **cambio de lógica** (tarea 6.7a, con pruebas).
 
-Diferencia por revisar: la página original dice que el Sacerdote cura "hasta un máximo de 12" y aquí `VIDA_MAXIMA` es 20.
-No lo toco sin que me lo digas.
+Vida máxima: 12, como el original (ya aplicado).
 
 ## 6. Pendiente
 1. ¿Te vale el desempate "jugador primero, IA después" entre héroes iguales?

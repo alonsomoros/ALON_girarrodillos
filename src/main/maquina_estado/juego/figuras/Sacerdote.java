@@ -19,13 +19,13 @@ public class Sacerdote extends Figura {
     // Cura la corona de su equipo y da energía a su compañero
     @Override
     protected void aplicarEfecto(Ataque ataque, EsqueletoPlayer enemigo) {
-        if (getDuenio().getVida() != Constantes.VIDA_MAXIMA) {
-            getDuenio().recibirCuracion(getStat1());
-        }
+        getDuenio().recibirCuracion(getStat1()); // El tope de vida lo pone setVida
+        getCompaniero().recibirEnergia(getStat2());
+    }
 
-        if (getCompaniero().getActivador().getAltura() > 0) {
-            getCompaniero().getActivador().disminuirAltura(getStat2());
-        }
+    @Override
+    public int getPrioridad() {
+        return 2;
     }
 
     public int getStat1() { // Curacion

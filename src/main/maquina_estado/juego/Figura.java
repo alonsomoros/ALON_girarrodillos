@@ -20,6 +20,7 @@ public abstract class Figura {
     // Ataques de esta activación, en orden: se animan de uno en uno
     private final Deque<Ataque> colaAtaques = new ArrayDeque<>();
     private boolean activacionPendiente; // true si al terminar hay que resetear activador y dar XP
+    private int energiaPendiente;        // Energía que el Sacerdote da cuando esta figura termine de actuar
     protected int posicion;
     protected int nivel; // Del 1 al 3
     protected int experiencia; // Del 0 al 6
@@ -68,6 +69,10 @@ public abstract class Figura {
         if (activacionPendiente) {
             activacionPendiente = false;
             activador.resetear();
+            if (energiaPendiente > 0) { // El Sacerdote le daba energía mientras actuaba: llega justo después
+                activador.disminuirAltura(energiaPendiente);
+                energiaPendiente = 0;
+            }
             // Sumar +2 de nivel etc
             this.aumentarExperiencia(2); // Si llena la barra: sube de nivel o encola la bomba
         }
@@ -98,6 +103,15 @@ public abstract class Figura {
     /** Cuántos ataques hace al activarse (el Mago hace 2). */
     public int getNumeroAtaques() {
         return 1;
+    }
+
+    /** Da energía a esta figura: si ya está activada (energía llena) llega después de que actúe; si no, al momento. */
+    public void recibirEnergia(final int energia) {
+        if (activador.getAltura() == 0) {
+            energiaPendiente += energia;
+        } else {
+            activador.disminuirAltura(energia);
+        }
     }
 
     public int getAtaquesLanzados() {
@@ -183,6 +197,9 @@ public abstract class Figura {
             enemigo.recibirAtaque(getStat1());
         }
     }
+
+    /** Orden de acción cuando varios héroes se activan en la misma ronda (1 = primero). */
+    public abstract int getPrioridad();
 
     public abstract int getStat1();
 

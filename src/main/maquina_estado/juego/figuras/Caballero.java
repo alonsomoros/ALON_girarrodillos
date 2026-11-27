@@ -20,6 +20,11 @@ public class Caballero extends Figura {
         golpeNormal(enemigo);
     }
 
+    @Override
+    public int getPrioridad() {
+        return 5;
+    }
+
     public int getStat1() {
         return switch (nivel) {
             case 1 -> 3;
