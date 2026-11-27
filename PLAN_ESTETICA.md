@@ -61,6 +61,12 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 
 **Cierre de fase 5:** pruebas verdes, RAM y FPS medidos y anotados, merge + push con tu OK.
 
+**Resultados de la Fase 5 (medidos con JDK 21):**
+- Menú: CPU 28 % → **16 %** y RAM 470 → **322 MB** (fondos escalados una sola vez al cargar). Partida: ~9 % de CPU, 340 MB, 57 FPS.
+- 53 pruebas en verde. Nuevo paquete `main.motor`: `Tiempo`, `Interpolador`, `Animacion`, `Efecto`/`EfectoTemporal`/`GestorEfectos`, `Secuencia`, `Sacudida`, `Fundido`, `Sonidos`.
+- Transiciones con fundido entre pantallas (`GestorEstados.irA`), banco de sonidos con volumen y silencio, galería F2 y `scripts\capturar.bat`.
+- **5.3 queda pendiente de tu OK** (mover archivos sin uso a `rec/_archivo/`): 47 archivos, 26,9 MB. Ver el mensaje de cierre de la fase.
+
 ---
 
 ## FASE 6 — Sensación de juego en el tablero  (rama `fase-6-tablero`)
