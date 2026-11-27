@@ -92,8 +92,8 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 - [x] **6.14** **Activadores:** la barra baja con tween suave (no salta), brilla cuando llega a 0 ("listo") y parpadea hasta que el héroe actúa.
 
 ### 6C. Héroes y progresión
-- [ ] **6.15** **Idle:** cada héroe "respira" (sube/baja 1-2 px y cambia de escala mínimamente, procedural). Si dibujas 2-4 frames, se usan en su lugar. 👤 `arquero_lvl1_2f.png`, etc. (prioridad baja)
-- [ ] **6.16** **Animación de ataque del héroe:** pequeño impulso hacia delante y vuelta con easing durante el lanzamiento.
+- [x] **6.15** **Idle:** cada héroe "respira" (sube/baja 1-2 px y cambia de escala mínimamente, procedural). Si dibujas 2-4 frames, se usan en su lugar. 👤 `arquero_lvl1_2f.png`, etc. (prioridad baja)
+- [x] **6.16** **Animación de ataque del héroe:** pequeño impulso hacia delante y vuelta con easing durante el lanzamiento.
 - [ ] **6.17** **Subida de nivel:** destello dorado, estrellitas, cambio de sprite con flash y `nivel.wav`.
 - [ ] **6.18** **Bomba (ataque especial):** carga con halo, la pantalla se oscurece, sacudida fuerte y explosión; `bomba.wav`.
 - [ ] **6.19** Barra de EXP de la base: se rellena con animación y brilla al llenarse.

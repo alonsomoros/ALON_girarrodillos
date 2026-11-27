@@ -133,6 +133,7 @@ public class Ataque {
         duracion = (long) (acumulado * unidadMs);
         cursor = 0;
         iniciado = true;
+        figuraAtacante.iniciarImpulso(); // El héroe se lanza a la vez que sale el ataque
         startTime = System.currentTimeMillis();
         AudioPlayer.getInstance().playSoundOnce(figuraAtacante.getSonidoAtaque());
     }

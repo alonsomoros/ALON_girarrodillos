@@ -16,6 +16,7 @@ se dibuje "en crudo" se añade a este registro en el mismo commit que lo crea.
 | Lámpara de turno (3 frames) | `LamparasTurno` | `rec/sprites/efectos/lampara_3f.png` (24x32 por frame: apagada, encendida, brillo) | provisional | sí, sustituir |
 | Gema de vida (2 frames) | `GemasVida` | `rec/sprites/efectos/vida_gema_2f.png` (llena, vacía) | provisional | sí, sustituir |
 | Bastión de la IA (5 alturas) | `Bastion` | `rec/sprites/bastion/bastion_ia_1.png` a `bastion_ia_5.png` (355x160, ya orientado hacia abajo) | provisional (usa el del jugador volteado) | sí, sustituir |
+| Reposo de los héroes (2-4 frames) | `Figura.dibujarFigura` | `rec/sprites/figuras/<héroe>/<héroe>_lvl<N>_<M>f.png` (125x145 por frame, p. ej. `arquero_lvl1_2f.png`) | provisional (respiración procedural: sube y baja 1,5 px) | por decidir (prioridad baja) |
 | Impacto de golpe | `Impacto` | `rec/sprites/efectos/impacto_5f.png` (64x64 por frame, 5 frames) | provisional (anillo con chispas) | sí, sustituir |
 | Brillo de activador listo | `Activador` | Sprite de brillo o activador con frame "listo" | crudo (óvalo dorado que late) | por decidir |
 
@@ -44,6 +45,7 @@ se dibuje "en crudo" se añade a este registro en el mismo commit que lo crea.
 | Brillo rojo de la corona al recibir daño | `EsqueletoPlayer` | Óvalo rojo semitransparente | Sprite de destello | crudo | por decidir |
 | Grietas de la corona con poca vida | `EsqueletoPlayer` | Líneas oscuras | Sprite de corona agrietada | crudo | por decidir |
 | Escombros y polvo del bastión | `Bastion` | Cuadrados y círculos grises | Sprites `escombro_Nx.png` / `polvo_4f.png` | crudo | por decidir |
+| Iluminación del héroe al atacar | `Figura.iluminada` | Aclarado automático del sprite (+80 de brillo) | crudo | no, se queda en código |
 | Estelas de proyectiles | `Ataque.dibujarEstela` | Copias semitransparentes del sprite | Sprites de estela por héroe | crudo | por decidir |
 | Brasas del fuego del Mago | `Ataque.dibujarEstela` | Círculos naranjas | Partículas propias | crudo | por decidir |
 | Tajo del Caballero | `Ataque.dibujarTajo` | Arco blanco | `tajo_4f.png` | crudo | por decidir |

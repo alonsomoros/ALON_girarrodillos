@@ -1,6 +1,9 @@
 package main.maquina_estado.juego;
 
 import main.herramientas.Depurar;
+import main.motor.Animacion;
+import main.motor.Interpolador;
+import main.motor.Tiempo;
 import main.Constantes;
 
 import main.herramientas.CargadorRecursos;
@@ -86,11 +89,7 @@ public abstract class Figura {
             boolean esCuadrado = posicion % 2 == 1; // 1 y 3: izquierda (cuadrado); 2 y 4: derecha (rombo, volteada)
 
             dibujarBase(graficos, Constantes.COORDENADAS.BASE[i], esCuadrado); // Dibujar la base
-            if (esCuadrado) {
-                Dibujador.IMAGEN.dibujar(graficos, imagenFigura, Constantes.COORDENADAS.FIGURA[i]); // Dibujar la figura
-            } else {
-                Dibujador.IMAGEN.dibujarRotado(graficos, imagenFigura, Constantes.COORDENADAS.FIGURA[i]);
-            }
+            dibujarFigura(graficos, i, esCuadrado); // La figura, con su reposo y su impulso al atacar
             this.getActivador().dibujarActivador(graficos, Constantes.COORDENADAS.ACTIVADOR[i], esCuadrado); // Dibujar el activador
             this.dibujarStats(graficos, Constantes.COORDENADAS.STATS[i]); // Dibujar los stats
         }
@@ -99,6 +98,123 @@ public abstract class Figura {
         if (estaAtacando && actual != null) {
             actual.dibujar(graficos);
         }
+    }
+
+    // ------------------- Animación de la figura -------------------
+
+    private static final int TICKS_IMPULSO = 22;
+    private static final int PERIODO_RESPIRACION = 120; // 2 s a 60 actualizaciones por segundo
+    private static final java.util.Map<Image, java.awt.image.BufferedImage> ILUMINADAS = new java.util.WeakHashMap<>();
+
+    private long tickImpulso = -1000;
+    private Animacion reposo;       // Tira propia de reposo (<héroe>_lvlN_Mf.png), si existe
+    private int nivelDelReposo = -1;
+
+    /** Lo llama cada ataque al empezar: el héroe retrocede un poco, se ilumina y se lanza hacia delante. */
+    public void iniciarImpulso() {
+        tickImpulso = Tiempo.ahora();
+    }
+
+    // Busca rec/sprites/figuras/<héroe>/<héroe>_lvl<N>_<M>f.png (M frames de reposo); si no hay, el reposo es procedural
+    private Animacion reposoPropio() {
+        if (nivelDelReposo != nivel) {
+            nivelDelReposo = nivel;
+            reposo = null;
+            String heroe = getClass().getSimpleName().toLowerCase();
+            java.io.File carpeta = new java.io.File(Constantes.RUTAS.FIGURAS.RUTA_FIGURAS + heroe);
+            String[] nombres = carpeta.list();
+            if (nombres != null) {
+                java.util.regex.Pattern patron = java.util.regex.Pattern.compile(heroe + "_lvl" + nivel + "_[0-9]+f[.]png");
+                for (String n : nombres) {
+                    if (patron.matcher(n).matches()) {
+                        reposo = Animacion.cargar(Constantes.RUTAS.FIGURAS.RUTA_FIGURAS + heroe + "/" + n, 400, Animacion.Modo.PING_PONG);
+                        break;
+                    }
+                }
+            }
+        }
+        return reposo;
+    }
+
+    private void dibujarFigura(final Graphics graficos, final int i, final boolean esCuadrado) {
+        Point punto = Constantes.COORDENADAS.FIGURA[i];
+        Animacion propio = reposoPropio();
+        Image imagen = propio != null ? propio.frame(Tiempo.ahora() + posicion * 17) : imagenFigura;
+        int ancho = imagen.getWidth(null);
+        int alto = imagen.getHeight(null);
+
+        double dx = 0;
+        double dy = 0;
+        double escalaY = 1;
+        if (propio == null) { // Respira: sube y baja ~1,5 px y se estira apenas (cada figura con su desfase)
+            double onda = Math.sin(2 * Math.PI * ((Tiempo.ahora() + posicion * 31) % PERIODO_RESPIRACION) / PERIODO_RESPIRACION);
+            dy = 1.5 * onda;
+            escalaY = 1 + 0.012 * onda;
+        }
+
+        long edad = Tiempo.ahora() - tickImpulso;
+        double brillo = 0;
+        if (edad >= 0 && edad < TICKS_IMPULSO) {
+            double[] dir = direccionDeAtaque();
+            double avance;
+            if (edad < 5) { // Se echa hacia atrás un poco
+                avance = -3 * Interpolador.SALIDA.aplicar(edad / 5.0);
+                brillo = edad / 5.0;
+            } else if (edad < 10) { // Y se lanza hacia delante
+                avance = -3 + 13 * Interpolador.ENTRADA.aplicar((edad - 5) / 5.0);
+                brillo = 1;
+            } else { // Vuelve a su sitio
+                avance = 10 * (1 - Interpolador.SALIDA.aplicar((edad - 10) / 12.0));
+                brillo = Math.max(0, 1 - (edad - 10) / 8.0);
+            }
+            dx += dir[0] * avance;
+            dy += dir[1] * avance;
+        }
+
+        Graphics2D g = (Graphics2D) graficos.create();
+        try {
+            g.translate(dx, dy);
+            g.translate(punto.x + ancho / 2.0, punto.y + alto); // Escala desde los pies
+            g.scale(1, escalaY);
+            g.translate(-(punto.x + ancho / 2.0), -(punto.y + alto));
+            dibujarImagenFigura(g, imagen, punto, esCuadrado);
+            if (brillo > 0) { // Se ilumina: encima, la misma imagen aclarada
+                g.setComposite(java.awt.AlphaComposite.getInstance(java.awt.AlphaComposite.SRC_OVER, (float) (0.55 * brillo)));
+                dibujarImagenFigura(g, iluminada(imagen), punto, esCuadrado);
+            }
+        } finally {
+            g.dispose();
+        }
+    }
+
+    private void dibujarImagenFigura(final Graphics g, final Image imagen, final Point punto, final boolean esCuadrado) {
+        if (esCuadrado) {
+            Dibujador.IMAGEN.dibujar(g, imagen, punto);
+        } else {
+            Dibujador.IMAGEN.dibujarRotado(g, imagen, punto);
+        }
+    }
+
+    // Misma imagen más clara (se calcula una vez por imagen)
+    private static synchronized Image iluminada(final Image imagen) {
+        java.awt.image.BufferedImage clara = ILUMINADAS.get(imagen);
+        if (clara == null) {
+            java.awt.image.BufferedImage origen = (java.awt.image.BufferedImage) imagen;
+            clara = new java.awt.image.BufferedImage(origen.getWidth(), origen.getHeight(), java.awt.image.BufferedImage.TYPE_INT_ARGB);
+            new java.awt.image.RescaleOp(new float[]{1f, 1f, 1f, 1f}, new float[]{80f, 80f, 80f, 0f}, null).filter(origen, clara);
+            ILUMINADAS.put(imagen, clara);
+        }
+        return clara;
+    }
+
+    // Vector unitario desde la peana hacia el centro del tablero (hacia donde se lanza el ataque)
+    private double[] direccionDeAtaque() {
+        Point esquina = Trampillas.esquina(posicion);
+        Point centro = Trampillas.centro(posicion);
+        double vx = centro.x - esquina.x;
+        double vy = centro.y - esquina.y;
+        double largo = Math.max(1, Math.hypot(vx, vy));
+        return new double[]{vx / largo, vy / largo};
     }
 
     /** Da energía a esta figura: si ya está activada (energía llena) llega después de que actúe; si no, al momento. */
