@@ -3,7 +3,10 @@ package main.maquina_estado;
 import main.herramientas.Depurar;
 import main.AudioPlayer;
 import main.control.GestorControles;
+import main.motor.Fundido;
 import main.motor.GestorEfectos;
+import main.motor.Secuencia;
+
 import main.motor.Sacudida;
 
 
@@ -53,7 +56,7 @@ public class GestorEstados {
 
         if (estadoActualId != Estado.MENU) {
             GestorControles.teclado.procesarTecla(GestorControles.teclado.X, () -> {
-                cambiarEstadoActual(Estado.MENU);
+                irA(Estado.MENU);
             }, tiempoActual);
         }
         estadoActual.actualizar();
@@ -68,6 +71,34 @@ public class GestorEstados {
     public void dibujar(final Graphics graficos) {
         estadoActual.dibujar(graficos);
         efectos.dibujar(graficos);
+    }
+
+    private static final int MS_FUNDIDO = 220;
+    private boolean transicionando = false;
+
+    // Cambio de estado con fundido a negro y vuelta (se ignora si ya hay una transición en curso)
+    public void irA(final Estado nuevoEstado) {
+        if (transicionando) {
+            return;
+        }
+        transicionando = true;
+        efectos.agregar(GestorEfectos.Capa.FRENTE, new Fundido(MS_FUNDIDO, true));
+        efectos.agregar(Secuencia.nueva()
+                .esperar(MS_FUNDIDO)
+                .hacer(() -> {
+                    cambiarEstadoActual(nuevoEstado);
+                    efectos.agregar(GestorEfectos.Capa.FRENTE, new Fundido(MS_FUNDIDO, false));
+                })
+                .esperar(MS_FUNDIDO)
+                .hacer(() -> transicionando = false));
+    }
+
+    public Estado getEstadoActualId() {
+        return estadoActualId;
+    }
+
+    public boolean estaTransicionando() {
+        return transicionando;
     }
 
     public void cambiarEstadoActual(final Estado nuevoEstado) {

@@ -70,7 +70,7 @@ public class GestorMenuPrincipal implements IEstadoJuego, IAudio {
                     Raton.getInstance().reiniciarClickIzquierdo(); // Un clic = una sola acción
                     AudioPlayer.getInstance().playSoundOnce(Constantes.RUTAS.EFECTOS.CLICK_BOTON);
 
-                    GestorEstados.getInstance().cambiarEstadoActual(DESTINOS[secciones.indexOf(etiqueta)]);
+                    GestorEstados.getInstance().irA(DESTINOS[secciones.indexOf(etiqueta)]);
 
                 }
             }

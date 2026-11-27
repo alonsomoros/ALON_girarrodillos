@@ -22,6 +22,10 @@ public class AudioPlayer {
 
     public synchronized void playSound(String filePath) {
         stopSound();
+        if (!efectosActivos) {
+            return; // Pruebas: sin música
+        }
+
         try {
             // Obtiene un flujo de entrada del archivo de audio
             File audioFile = new File(filePath);

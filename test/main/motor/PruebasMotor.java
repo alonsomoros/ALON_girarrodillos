@@ -45,6 +45,20 @@ public class PruebasMotor {
     }
 
     public static void ejecutar() {
+        prueba("Fundido: la opacidad sube de 0 a 255 (a negro) o baja de 255 a 0 (desde negro)", () -> {
+            Fundido a = new Fundido(500, true);
+            Fundido b = new Fundido(500, false);
+            verificar(a.opacidad() == 0 && b.opacidad() == 255, "inicio " + a.opacidad() + "/" + b.opacidad());
+            for (int i = 0; i < 15; i++) {
+                Tiempo.avanzar();
+            }
+            verificar(a.opacidad() > 100 && a.opacidad() < 155, "mitad " + a.opacidad());
+            for (int i = 0; i < 15; i++) {
+                Tiempo.avanzar();
+            }
+            verificar(a.opacidad() == 255 && b.opacidad() == 0 && a.terminado() && b.terminado(), "final");
+        });
+
         prueba("Sacudida: empieza fuerte, decae hasta 0, el desplazamiento no supera la amplitud y se queda la más fuerte", () -> {
             Sacudida.detener();
             verificar(Sacudida.amplitudActual() == 0 && !Sacudida.activa(), "sin sacudida");

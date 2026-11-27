@@ -47,7 +47,7 @@ public class GestorCreditos implements IEstadoJuego, IAudio {
             index = (int) Math.min(FONDOS.length - 1, tiempoTranscurrido / (duracion / FONDOS.length));
         } else {
             AudioPlayer.getInstance().stopSound();
-            GestorEstados.getInstance().cambiarEstadoActual(Estado.MENU);
+            GestorEstados.getInstance().irA(Estado.MENU);
         }
     }
 

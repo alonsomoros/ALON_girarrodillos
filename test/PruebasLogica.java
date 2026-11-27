@@ -78,6 +78,7 @@ public class PruebasLogica {
 
         main.maquina_estado.tienda.PruebasTienda.ejecutar();
         main.motor.PruebasMotor.ejecutar();
+        main.maquina_estado.PruebasEstados.ejecutar();
 
 
 
