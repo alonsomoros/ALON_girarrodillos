@@ -46,7 +46,7 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 - [ ] **5.3** Inventario de `rec/wallpapers`: hay 12 "Captura de pantalla (…).png" y otras imágenes que el código no usa. Moverlas a `rec/_archivo/` (tú decides si borrar). *Solo tras tu OK.*
 - [x] **5.4** `main.motor.Tiempo`: contador de actualizaciones (ticks) que avanza en `GestorPrincipal.actualizar()` y conversión ms↔ticks. Pruebas.
 - [x] **5.5** `main.motor.Interpolador`: easing puros (lineal, easeIn/Out, easeInOut, rebote, elástico, easeOutBack). Pruebas de valores en 0, 0.5 y 1.
-- [ ] **5.6** `main.motor.Animacion`: carga una tira `nombre_Nf.png`, ms por frame, modos una vez/bucle/ping-pong, `frameActual(ticks)`. Pruebas de selección de frame.
+- [x] **5.6** `main.motor.Animacion`: carga una tira `nombre_Nf.png`, ms por frame, modos una vez/bucle/ping-pong, `frameActual(ticks)`. Pruebas de selección de frame.
 
 ### 5B. Efectos, secuencias y transiciones
 - [ ] **5.7** `Efecto` (interfaz: `actualizar()`, `dibujar(g)`, `terminado()`) y `GestorEfectos` con 3 capas (fondo/medio/frente) y ciclo de vida. Un gestor por estado. Pruebas de alta/baja.
