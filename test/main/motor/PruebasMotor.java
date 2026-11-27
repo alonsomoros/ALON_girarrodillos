@@ -311,6 +311,11 @@ public class PruebasMotor {
             verificar(gestor.cantidad() == 3 && b.getAltura() == 0, "bajada a 0");
             b.disminuirAltura(2);
             verificar(gestor.cantidad() == 3, "sin cambio: no debe mostrar nada");
+            verificar(b.estaAnimando(), "tras bajar debe estar animándose");
+            for (int i = 0; i < 40; i++) {
+                Tiempo.avanzar();
+            }
+            verificar(!b.estaAnimando(), "la animación dura ~0,5 s");
             TextoFlotante.setDestino(null);
         });
     }

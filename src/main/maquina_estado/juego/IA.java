@@ -41,7 +41,7 @@ public class IA extends EsqueletoPlayer implements IEstadoJuego {
         this.dibujarVida(graficos);
 
         // Dibujar bastion
-        if (this.bastion.getAltura() > 0) {
+        if (this.bastion.getAltura() > 0 || this.bastion.estaAnimando()) {
             this.bastion.dibujarBastion(graficos, this, Constantes.COORDENADAS.BASTION_IA);
         }
 
@@ -57,7 +57,7 @@ public class IA extends EsqueletoPlayer implements IEstadoJuego {
     }
 
     protected void dibujarVida(Graphics graficos) {
-        Dibujador.TEXTO.dibujar(graficos, getVidaString(), 621, 165, color);
+        dibujarCorona(graficos, new Point(621, 165), new Point(620, 158), 208);
     }
 
     // Entre tiradas la IA fija los canales que le interesan y vuelve a tirar el resto (D5)

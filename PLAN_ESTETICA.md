@@ -31,7 +31,8 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 ## Reglas de trabajo (como antes)
 1. **1 tarea = 1 commit** (`fase.tarea: título`), que tacha su casilla. Una rama por fase (`fase-5-motor`, …); merge y **push solo con tu OK**.
 2. Cada tarea compila, pasa `scripts\probar.bat` y se **comprueba visualmente** (captura de pantalla con el `Capturador` de la 5.13 y/o juego real).
-3. **Nada se bloquea por arte que aún no hayas dibujado:** cada efecto trae un **placeholder procedural** (hecho con código) y se sustituye
+3. **Registro de lo "en crudo":** todo lo que se dibuja con código o suena con audio generado se apunta en `docs/sustituibles.md` en el mismo commit, para decidir después qué se sustituye por arte tuyo.
+4. **Nada se bloquea por arte que aún no hayas dibujado:** cada efecto trae un **placeholder procedural** (hecho con código) y se sustituye
    cuando dejas tu PNG con el mismo nombre en `rec/`. 👤 = lo dibujas tú (opcional, sin prisa).
 4. Presupuesto de rendimiento: **≥ 55 FPS y < 25 % de CPU** con efectos activos; las partículas tienen límite y no se crean objetos por frame.
 5. La lógica del juego (reglas, rodillo, IA) **no cambia**: los efectos se enganchan por eventos (daño recibido, ataque lanzado, nivel subido…).
@@ -86,8 +87,8 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 - [ ] **6.9** **Impacto:** animación de 5 frames en el punto de golpe + `Destello` + sacudida pequeña + `impacto.wav`. 👤 `impacto_5f.png` (64x64 por frame). Placeholder: estallido de partículas.
 - [x] **6.10** Variantes por héroe: estela de la flecha, bola de fuego con partículas, tajo del Caballero, destello del Sacerdote… y un sonido por héroe (6 `.wav`).
 - [x] **6.11** **Números flotantes:** "-3" rojo sobre la corona, "+2" verde al curar, "-2" gris sobre el bastión; suben y se desvanecen (usa la fuente nueva cuando exista; antes, la actual).
-- [ ] **6.12** **Corona:** pulso/sacudida y destello rojo al recibir daño, y barra de vida visual (gemas o corazones) además de los dígitos; se agrieta cuando le queda poco. 👤 `vida_gema_2f.png`
-- [ ] **6.13** **Bastión:** la altura sube y baja con animación (bloques que caen/se levantan), polvo y escombros al romperse, sonido.
+- [x] **6.12** **Corona:** pulso/sacudida y destello rojo al recibir daño, y barra de vida visual (gemas o corazones) además de los dígitos; se agrieta cuando le queda poco. 👤 `vida_gema_2f.png`
+- [x] **6.13** **Bastión:** la altura sube y baja con animación (bloques que caen/se levantan), polvo y escombros al romperse, sonido.
 - [ ] **6.14** **Activadores:** la barra baja con tween suave (no salta), brilla cuando llega a 0 ("listo") y parpadea hasta que el héroe actúa.
 
 ### 6C. Héroes y progresión

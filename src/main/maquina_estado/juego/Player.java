@@ -48,7 +48,7 @@ public class Player extends EsqueletoPlayer implements IEstadoJuego {
         this.dibujarVida(graficos);
 
         // Dibujar bastion
-        if (this.bastion.getAltura() > 0) {
+        if (this.bastion.getAltura() > 0 || this.bastion.estaAnimando()) {
             this.bastion.dibujarBastion(graficos, this, Constantes.COORDENADAS.BASTION_PLAYER);
         }
 
@@ -125,7 +125,7 @@ public class Player extends EsqueletoPlayer implements IEstadoJuego {
     }
 
     protected void dibujarVida(Graphics graficos) {
-        Dibujador.TEXTO.dibujar(graficos, getVidaString(), 621, 460, color);
+        dibujarCorona(graficos, new Point(621, 460), new Point(620, 452), 405);
     }
 
 }
