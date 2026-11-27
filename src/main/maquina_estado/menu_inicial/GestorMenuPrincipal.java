@@ -44,7 +44,7 @@ public class GestorMenuPrincipal implements IEstadoJuego, IAudio {
 
     public GestorMenuPrincipal() {
 
-        indexFotoMenu = Math.floor(Math.random() * 4);
+        indexFotoMenu = Math.floor(Math.random() * 15);
         imagenFondo = CargadorRecursos.cargarEscalada(Constantes.RUTAS.FONDOS.PRINCIPAL + (int) indexFotoMenu + ".png", Constantes.ANCHO_JUEGO, Constantes.ALTO_JUEGO);
 
 
