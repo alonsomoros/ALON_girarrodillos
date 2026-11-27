@@ -22,10 +22,10 @@ import java.util.function.Supplier;
  * en el instante del golpe, no al final.
  */
 public class Ataque {
-    /** Duración en ms de un recorrido completo (salir, dos viajes, golpe y esconder). Las pruebas la acortan. */
+    /** Duración en ms de un recorrido completo (salir, recorrido, golpe y esconder). Las pruebas la acortan. */
     static long duracionPorDefecto = 2000;
 
-    private static final double PESO_RECORRIDO_COMPLETO = 5.8;
+    private static final double PESO_RECORRIDO_COMPLETO = 5.0;
 
     enum Tipo {SALIR, VIAJAR, GOLPE, ESPERAR, ESCONDER, EFECTO}
 
@@ -34,15 +34,21 @@ public class Ataque {
         final Tipo tipo;
         final Point desde;
         final Point hasta;
+        final Point[] ruta; // Solo VIAJAR: puntos por los que pasa (se recorren de seguido, sin pausas)
         final double peso;
         final Runnable accion;
         long inicioMs;
         long finMs;
 
         private Paso(final Tipo tipo, final Point desde, final Point hasta, final double peso, final Runnable accion) {
+            this(tipo, desde, hasta, null, peso, accion);
+        }
+
+        private Paso(final Tipo tipo, final Point desde, final Point hasta, final Point[] ruta, final double peso, final Runnable accion) {
             this.tipo = tipo;
             this.desde = desde;
             this.hasta = hasta;
+            this.ruta = ruta;
             this.peso = peso;
             this.accion = accion;
         }
@@ -52,9 +58,14 @@ public class Ataque {
             return new Paso(Tipo.SALIR, trampilla, trampilla, 1.0, null);
         }
 
-        /** Se desliza de una trampilla a otra. */
+        /** Va de una trampilla a otra, acelerando hasta chocar (como cayendo). */
         public static Paso viajar(final Point desde, final Point hasta) {
-            return new Paso(Tipo.VIAJAR, desde, hasta, 1.6, null);
+            return recorrer(desde, hasta);
+        }
+
+        /** Recorre varios puntos de seguido en una sola carrera que acelera hasta el último, sin pararse en los intermedios. */
+        public static Paso recorrer(final Point... puntos) {
+            return new Paso(Tipo.VIAJAR, puntos[0], puntos[puntos.length - 1], puntos, 2.4, null);
         }
 
         /** Impacto en la trampilla: pulso, destello y sacudida pequeña. */
@@ -169,14 +180,15 @@ public class Ataque {
                 elevacion = 12 * Interpolador.SALIDA.aplicar(u);
                 break;
             case VIAJAR:
-                double e = Interpolador.ENTRADA_SALIDA.aplicar(u);
-                x = p.desde.x + (p.hasta.x - p.desde.x) * e;
-                y = p.desde.y + (p.hasta.y - p.desde.y) * e;
+                // Una sola carrera que arranca despacio y acelera hasta el objetivo; los puntos intermedios solo curvan el camino
+                double[] punto = puntoDelRecorrido(p.ruta, Interpolador.ENTRADA.aplicar(u));
+                x = punto[0];
+                y = punto[1];
                 elevacion = 12;
                 break;
             case GOLPE:
                 escala = 1 + 0.3 * Math.sin(Math.PI * u);
-                elevacion = 12;
+                elevacion = 12 + 16 * (1 - Interpolador.REBOTE.aplicar(u)); // Rebota al chocar y se asienta
                 break;
             case ESPERAR:
                 if (p.desde == null) {
@@ -206,6 +218,24 @@ public class Ataque {
             g.fillOval((int) x - radio, (int) (y - elevacion) - radio, radio * 2, radio * 2);
             g.setComposite(original);
         }
+    }
+
+    // Punto a la fracción f (0 a 1) de la longitud total de la ruta
+    private static double[] puntoDelRecorrido(final Point[] ruta, final double f) {
+        double total = 0;
+        for (int i = 1; i < ruta.length; i++) {
+            total += ruta[i - 1].distance(ruta[i]);
+        }
+        double restante = f * total;
+        for (int i = 1; i < ruta.length; i++) {
+            double tramo = ruta[i - 1].distance(ruta[i]);
+            if (restante <= tramo || i == ruta.length - 1) {
+                double k = tramo == 0 ? 1 : Math.min(1, restante / tramo);
+                return new double[]{ruta[i - 1].x + (ruta[i].x - ruta[i - 1].x) * k, ruta[i - 1].y + (ruta[i].y - ruta[i - 1].y) * k};
+            }
+            restante -= tramo;
+        }
+        return new double[]{ruta[0].x, ruta[0].y};
     }
 
     public Figura getFiguraAtacante() {

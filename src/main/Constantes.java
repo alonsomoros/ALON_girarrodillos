@@ -60,6 +60,9 @@ public class Constantes {
             public static final String ATAQUE = "rec/sonidos/ataque.wav";
             public static final String VICTORIA = "rec/sonidos/victoria.wav";
             public static final String DERROTA = "rec/sonidos/derrota.wav";
+            public static final String GIRO = "rec/sonidos/giro.wav";   // Provisional: se sustituye por el tuyo con el mismo nombre
+            public static final String TIC = "rec/sonidos/tic.wav";     // Al frenar cada canal
+            public static final String FIJAR = "rec/sonidos/fijar.wav"; // Al fijar un canal
         }
 
         public static class FONDOS {

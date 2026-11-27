@@ -25,7 +25,16 @@ public class Rodillo {
     /** Si es false el rodillo cambia de golpe, sin animación (pruebas y simulaciones). */
     public static boolean animar = true;
 
+    private static final int TICKS_BAJAR_FIJADOR = 10;
+    private static final int TICKS_SUBIR_FIJADOR = 8;
+
     private int punteroPos;
+    private boolean sonoro = false; // Solo el rodillo del jugador suena (el de la IA sería ruido)
+
+    // Fijador animado: baja desde arriba al fijar y sube al soltar. Se detecta el cambio comparando con lo ya visto.
+    private final boolean[] fijadorVisto = new boolean[MAX_ELEM];
+    private final long[] cambioFijador = new long[MAX_ELEM];
+    private final boolean[] paradaSonada = new boolean[MAX_ELEM];
 
     // Estado de la animación de giro (se calcula a partir de Tiempo: no se actualiza nada por frame)
     private final boolean[] girando = new boolean[MAX_ELEM];
@@ -141,10 +150,62 @@ public class Rodillo {
                 dibujarDestello(graficos, i, x, y);
             }
 
-            if (fijados[i]) {
-                Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ELEMENTOS_RODILLO.FIJADOR), x, y);
+            dibujarFijador(graficos, i, x, y);
+        }
+    }
+
+    // El fijador cae con rebote desde arriba del canal y, al soltar, sube y desaparece (recortado a la ventana del canal)
+    private void dibujarFijador(final Graphics graficos, final int canal, final int x, final int y) {
+        sincronizarFijadores(false);
+        long edad = Tiempo.ahora() - cambioFijador[canal];
+        double p; // 0 = arriba (oculto), 1 = en su sitio
+        if (fijadorVisto[canal]) {
+            p = Interpolador.RETROCESO.aplicar(Interpolador.limitar(edad / (double) TICKS_BAJAR_FIJADOR));
+        } else {
+            p = 1 - Interpolador.ENTRADA.aplicar(Interpolador.limitar(edad / (double) TICKS_SUBIR_FIJADOR));
+            if (p <= 0) {
+                return;
             }
         }
+        Image fijador = CargadorRecursos.cargarImagenCompatibleTranslucida(Constantes.RUTAS.ELEMENTOS_RODILLO.FIJADOR);
+        Graphics g = graficos.create(x, y, ANCHO_CANAL, ALTO_VENTANA);
+        g.drawImage(fijador, 0, (int) Math.round(-ALTO_VENTANA * (1 - p)), null);
+        g.dispose();
+    }
+
+    /** Detecta los canales fijados o soltados desde la última vez, para animarlos y hacerlos sonar. */
+    private void sincronizarFijadores(final boolean conSonido) {
+        int cambios = 0;
+        boolean fijado = false;
+        for (int i = 0; i < MAX_ELEM; i++) {
+            if (fijados[i] != fijadorVisto[i]) {
+                fijadorVisto[i] = fijados[i];
+                cambioFijador[i] = Tiempo.ahora();
+                cambios++;
+                fijado = fijados[i];
+            }
+        }
+        // Solo suena cuando el jugador fija UN canal (al cerrar o abrir todo el rodillo cambian los cinco a la vez)
+        if (conSonido && sonoro && cambios == 1 && fijado) {
+            main.AudioPlayer.getInstance().playSoundOnce(Constantes.RUTAS.EFECTOS.FIJAR);
+        }
+    }
+
+    /** Se llama en cada actualización del juego: sonido de fijar y "tic" al frenar cada canal. */
+    public void actualizar() {
+        sincronizarFijadores(true);
+        for (int i = 0; i < MAX_ELEM; i++) {
+            if (girando[i] && !paradaSonada[i] && !enCurso(i)) {
+                paradaSonada[i] = true;
+                if (sonoro) {
+                    main.AudioPlayer.getInstance().playSoundOnce(Constantes.RUTAS.EFECTOS.TIC);
+                }
+            }
+        }
+    }
+
+    public void setSonoro(final boolean sonoro) {
+        this.sonoro = sonoro;
     }
 
     // Canal en movimiento: una tira de símbolos cae y frena sobre la columna final (ya decidida) con un rastro difuminado
@@ -230,14 +291,17 @@ public class Rodillo {
 
     // El resultado se decide aquí, al empezar; la animación solo lo enseña
     private void sortear(final boolean conAnimacion) {
+        boolean algunCanalGira = false;
         for (int i = 0; i < MAX_ELEM; i++) {
             girando[i] = false;
+            paradaSonada[i] = false;
             if (!fijados[i]) { // Solo gira si el canal no está fijado
                 lateral1[i] = Elementos.values()[(int) (Math.random() * Elementos.values().length)];
                 lineaPrincipal[i] = distribuciones[i].tirar();
                 lateral2[i] = Elementos.values()[(int) (Math.random() * Elementos.values().length)];
 
                 if (conAnimacion) {
+                    algunCanalGira = true;
                     girando[i] = true;
                     inicioGiro[i] = Tiempo.ahora();
                     celdasGiro[i] = 5 + i;
@@ -246,6 +310,9 @@ public class Rodillo {
                     }
                 }
             }
+        }
+        if (algunCanalGira && sonoro) {
+            main.AudioPlayer.getInstance().playSoundOnce(Constantes.RUTAS.EFECTOS.GIRO);
         }
     }
 

@@ -44,6 +44,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
         player.setEnemigo(ia);
         ia.setEnemigo(player);
         acciones = new ColaAcciones(player, ia);
+        player.getRodillo().setSonoro(true); // El rodillo de la IA no suena
 
         crearParpadeoLuz();
         puedeFijar = false;
@@ -101,6 +102,8 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
             return; // Partida terminada: Enter vuelve al menú (GestorEstados)
         }
         actualizarParpadeo();
+        player.getRodillo().actualizar(); // Sonidos de frenada y de fijar
+        ia.getRodillo().actualizar();
 
         if (player.seleccionandoFiguras()) {
             player.seleccionFiguras(player.figurasDisponibles);

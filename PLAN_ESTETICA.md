@@ -73,8 +73,8 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 
 ### 6A. Rodillo (lo que más se toca en cada turno)
 - [x] **6.1** **Giro animado:** cada canal desliza sus símbolos en vertical (hay 3 por canal: lateral/principal/lateral) y frena escalonado de izquierda a derecha con rebote; el resultado ya está decidido al empezar (la lógica no cambia). `Rodillo` guarda estado `GIRANDO/PARADO`.
-- [ ] **6.2** Sonidos de giro y de "tic" al frenar cada canal (`giro.wav`, `tic.wav`). Provisionales generados; luego los tuyos con jsfxr.
-- [ ] **6.3** **Fijar canal animado:** el `Fijador` baja con easing y suena `fijar.wav`; al soltar sube.
+- [x] **6.2** Sonidos de giro y de "tic" al frenar cada canal (`giro.wav`, `tic.wav`). Provisionales generados; luego los tuyos con jsfxr.
+- [x] **6.3** **Fijar canal animado:** el `Fijador` baja con easing y suena `fijar.wav`; al soltar sube.
 - [ ] **6.4** Puntero del rodillo con pulso suave (escala/brillo) en vez de triángulo fijo.
 - [ ] **6.5** **Resolución visible de la tirada:** tras la última tirada, los símbolos que cuentan brillan y "vuelan" con estela a su destino (activador, bastión o barra de EXP), con un "+N" flotante. Se arma con `Secuencia`.
 - [ ] **6.6** Luces de turno: pasar los 3 círculos pintados a una lámpara sprite de 3 frames (apagada/encendida/parpadeo). 👤 `lampara_3f.png`
@@ -121,6 +121,18 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 - [ ] **7.11** **Logo** dibujado de "GIRARRODILLOS" (sustituye el texto con sombra y los semicírculos pintados de `GestorMenuPrincipal`). 👤 `logo.png` (~515x91)
 
 ---
+
+## FASE 7b — Controles cómodos: flechas y navegación por teclado  (rama `fase-7b-controles`)
+
+Hoy el teclado es fiel al juego original (WASD mueve, `E` gira, Espacio elige/fija) y los menús solo se manejan con el ratón.
+Objetivo: añadir los controles habituales **sin quitar los actuales**.
+
+- [ ] **7b.1** `Teclado`: acciones lógicas (ARRIBA, ABAJO, IZQUIERDA, DERECHA, ACEPTAR, ATRAS) que se activan con **flechas o WASD** y con **Enter/Espacio** y **Esc**. Todo el juego pregunta por la acción, no por la tecla. Pruebas del mapeo.
+- [ ] **7b.2** **Foco en los menús:** una etiqueta/botón siempre tiene el foco (marcado con flecha o resalte); flechas arriba/abajo (o izquierda/derecha) lo mueven y Enter/Espacio lo acepta. Si el ratón pasa por encima, el foco le sigue (y el clic sigue funcionando). Se hace sobre `Boton` y `ListaVertical` (7.7).
+- [ ] **7b.3** Aplicar el foco a: menú principal, tienda (elegir rodillo y comprar), música (siguiente/anterior), créditos (Enter salta) y la pausa (8.11).
+- [ ] **7b.4** **En partida:** flechas izquierda/derecha mueven el puntero del rodillo (como A/D), **Enter** gira (como `E`) y **Espacio** fija (como hoy). En la selección de héroes: flechas + Enter. Los controles antiguos siguen funcionando.
+- [ ] **7b.5** Rótulos de ayuda en pantalla con las teclas válidas en cada pantalla (se enlaza con los iconos de teclas de la 8.5).
+- [ ] **7b.6** Pruebas de navegación por foco (orden, salto de elementos deshabilitados, rebote en los extremos).
 
 ## FASE 8 — Pantallas y flujo  (rama `fase-8-pantallas`)
 
@@ -169,6 +181,7 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 | 10 | Teclas (E, A, D, Espacio) | 32x32 | 4 | `rec/ui/teclas_4x.png` | 8.5 |
 | 11 | Idle de héroes | 125x145 | 2-4 por héroe y nivel | `rec/sprites/figuras/<h>/<h>_lvlN_Nf.png` | 6.15 |
 | 12 | Sonidos propios | wav 44,1 kHz | — | `rec/sonidos/*.wav` (jsfxr) | 6.2, 6.10… |
+| 13 | Bastión de la IA (5 alturas, ya orientado hacia abajo) | 355x160 | 5 sprites | `rec/sprites/bastion/bastion_ia_1.png` a `bastion_ia_5.png` | 6.13 (si no existen, se usa el del jugador volteado) |
 
 Ya tienes dos recursos que encajan sin dibujar nada: los sprites dorados `*_lvl3x.png` (arte de nivel oro, hoy sin usar, útiles para el
 destello de subida de nivel) y las nubes de `Musica.png` (para el parallax de la 8.7).

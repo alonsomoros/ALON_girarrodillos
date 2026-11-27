@@ -142,7 +142,7 @@ public abstract class Figura {
             Point e = Trampillas.esquina(posicion);
             Point c = Trampillas.centro(posicion);
             Point k = Trampillas.coronaEnemiga(posicion);
-            return java.util.List.of(Ataque.Paso.salir(e), Ataque.Paso.viajar(e, c), Ataque.Paso.viajar(c, k),
+            return java.util.List.of(Ataque.Paso.salir(e), Ataque.Paso.recorrer(e, c, k),
                     Ataque.Paso.efecto(() -> main.motor.Sacudida.iniciar(10, 450)), Ataque.Paso.golpe(k),
                     Ataque.Paso.efecto(() -> getEnemigo().recibirAtaque(DANIO_BOMBA)), Ataque.Paso.esconder(k));
         });
@@ -170,12 +170,9 @@ public abstract class Figura {
                 pasos.add(Ataque.Paso.esperar(null, pausaInicial));
             }
             pasos.add(Ataque.Paso.salir(e));
-            pasos.add(Ataque.Paso.viajar(e, c));
-            Point destino = c;
-            if (muroLoFrena == null || !muroLoFrena.getAsBoolean()) {
-                pasos.add(Ataque.Paso.viajar(c, k));
-                destino = k;
-            }
+            boolean llegaALaCorona = muroLoFrena == null || !muroLoFrena.getAsBoolean();
+            Point destino = llegaALaCorona ? k : c;
+            pasos.add(llegaALaCorona ? Ataque.Paso.recorrer(e, c, k) : Ataque.Paso.recorrer(e, c));
             pasos.add(Ataque.Paso.golpe(destino));
             pasos.add(Ataque.Paso.efecto(efecto));
             pasos.add(Ataque.Paso.esconder(destino));
