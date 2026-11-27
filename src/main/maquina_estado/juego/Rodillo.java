@@ -267,8 +267,24 @@ public class Rodillo {
         return punteroPos;
     }
 
+    // Puntero con pulso suave: late (escala sobre su base), sube y baja un píxel y aclara el color, en un ciclo de 0,8 s
     public void dibujarPuntero(Graphics graficos) {
-        Dibujador.TRIANGULO.dibujar(graficos, punteroPos, punteroTriangulo, new Color(0xD6BFAD));
+        double onda = Math.sin(2 * Math.PI * (Tiempo.ahora() % 48) / 48.0); // -1 a 1
+        double escala = 1 + 0.12 * onda;
+        int baseX = punteroTriangulo[1].x;
+        int baseY = punteroTriangulo[0].y;
+        int[] x = new int[3];
+        int[] y = new int[3];
+        for (int i = 0; i < 3; i++) {
+            x[i] = (int) Math.round(baseX + (punteroTriangulo[i].x - baseX) * escala) + punteroPos * 69;
+            y[i] = (int) Math.round(baseY + (punteroTriangulo[i].y - baseY) * escala - onda);
+        }
+        float claridad = (float) ((onda + 1) / 2 * 0.35);
+        Color base = new Color(0xD6BFAD);
+        graficos.setColor(new Color(Math.round(base.getRed() + (255 - base.getRed()) * claridad),
+                Math.round(base.getGreen() + (255 - base.getGreen()) * claridad),
+                Math.round(base.getBlue() + (255 - base.getBlue()) * claridad)));
+        graficos.fillPolygon(x, y, 3);
     }
 
     public void moverPunteroIzquierda() {

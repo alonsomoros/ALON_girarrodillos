@@ -1,5 +1,6 @@
 package main.maquina_estado.juego;
 
+import main.motor.Tiempo;
 import main.AudioPlayer;
 import main.Constantes;
 
@@ -23,6 +24,8 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
     Player player; // De paquete: las pruebas los usan
     IA ia;
     private ColaAcciones acciones; // Orden de acción de la ronda (se recrea con cada partida)
+    private final LamparasTurno lamparas = new LamparasTurno();
+    private long tickCambioTurno = -1000; // Para el pop de la lámpara recién encendida
     private int turno;
     private ResultadoPartida resultado = ResultadoPartida.JUGANDO;
     private int monedasGanadas; // Recompensa de esta partida (0 mientras se juega)
@@ -228,22 +231,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
     }
 
     private void dibujarLucesTurno(Graphics graficos) {
-        int xLuz = 1100;
-        int yLuz = 530;
-
-        for (int i = 0; i < 3; i++) {
-            Dibujador.CIRCULO.dibujar(graficos, xLuz - i * 10, yLuz + i * 20, 10, new Color(0x2E1E13));
-        }
-
-        if (circuloParpadeante) {
-            for (int i = 0; i < 3; i++) {
-                Dibujador.CIRCULO.dibujar(graficos, xLuz - i * 10, yLuz + i * 20, 10, new Color(0xE4DEB0));
-            }
-        } else {
-            for (int i = 0; i < turno; i++) {
-                Dibujador.CIRCULO.dibujar(graficos, xLuz - i * 10, yLuz + i * 20, 10, new Color(0xE4DEB0));
-            }
-        }
+        lamparas.dibujar(graficos, turno, circuloParpadeante, Tiempo.ahora() - tickCambioTurno);
     }
 
 
@@ -258,6 +246,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
 
             ia.getRodillo().girarRodillo();
             turno++;
+            tickCambioTurno = Tiempo.ahora();
             Depurar.log("Turno: " + turno);
         }, tiempoActual);
 

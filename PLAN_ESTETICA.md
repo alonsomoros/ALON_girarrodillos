@@ -75,9 +75,9 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 - [x] **6.1** **Giro animado:** cada canal desliza sus símbolos en vertical (hay 3 por canal: lateral/principal/lateral) y frena escalonado de izquierda a derecha con rebote; el resultado ya está decidido al empezar (la lógica no cambia). `Rodillo` guarda estado `GIRANDO/PARADO`.
 - [x] **6.2** Sonidos de giro y de "tic" al frenar cada canal (`giro.wav`, `tic.wav`). Provisionales generados; luego los tuyos con jsfxr.
 - [x] **6.3** **Fijar canal animado:** el `Fijador` baja con easing y suena `fijar.wav`; al soltar sube.
-- [ ] **6.4** Puntero del rodillo con pulso suave (escala/brillo) en vez de triángulo fijo.
+- [x] **6.4** Puntero del rodillo con pulso suave (escala/brillo) en vez de triángulo fijo.
 - [ ] **6.5** **Resolución visible de la tirada:** tras la última tirada, los símbolos que cuentan brillan y "vuelan" con estela a su destino (activador, bastión o barra de EXP), con un "+N" flotante. Se arma con `Secuencia`.
-- [ ] **6.6** Luces de turno: pasar los 3 círculos pintados a una lámpara sprite de 3 frames (apagada/encendida/parpadeo). 👤 `lampara_3f.png`
+- [x] **6.6** Luces de turno: pasar los 3 círculos pintados a una lámpara sprite de 3 frames (apagada/encendida/parpadeo). 👤 `lampara_3f.png`
 
 ### 6B. Ataques y daño
 - [x] **6.7a** **Cola de acciones por prioridad (lógica):** las activaciones de la ronda se resuelven de una en una en el orden Asesino, Sacerdote, Ingeniero, Mago, Guerrero, Arquero; el Sacerdote ayuda al compañero tras actuar este. Ver `docs/animaciones.md`. Con pruebas.
