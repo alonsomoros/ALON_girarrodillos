@@ -45,7 +45,8 @@ public class GestorMenuPrincipal implements IEstadoJuego, IAudio {
     public GestorMenuPrincipal() {
 
         indexFotoMenu = Math.floor(Math.random() * 4);
-        imagenFondo = CargadorRecursos.cargarImagenCompatibleOpaca(Constantes.RUTAS.FONDOS.PRINCIPAL + (int) indexFotoMenu + ".png");
+        imagenFondo = CargadorRecursos.cargarEscalada(Constantes.RUTAS.FONDOS.PRINCIPAL + (int) indexFotoMenu + ".png", Constantes.ANCHO_JUEGO, Constantes.ALTO_JUEGO);
+
 
         etiquetaActual = secciones.get(0);
     }

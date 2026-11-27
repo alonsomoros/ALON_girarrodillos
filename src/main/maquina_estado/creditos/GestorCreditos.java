@@ -54,12 +54,12 @@ public class GestorCreditos implements IEstadoJuego, IAudio {
     @Override
     public void dibujar(Graphics graficos) {
         // Dibujar fondo
-        Image fondo = CargadorRecursos.cargarImagenCompatibleOpaca(FONDOS[index]);
-        if (ESCALAR_FONDO[index]) {
-            Dibujador.IMAGEN.dibujar(graficos, fondo, 0, 0, Constantes.ANCHO_JUEGO, Constantes.ALTO_JUEGO);
-        } else {
-            Dibujador.IMAGEN.dibujar(graficos, fondo, 0, 0);
-        }
+        // Escalados al tamaño del juego, o recortados (se veía solo la esquina superior izquierda a tamaño real)
+        Image fondo = ESCALAR_FONDO[index]
+                ? CargadorRecursos.cargarEscalada(FONDOS[index], Constantes.ANCHO_JUEGO, Constantes.ALTO_JUEGO)
+                : CargadorRecursos.cargarRecortada(FONDOS[index], Constantes.ANCHO_JUEGO, Constantes.ALTO_JUEGO);
+        Dibujador.IMAGEN.dibujar(graficos, fondo, 0, 0);
+
         dibujarCreditos(graficos);
     }
 

@@ -110,6 +110,24 @@ public class CargadorRecursos {
         return escalada;
     }
 
+    // Solo la esquina superior izquierda de la imagen (ancho x alto), cacheada. Para fondos que el juego ya dibujaba
+    // a tamaño real y de los que solo se veía esa parte.
+    public static BufferedImage cargarRecortada(final String ruta, final int ancho, final int alto) {
+        final String clave = ruta + "#" + ancho + "x" + alto;
+        BufferedImage enCache = CacheImagenes.obtener(clave, Transparency.OPAQUE);
+        if (enCache != null) {
+            return enCache;
+        }
+        BufferedImage origen = leerImagen(ruta);
+        GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+        BufferedImage recorte = gc.createCompatibleImage(ancho, alto, Transparency.OPAQUE);
+        Graphics2D g = recorte.createGraphics();
+        g.drawImage(origen, 0, 0, null);
+        g.dispose();
+        CacheImagenes.guardar(clave, Transparency.OPAQUE, recorte);
+        return recorte;
+    }
+
     // Escala con buena calidad: si se reduce a menos de la mitad, lo hace por pasos de la mitad (evita dientes de sierra)
     private static BufferedImage escalar(final BufferedImage origen, final int ancho, final int alto, final int transparencia) {
         BufferedImage actual = origen;

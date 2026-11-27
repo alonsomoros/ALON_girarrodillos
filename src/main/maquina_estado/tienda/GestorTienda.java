@@ -92,7 +92,8 @@ public class GestorTienda implements IEstadoJuego, IAudio {
     @Override
     public void dibujar(Graphics graficos) {
         // Dibujar fondo
-        Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleOpaca(Constantes.RUTAS.FONDOS.TIENDA), 0, 0, Constantes.ANCHO_JUEGO, Constantes.ALTO_JUEGO);
+        Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarEscalada(Constantes.RUTAS.FONDOS.TIENDA, Constantes.ANCHO_JUEGO, Constantes.ALTO_JUEGO), 0, 0);
+
 
         Progreso progreso = Progreso.getInstance();
         Dibujador.TEXTO.dibujarConSombra(graficos, "TIENDA", Constantes.MITAD_VENTANA_ANCHO, 110, 60, COLOR_TEXTO);
