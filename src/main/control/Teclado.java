@@ -13,6 +13,7 @@ public class Teclado implements KeyListener {
     public Tecla espacio = new Tecla();
     public Tecla teclaE = new Tecla();
     public Tecla X = new Tecla();
+    public Tecla f2 = new Tecla();
 
 
     public final long INTERVALO_PULSACION = 1;
@@ -44,6 +45,9 @@ public class Teclado implements KeyListener {
             case KeyEvent.VK_ENTER:
                 X.teclaPulsada();
                 break;
+            case KeyEvent.VK_F2:
+                f2.teclaPulsada();
+                break;
         }
     }
 
@@ -70,6 +74,10 @@ public class Teclado implements KeyListener {
             case KeyEvent.VK_ENTER:
                 X.teclaLiberada();
                 break;
+            case KeyEvent.VK_F2:
+                f2.teclaLiberada();
+                break;
+
         }
     }
 

@@ -56,7 +56,7 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 - [x] **5.11** `Sonidos`: banco de efectos precargados (no se crea un `Clip` por reproducción), polifonía y volumen por categoría. `AudioPlayer` delega en él. Pruebas mínimas.
 
 ### 5C. Herramientas para iterar con tu arte
-- [ ] **5.12** **Galería de efectos** (solo con `-Dgirar.debug=true`, tecla F2): pantalla donde pulsas teclas para lanzar cada efecto/animación aislados. Es donde verás tus sprites nuevos sin jugar una partida.
+- [x] **5.12** **Galería de efectos** (solo con `-Dgirar.debug=true`, tecla F2): pantalla donde pulsas teclas para lanzar cada efecto/animación aislados. Es donde verás tus sprites nuevos sin jugar una partida.
 - [ ] **5.13** `Capturador` (en `test/`): renderiza un estado/efecto a PNG sin abrir ventana, para revisar el aspecto de cada tarea. `scripts\capturar.bat`.
 
 **Cierre de fase 5:** pruebas verdes, RAM y FPS medidos y anotados, merge + push con tu OK.

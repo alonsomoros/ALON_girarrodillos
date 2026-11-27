@@ -11,6 +11,8 @@ import main.motor.Sacudida;
 
 
 import main.maquina_estado.creditos.GestorCreditos;
+import main.maquina_estado.galeria.GestorGaleria;
+
 import main.maquina_estado.juego.GestorGirarrodillos;
 import main.maquina_estado.musica.GestorMenuMusica;
 import main.maquina_estado.menu_inicial.GestorMenuPrincipal;
@@ -39,6 +41,7 @@ public class GestorEstados {
         estadosDelJuego.put(Estado.MUSICA, new GestorMenuMusica());
         estadosDelJuego.put(Estado.CREDITOS, new GestorCreditos());
         estadosDelJuego.put(Estado.MENU, new GestorMenuPrincipal());
+        estadosDelJuego.put(Estado.GALERIA, new GestorGaleria());
 
         iniciado = false;
         cambiarEstadoActual(Estado.MENU);
@@ -53,6 +56,12 @@ public class GestorEstados {
 
     public void actualizar() {
         long tiempoActual = System.nanoTime();
+
+        if (Depurar.ACTIVO && estadoActualId != Estado.GALERIA) { // F2: galería de efectos (solo en modo depuración)
+            GestorControles.teclado.procesarTecla(GestorControles.teclado.f2, () -> {
+                irA(Estado.GALERIA);
+            }, tiempoActual);
+        }
 
         if (estadoActualId != Estado.MENU) {
             GestorControles.teclado.procesarTecla(GestorControles.teclado.X, () -> {
@@ -93,7 +102,12 @@ public class GestorEstados {
                 .hacer(() -> transicionando = false));
     }
 
+    public IEstadoJuego getEstado(final Estado estado) {
+        return estadosDelJuego.get(estado);
+    }
+
     public Estado getEstadoActualId() {
+
         return estadoActualId;
     }
 
