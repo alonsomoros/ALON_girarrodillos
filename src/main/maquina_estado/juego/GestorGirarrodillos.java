@@ -24,6 +24,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
     Player player; // De paquete: las pruebas los usan
     IA ia;
     private ColaAcciones acciones; // Orden de acción de la ronda (se recrea con cada partida)
+    private final PantallaFinal pantallaFinal = new PantallaFinal();
     private final LamparasTurno lamparas = new LamparasTurno();
     private long tickCambioTurno = -1000; // Para el pop de la lámpara recién encendida
     private int turno;
@@ -85,6 +86,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
                 break;
         }
         Progreso.getInstance().ganarMonedas(monedasGanadas);
+        pantallaFinal.iniciar(resultado, monedasGanadas);
 
         String sonido = resultado == ResultadoPartida.VICTORIA ? Constantes.RUTAS.EFECTOS.VICTORIA : Constantes.RUTAS.EFECTOS.DERROTA;
         AudioPlayer.getInstance().playSoundOnce(sonido);
@@ -102,6 +104,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
     @Override
     public void actualizar() {
         if (resultado != ResultadoPartida.JUGANDO) {
+            pantallaFinal.actualizar(); // Las monedas suben de una en una con su sonido
             return; // Partida terminada: Enter vuelve al menú (GestorEstados)
         }
         actualizarParpadeo();
@@ -199,28 +202,7 @@ public class GestorGirarrodillos implements IEstadoJuego, IAudio {
         if (resultado == ResultadoPartida.JUGANDO) {
             return;
         }
-        Dibujador.RECTANGULO_RELLENO.dibujar(graficos, new Rectangle(0, 0, Constantes.ANCHO_JUEGO, Constantes.ALTO_JUEGO), new Color(0, 0, 0, 170));
-
-        String titulo;
-        Color color;
-        switch (resultado) {
-            case VICTORIA:
-                titulo = "VICTORIA";
-                color = new Color(0xE4DEB0);
-                break;
-            case DERROTA:
-                titulo = "DERROTA";
-                color = new Color(0xD66A5E);
-                break;
-            default:
-                titulo = "EMPATE";
-                color = new Color(0xD6BFAD);
-                break;
-        }
-        Dibujador.TEXTO.dibujarConSombra(graficos, titulo, Constantes.MITAD_VENTANA_ANCHO, Constantes.MITAD_VENTANA_ALTO, 90, color);
-        Dibujador.TEXTO.dibujar(graficos, "+" + monedasGanadas + (monedasGanadas == 1 ? " moneda" : " monedas") + "  (total: " + Progreso.getInstance().getMonedas() + ")",
-                Constantes.MITAD_VENTANA_ANCHO, Constantes.MITAD_VENTANA_ALTO + 40, 24, new Color(0xE4DEB0));
-        Dibujador.TEXTO.dibujar(graficos, "Enter: volver al menu", Constantes.MITAD_VENTANA_ANCHO, Constantes.MITAD_VENTANA_ALTO + 80, 24, Color.WHITE);
+        pantallaFinal.dibujar(graficos, Progreso.getInstance().getMonedas());
     }
 
 

@@ -35,11 +35,13 @@ class Impacto {
         return frames;
     }
 
-    /** Dibuja el frame que toca al avance u (0 a 1) centrado en (cx, cy). */
-    static void dibujar(final Graphics2D g, final double cx, final double cy, final double u) {
+    /** Dibuja el frame que toca al avance u (0 a 1) centrado en (cx, cy), con un tamaño relativo (1 = el del frame). */
+    static void dibujar(final Graphics2D g, final double cx, final double cy, final double u, final double escala) {
         BufferedImage[] f = frames();
         int i = (int) Math.min(f.length - 1, Math.max(0, u * f.length));
-        g.drawImage(f[i], (int) Math.round(cx - f[i].getWidth() / 2.0), (int) Math.round(cy - f[i].getHeight() / 2.0), null);
+        int ancho = (int) Math.round(f[i].getWidth() * escala);
+        int alto = (int) Math.round(f[i].getHeight() * escala);
+        g.drawImage(f[i], (int) Math.round(cx - ancho / 2.0), (int) Math.round(cy - alto / 2.0), ancho, alto, null);
     }
 
     private static BufferedImage[] provisionales() {

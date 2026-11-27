@@ -379,6 +379,36 @@ public class PruebasJuego {
             verificar(a.alturaMostrada() == 1, "al final se ve la real: " + a.alturaMostrada());
         });
 
+        prueba("Barra de EXP: sube de una en una y, al llenarse, se queda llena un momento antes de subir de nivel", () -> {
+            Player p = new Player();
+            Figura f = new main.maquina_estado.juego.figuras.Arquero(p);
+            f.aumentarExperiencia(2);
+            verificar(f.getExperiencia() == 2 && f.expMostrada() == 0, "la lógica cambia al instante, el dibujo no: " + f.expMostrada());
+            for (int i = 0; i < 9; i++) {
+                main.motor.Tiempo.avanzar();
+            }
+            verificar(f.expMostrada() == 2, "tras 8 ticks muestra 2: " + f.expMostrada());
+            f.aumentarExperiencia(4); // llena: sube de nivel
+            verificar(f.getNivel() == 2 && f.getExperiencia() == 0, "nivel " + f.getNivel() + " xp " + f.getExperiencia());
+            verificar(f.expMostrada() == 2, "al empezar se sigue viendo 2: " + f.expMostrada());
+            for (int i = 0; i < 17; i++) {
+                main.motor.Tiempo.avanzar();
+            }
+            verificar(f.expMostrada() == 6, "llena y brillando: " + f.expMostrada());
+            for (int i = 0; i < 30; i++) {
+                main.motor.Tiempo.avanzar();
+            }
+            verificar(f.expMostrada() == 0, "después vuelve a la real: " + f.expMostrada());
+        });
+
+        prueba("Pantalla final: las monedas suben de una en una tras el título, hasta el total", () -> {
+            verificar(PantallaFinal.monedasMostradas(10, 3) == 0, "antes de empezar");
+            verificar(PantallaFinal.monedasMostradas(70, 3) == 1, "primera moneda");
+            verificar(PantallaFinal.monedasMostradas(80, 3) == 2, "segunda moneda");
+            verificar(PantallaFinal.monedasMostradas(500, 3) == 3, "tope en el total");
+            verificar(PantallaFinal.monedasMostradas(500, 0) == 0, "sin monedas no sube nada");
+        });
+
         prueba("Rodillo: el resultado se decide al girar, el giro dura ~1 s, los canales fijados no giran", () -> {
             Player p = new Player();
             Rodillo r = p.getRodillo();

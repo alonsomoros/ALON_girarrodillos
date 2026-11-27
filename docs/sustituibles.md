@@ -17,6 +17,8 @@ se dibuje "en crudo" se añade a este registro en el mismo commit que lo crea.
 | Gema de vida (2 frames) | `GemasVida` | `rec/sprites/efectos/vida_gema_2f.png` (llena, vacía) | provisional | sí, sustituir |
 | Bastión de la IA (5 alturas) | `Bastion` | `rec/sprites/bastion/bastion_ia_1.png` a `bastion_ia_5.png` (355x160, ya orientado hacia abajo) | provisional (usa el del jugador volteado) | sí, sustituir |
 | Reposo de los héroes (2-4 frames) | `Figura.dibujarFigura` | `rec/sprites/figuras/<héroe>/<héroe>_lvl<N>_<M>f.png` (125x145 por frame, p. ej. `arquero_lvl1_2f.png`) | provisional (respiración procedural: sube y baja 1,5 px) | por decidir (prioridad baja) |
+| Estrellas (3 tamaños) | `Estrella` | `rec/sprites/efectos/estrella_3x.png` (3 frames del mismo ancho: pequeña, mediana, grande; unos 32x32 cada uno) | provisional (estrellas doradas) | sí, sustituir |
+| Confeti (4 piezas) | `PantallaFinal` | `rec/sprites/efectos/confeti_4x.png` (4 frames del mismo ancho, unos 8x12) | provisional (rectángulos de colores) | por decidir |
 | Impacto de golpe | `Impacto` | `rec/sprites/efectos/impacto_5f.png` (64x64 por frame, 5 frames) | provisional (anillo con chispas) | sí, sustituir |
 | Brillo de activador listo | `Activador` | Sprite de brillo o activador con frame "listo" | crudo (óvalo dorado que late) | por decidir |
 
@@ -31,6 +33,9 @@ se dibuje "en crudo" se añade a este registro en el mismo commit que lo crea.
 | Bastión sube | `rec/sonidos/bastion_sube.wav` | Al subir el bastión |
 | Bastión se rompe | `rec/sonidos/bastion_rompe.wav` | Al bajar el bastión |
 | Impacto | `rec/sonidos/impacto.wav` | Al golpear (muro, corona, rival) |
+| Subida de nivel | `rec/sonidos/nivel.wav` | Cuando el héroe sube de nivel (arpegio) |
+| Bomba | `rec/sonidos/bomba.wav` | Explosión de la bomba del héroe de oro |
+| Monedas | `rec/sonidos/monedas.wav` | Cada moneda que se suma en la pantalla final |
 | Genéricos del juego original | `ataque.wav`, `boton.wav`, `victoria.wav`, `derrota.wav` | Ya existentes |
 
 ## Dibujado en crudo en el tablero (partida)
@@ -46,6 +51,10 @@ se dibuje "en crudo" se añade a este registro en el mismo commit que lo crea.
 | Grietas de la corona con poca vida | `EsqueletoPlayer` | Líneas oscuras | Sprite de corona agrietada | crudo | por decidir |
 | Escombros y polvo del bastión | `Bastion` | Cuadrados y círculos grises | Sprites `escombro_Nx.png` / `polvo_4f.png` | crudo | por decidir |
 | Iluminación del héroe al atacar | `Figura.iluminada` | Aclarado automático del sprite (+80 de brillo) | crudo | no, se queda en código |
+| Halo de carga de la bomba | `Figura.dibujarHalo` | Círculos naranja y crema que crecen | Sprite de carga | crudo | por decidir |
+| Anillo de subida de nivel | `Figura.dibujarSubidaDeNivel` | Óvalo dorado que se expande (con estrellas) | Sprite de destello de nivel (los `*_lvl3x.png` dorados ya existen) | crudo | por decidir |
+| Aro de barra de EXP llena | `Figura.dibujarFigura` | Óvalo dorado que late en la base | Frame de base llena | crudo | por decidir |
+| Viñeta y humo de la derrota | `PantallaFinal` | Degradado radial y círculos grises | Sprites de humo | crudo | por decidir |
 | Estelas de proyectiles | `Ataque.dibujarEstela` | Copias semitransparentes del sprite | Sprites de estela por héroe | crudo | por decidir |
 | Brasas del fuego del Mago | `Ataque.dibujarEstela` | Círculos naranjas | Partículas propias | crudo | por decidir |
 | Tajo del Caballero | `Ataque.dibujarTajo` | Arco blanco | `tajo_4f.png` | crudo | por decidir |
@@ -53,7 +62,7 @@ se dibuje "en crudo" se añade a este registro en el mismo commit que lo crea.
 | Destello blanco del golpe | `Ataque.dibujarPaso` | Círculo blanco suave bajo el impacto | Se queda o se quita al tener `impacto_5f.png` | crudo | por decidir |
 | Triángulos de elección de héroe | `GestorGirarrodillos` | Triángulos | Flechas dibujadas (8.4) | crudo | sí, con 8.4 |
 | Texto de stats de las figuras | `Figura.dibujarStats` | Texto sobre una imagen | Fuente bitmap | crudo | sí, con la fuente bitmap |
-| Fondo de pantalla de victoria/derrota | `GestorGirarrodillos.dibujarFinDePartida` | Rectángulo negro y texto con sombra | Banner con estrellas (6.20) | crudo | sí, con 6.20 |
+| Título de victoria/derrota/empate | `PantallaFinal` | Texto con sombra que cae con rebote | Banner dibujado | crudo | sí, con la fuente bitmap |
 
 ## Dibujado en crudo en menús y pantallas
 

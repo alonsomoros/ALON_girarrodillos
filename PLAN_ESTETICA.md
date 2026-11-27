@@ -94,14 +94,14 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 ### 6C. Héroes y progresión
 - [x] **6.15** **Idle:** cada héroe "respira" (sube/baja 1-2 px y cambia de escala mínimamente, procedural). Si dibujas 2-4 frames, se usan en su lugar. 👤 `arquero_lvl1_2f.png`, etc. (prioridad baja)
 - [x] **6.16** **Animación de ataque del héroe:** pequeño impulso hacia delante y vuelta con easing durante el lanzamiento.
-- [ ] **6.17** **Subida de nivel:** destello dorado, estrellitas, cambio de sprite con flash y `nivel.wav`.
-- [ ] **6.18** **Bomba (ataque especial):** carga con halo, la pantalla se oscurece, sacudida fuerte y explosión; `bomba.wav`.
-- [ ] **6.19** Barra de EXP de la base: se rellena con animación y brilla al llenarse.
+- [x] **6.17** **Subida de nivel:** destello dorado, estrellitas, cambio de sprite con flash y `nivel.wav`.
+- [x] **6.18** **Bomba (ataque especial):** carga con halo, la pantalla se oscurece, sacudida fuerte y explosión; `bomba.wav`.
+- [x] **6.19** Barra de EXP de la base: se rellena con animación y brilla al llenarse.
 
 ### 6D. Fin de partida
-- [ ] **6.20** **Victoria:** lluvia de estrellas/confeti (partículas con tus sprites) y banner "VICTORIA" que cae con rebote. **Derrota:** viñeta oscura y humo. **Empate:** neutro. 👤 `estrella_3x.png` (tres tamaños), `confeti_4x.png`
-- [ ] **6.21** El contador de monedas "+3" sube animado con sonido de monedas (`monedas.wav`).
-- [ ] **6.22** (Opcional) *Hit-stop*: 3-4 frames de pausa en impactos fuertes para dar peso.
+- [x] **6.20** **Victoria:** lluvia de estrellas/confeti (partículas con tus sprites) y banner "VICTORIA" que cae con rebote. **Derrota:** viñeta oscura y humo. **Empate:** neutro. 👤 `estrella_3x.png` (tres tamaños), `confeti_4x.png`
+- [x] **6.21** El contador de monedas "+3" sube animado con sonido de monedas (`monedas.wav`).
+- [x] **6.22** (Opcional) *Hit-stop*: 3-4 frames de pausa en impactos fuertes para dar peso.
 
 **Cierre de fase 6:** partida completa grabada con el `Capturador`/robot, FPS y CPU medidos, merge + push.
 

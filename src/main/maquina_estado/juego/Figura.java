@@ -103,10 +103,22 @@ public abstract class Figura {
     // ------------------- Animación de la figura -------------------
 
     private static final int TICKS_IMPULSO = 22;
+    private static final int TICKS_CARGA = 36;
+    private static final int TICKS_SUBIDA = 40;
     private static final int PERIODO_RESPIRACION = 120; // 2 s a 60 actualizaciones por segundo
     private static final java.util.Map<Image, java.awt.image.BufferedImage> ILUMINADAS = new java.util.WeakHashMap<>();
 
     private long tickImpulso = -1000;
+    private long tickCarga = -1000;     // Carga de la bomba (halo que crece)
+    private long tickSubida = -1000;    // Instante del destello de subida de nivel (puede ser futuro: espera a que se llene la barra)
+    private Image imagenAnterior;       // Sprite anterior, que se sigue viendo hasta el destello de subida
+    private boolean sonidoSubidaPendiente;
+
+    // Barra de experiencia animada: sube de una en una y, al llenarse, brilla un momento antes de subir de nivel
+    private boolean tweenExp;
+    private int expDesde;
+    private boolean llenadoExp;
+    private long tickExp;
     private Animacion reposo;       // Tira propia de reposo (<héroe>_lvlN_Mf.png), si existe
     private int nivelDelReposo = -1;
 
@@ -171,6 +183,26 @@ public abstract class Figura {
             dy += dir[1] * avance;
         }
 
+        // Carga de la bomba: el héroe se ilumina y un halo naranja crece a sus pies
+        long edadCarga = Tiempo.ahora() - tickCarga;
+        double carga = edadCarga >= 0 && edadCarga < TICKS_CARGA ? edadCarga / (double) TICKS_CARGA : -1;
+        if (carga >= 0) {
+            brillo = Math.max(brillo, carga);
+            dibujarHalo(graficos, punto, ancho, alto, carga);
+        }
+
+        // Subida de nivel: hasta el destello se sigue viendo el sprite anterior
+        long edadSubida = Tiempo.ahora() - tickSubida;
+        if (sonidoSubidaPendiente && edadSubida >= 0) {
+            sonidoSubidaPendiente = false;
+            main.AudioPlayer.getInstance().playSoundOnce(Constantes.RUTAS.EFECTOS.NIVEL);
+        }
+        if (edadSubida < 0 && imagenAnterior != null && propio == null) {
+            imagen = imagenAnterior;
+        } else if (edadSubida >= 0 && edadSubida < TICKS_SUBIDA) {
+            brillo = Math.max(brillo, 1 - edadSubida / (double) TICKS_SUBIDA);
+        }
+
         Graphics2D g = (Graphics2D) graficos.create();
         try {
             g.translate(dx, dy);
@@ -185,6 +217,55 @@ public abstract class Figura {
         } finally {
             g.dispose();
         }
+        if (edadSubida >= 0 && edadSubida < TICKS_SUBIDA) {
+            dibujarSubidaDeNivel(graficos, punto, ancho, alto, edadSubida);
+        }
+        if (expBrillando()) { // Barra de experiencia llena: aro dorado que late en la base
+            double onda = (Math.sin(Tiempo.ahora() * 0.5) + 1) / 2;
+            Graphics2D gb = (Graphics2D) graficos.create();
+            gb.setComposite(java.awt.AlphaComposite.getInstance(java.awt.AlphaComposite.SRC_OVER, (float) (0.25 + 0.35 * onda)));
+            gb.setColor(new Color(0xFFE08A));
+            gb.fillOval(punto.x + ancho / 2 - 64, punto.y + alto - 28, 128, 44);
+            gb.dispose();
+        }
+    }
+
+    // Halo de carga de la bomba: círculo naranja que crece y se intensifica
+    private void dibujarHalo(final Graphics graficos, final Point punto, final int ancho, final int alto, final double carga) {
+        Graphics2D g = (Graphics2D) graficos.create();
+        g.setComposite(java.awt.AlphaComposite.getInstance(java.awt.AlphaComposite.SRC_OVER, (float) (0.15 + 0.4 * carga)));
+        int radio = (int) (22 + 52 * carga);
+        int cx = punto.x + ancho / 2;
+        int cy = punto.y + alto / 2;
+        g.setColor(new Color(0xFF9A2E));
+        g.fillOval(cx - radio, cy - radio, radio * 2, radio * 2);
+        g.setColor(new Color(0xFFF1B0));
+        int interior = (int) (radio * 0.45);
+        g.fillOval(cx - interior, cy - interior, interior * 2, interior * 2);
+        g.dispose();
+    }
+
+    // Destello de subida de nivel: anillo dorado que se expande a los pies y estrellitas que suben
+    private void dibujarSubidaDeNivel(final Graphics graficos, final Point punto, final int ancho, final int alto, final long edad) {
+        double t = edad / (double) TICKS_SUBIDA;
+        Graphics2D g = (Graphics2D) graficos.create();
+        int cx = punto.x + ancho / 2;
+        g.setComposite(java.awt.AlphaComposite.getInstance(java.awt.AlphaComposite.SRC_OVER, (float) (1 - t)));
+        g.setColor(new Color(0xFFD35C));
+        g.setStroke(new java.awt.BasicStroke((float) (6 * (1 - t) + 1)));
+        int rx = (int) (20 + 80 * Interpolador.SALIDA.aplicar(t));
+        g.drawOval(cx - rx, punto.y + alto - 8 - rx / 4, rx * 2, rx / 2);
+        for (int k = 0; k < 7; k++) {
+            double x = cx + (k - 3) * 20 + Math.sin(k * 2.1) * 7;
+            double y = punto.y + alto * 0.7 - t * (70 + (k % 3) * 25) - (k % 2) * 12;
+            Estrella.dibujar(g, k % 3, x, y, t * 2 * (k % 2 == 0 ? 1 : -1), (float) (1 - t));
+        }
+        g.dispose();
+    }
+
+    /** Empieza la carga de la bomba (halo que crece). */
+    void iniciarCarga() {
+        tickCarga = Tiempo.ahora();
     }
 
     private void dibujarImagenFigura(final Graphics g, final Image imagen, final Point punto, final boolean esCuadrado) {
@@ -259,10 +340,11 @@ public abstract class Figura {
             Point e = Trampillas.esquina(posicion);
             Point c = Trampillas.centro(posicion);
             Point k = Trampillas.coronaEnemiga(posicion);
-            return java.util.List.of(Ataque.Paso.salir(e), Ataque.Paso.recorrer(e, c, k),
-                    Ataque.Paso.efecto(() -> main.motor.Sacudida.iniciar(10, 450)), Ataque.Paso.golpe(k),
+            return java.util.List.of(Ataque.Paso.efecto(this::iniciarCarga), Ataque.Paso.esperar(null, 1.5), // Carga con halo
+                    Ataque.Paso.salir(e), Ataque.Paso.recorrer(e, c, k), Ataque.Paso.golpe(k),
                     Ataque.Paso.efecto(() -> getEnemigo().recibirAtaque(DANIO_BOMBA)), Ataque.Paso.esconder(k));
         });
+        bomba.setEspecial(true);
         colaAtaques.add(bomba);
         if (colaAtaques.size() == 1) {
             bomba.iniciar();
@@ -334,8 +416,9 @@ public abstract class Figura {
 
     public void dibujarBase(Graphics graficos, Point coordenadas, boolean esCuadrado) {
         String[] rutas = esCuadrado ? Constantes.RUTAS.BASES.CUADRADO : Constantes.RUTAS.BASES.ROMBO;
-        if (experiencia >= 0 && experiencia < rutas.length) {
-            Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(rutas[experiencia]), coordenadas);
+        int mostrada = expMostrada();
+        if (mostrada >= 0 && mostrada < rutas.length) {
+            Dibujador.IMAGEN.dibujar(graficos, CargadorRecursos.cargarImagenCompatibleTranslucida(rutas[mostrada]), coordenadas);
         }
     }
 
@@ -398,26 +481,70 @@ public abstract class Figura {
     }
 
     public void subirNivel() {
+        Image anterior = imagenFigura;
         nivel++;
         setExperiencia(0);
 
-        if (nivel > 3) {
+        boolean bomba = nivel > 3;
+        if (bomba) {
             nivel = 3;
             atacarEspecial(); // Bomba: 2 de daño directo a la corona enemiga
         }
 
         imagenFigura = getImagen();
+        if (!bomba) { // El sprite nuevo aparece con el destello, cuando la barra ya se ha llenado
+            imagenAnterior = anterior;
+            tickSubida = Tiempo.ahora() + (llenadoExp ? Math.abs(6 - expDesde) * 4 + 6 : 0);
+            sonidoSubidaPendiente = true;
+        }
     }
 
     public void aumentarExperiencia(int experiencia) {
         if (experiencia > 6) {
             experiencia = 6;
         }
+        int antes = expMostrada();
         this.experiencia = Math.min(6, this.experiencia + experiencia); // El exceso se pierde
 
-        if (this.experiencia == 6) { // Barra llena: sube de nivel (o bomba si ya es de oro)
+        boolean llena = this.experiencia == 6;
+        if (this.experiencia != antes || llena) {
+            tweenExp = true;
+            expDesde = antes;
+            llenadoExp = llena;
+            tickExp = Tiempo.ahora();
+        }
+        if (llena) { // Barra llena: sube de nivel (o bomba si ya es de oro)
             subirNivel();
         }
+    }
+
+    /** Experiencia que se dibuja ahora: sube de una en una cada 4 actualizaciones; al llenarse se queda un momento en 6. */
+    public int expMostrada() {
+        if (!tweenExp) {
+            return experiencia;
+        }
+        long e = Tiempo.ahora() - tickExp;
+        int objetivo = llenadoExp ? 6 : experiencia;
+        int distancia = objetivo - expDesde;
+        int pasos = (int) Math.min(Math.abs(distancia), e / 4);
+        if (pasos < Math.abs(distancia)) {
+            return expDesde + (distancia > 0 ? 1 : -1) * pasos;
+        }
+        if (llenadoExp && e < Math.abs(distancia) * 4L + 20) {
+            return 6;
+        }
+        tweenExp = false;
+        return experiencia;
+    }
+
+    // La barra está llena y a punto de subir de nivel: brilla
+    private boolean expBrillando() {
+        if (!tweenExp || !llenadoExp) {
+            return false;
+        }
+        long e = Tiempo.ahora() - tickExp;
+        long llenado = Math.abs(6 - expDesde) * 4L;
+        return e >= llenado && e < llenado + 20;
     }
 
     public void setExperiencia(int experiencia) {

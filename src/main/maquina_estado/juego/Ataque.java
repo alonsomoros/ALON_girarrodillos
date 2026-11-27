@@ -103,6 +103,12 @@ public class Ataque {
     private boolean activo = true;
     private boolean terminadaAnimacion = false;
     private boolean iniciado = false;
+    private boolean especial = false;      // Bomba: golpe más grande, sacudida fuerte y su propio sonido
+    private long congelarMs = 0;           // Pausa de impacto (hit-stop) pendiente
+    private long congeladoDesde = 0;
+
+    /** Pausa muy breve de la animación al golpear, para darle peso. Las pruebas pueden desactivarla. */
+    static boolean pausaDeImpacto = true;
 
     public Ataque(final Figura figuraAtacante, final Image imagen, final Supplier<List<Paso>> planificador) {
         this.figuraAtacante = figuraAtacante;
@@ -116,8 +122,11 @@ public class Ataque {
         for (Paso p : planificador.get()) {
             if (p.tipo == Tipo.GOLPE) { // Cada golpe sacude un poco la pantalla
                 pasos.add(Paso.efecto(() -> {
-                    Sacudida.iniciar(3, 180);
-                    AudioPlayer.getInstance().playSoundOnce(Constantes.RUTAS.EFECTOS.IMPACTO);
+                    Sacudida.iniciar(especial ? 14 : 3, especial ? 550 : 180);
+                    AudioPlayer.getInstance().playSoundOnce(especial ? Constantes.RUTAS.EFECTOS.BOMBA : Constantes.RUTAS.EFECTOS.IMPACTO);
+                    if (pausaDeImpacto) {
+                        congelarMs += especial ? 120 : 50;
+                    }
                 }));
             }
             pasos.add(p);
@@ -146,7 +155,19 @@ public class Ataque {
             iniciar();
         }
 
-        long t = System.currentTimeMillis() - startTime;
+        long ahora = System.currentTimeMillis();
+        if (congelarMs > 0) { // Pausa de impacto: el reloj del ataque se detiene un instante
+            if (congeladoDesde == 0) {
+                congeladoDesde = ahora;
+            }
+            if (ahora - congeladoDesde < congelarMs) {
+                return;
+            }
+            startTime += congelarMs;
+            congelarMs = 0;
+            congeladoDesde = 0;
+        }
+        long t = ahora - startTime;
         boolean fin = t >= duracion;
         while (cursor < pasos.size() && (fin || pasos.get(cursor).inicioMs <= t)) {
             Paso p = pasos.get(cursor++);
@@ -165,7 +186,7 @@ public class Ataque {
         if (!activo || !iniciado) {
             return;
         }
-        long t = System.currentTimeMillis() - startTime;
+        long t = (congeladoDesde > 0 ? congeladoDesde : System.currentTimeMillis()) - startTime;
         for (Paso p : pasos) {
             if (p.tipo != Tipo.EFECTO && t >= p.inicioMs && t < p.finMs) {
                 double u = (double) (t - p.inicioMs) / Math.max(1, p.finMs - p.inicioMs);
@@ -233,13 +254,13 @@ public class Ataque {
             g.setComposite(original);
         }
         if (p.tipo == Tipo.GOLPE) { // Destello que crece y se desvanece
-            int radio = (int) (14 + 30 * u);
+            int radio = (int) ((14 + 30 * u) * (especial ? 2 : 1));
             java.awt.Composite original = g.getComposite();
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (0.35 * (1 - u))));
             g.setColor(Color.WHITE);
             g.fillOval((int) x - radio, (int) (y - elevacion) - radio, radio * 2, radio * 2);
             g.setComposite(original);
-            Impacto.dibujar(g, x, y - elevacion, u); // Animación de 5 frames sobre el destello
+            Impacto.dibujar(g, x, y - elevacion, u, especial ? 2.4 : 1); // Animación de 5 frames sobre el destello
         }
     }
 
@@ -299,6 +320,10 @@ public class Ataque {
             restante -= tramo;
         }
         return new double[]{ruta[0].x, ruta[0].y};
+    }
+
+    public void setEspecial(final boolean especial) {
+        this.especial = especial;
     }
 
     public Figura getFiguraAtacante() {
