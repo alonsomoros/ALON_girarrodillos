@@ -34,6 +34,13 @@ En un IDE (VS Code, IntelliJ…): JDK 21 y ejecuta `main.GestorPrincipal` con la
 `scripts\empaquetar.bat` crea `dist\Girarrodillos.jar`. Se juega con `java -jar dist\Girarrodillos.jar` desde la raíz del proyecto
 (los recursos de `rec/` se leen del disco con rutas relativas, así que la carpeta debe estar al lado).
 
+## Herramientas de desarrollo
+
+- `scripts\capturar.bat <estado> <salida.png> [ticks] [entrada]` saca una captura PNG de una pantalla sin abrir ventana
+  (por ejemplo `scripts\capturar.bat GALERIA out\galeria.png 40 3`).
+- Con `-Dgirar.debug=true` el juego muestra FPS y textos de depuración, y la tecla **F2** abre la galería de efectos
+  (W/S elegir, Espacio lanzar, Enter volver).
+
 ## Progreso
 
 Las monedas, los rodillos comprados y el equipado se guardan en `guardado.properties` (ignorado por git). Borra ese archivo para empezar de cero.
