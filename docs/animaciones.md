@@ -101,7 +101,33 @@ Sí: el efecto correcto es **difuminado vertical + brillo**, no sprites nuevos. 
 - **Aire:** líneas finas verticales claras que cruzan el canal mientras gira (efecto "viento"), opcionales.
 - Todo se pinta con `Graphics2D` (composición alfa), sin librerías.
 
-## 5. Pendiente
-1. Cuando las dos figuras de un equipo se activan a la vez (sin Sacerdote), ¿animan **a la vez** (como hoy) o una detrás de otra?
-   Propuesta: a la vez, para no alargar el turno.
-2. ¿Las animaciones de ambos jugadores son iguales y espejadas? El código ya espeja por posición.
+## 5. Orden de acción de la ronda (regla del juego original)
+
+Las acciones **se animan una detrás de otra** (decisión tuya). El orden no es libre: los héroes actúan por **prioridad**,
+de arriba abajo, y esto se aplica a los héroes de ambos equipos que se activen en la misma ronda:
+
+| Prioridad | Héroe |
+|-----------|-------|
+| 1 | Asesino |
+| 2 | Sacerdote |
+| 3 | Ingeniero |
+| 4 | Mago |
+| 5 | Guerrero (Caballero) |
+| 6 | Arquero |
+
+Reglas que salen de ahí:
+- **Asesino:** retrasa a la figura rival más cercana a actuar. Dos asesinos no se atacan entre sí: sus objetivos se calculan
+  **antes** de que actúe ninguno (actúan a la vez).
+- **Sacerdote:** cura (tope = vida máxima) y da energía a su compañero. Si el compañero ya tiene la energía llena (se activa
+  esta ronda), la energía se da **después** de que actúe el compañero. Si la energía del Sacerdote deja al compañero listo para actuar,
+  la acción del compañero ocurre **después de todas las demás**.
+- Empates (dos héroes iguales, uno de cada equipo): animo primero el del jugador y luego el de la IA. Los efectos se calculan
+  contra el estado de la ronda, de modo que el orden entre iguales no cambia el resultado.
+- Hoy el código lanza las activaciones a la vez; este orden es un **cambio de lógica** (tarea 6.7a, con pruebas).
+
+Diferencia por revisar: la página original dice que el Sacerdote cura "hasta un máximo de 12" y aquí `VIDA_MAXIMA` es 20.
+No lo toco sin que me lo digas.
+
+## 6. Pendiente
+1. ¿Te vale el desempate "jugador primero, IA después" entre héroes iguales?
+2. Vida máxima: ¿12 como en el original o 20 como ahora?
