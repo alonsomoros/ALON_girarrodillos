@@ -3,6 +3,8 @@ package main.maquina_estado;
 import main.herramientas.Depurar;
 import main.AudioPlayer;
 import main.control.GestorControles;
+import main.motor.GestorEfectos;
+
 import main.maquina_estado.creditos.GestorCreditos;
 import main.maquina_estado.juego.GestorGirarrodillos;
 import main.maquina_estado.musica.GestorMenuMusica;
@@ -20,6 +22,9 @@ public class GestorEstados {
     private IEstadoJuego estadoActual;
     private static GestorEstados instance;
     private boolean iniciado;
+
+    // Efectos de pantalla que no pertenecen a un estado concreto (fundidos, destellos, sacudidas...)
+    private final GestorEfectos efectos = new GestorEfectos();
 
     // Constructor
     public GestorEstados() {
@@ -50,10 +55,16 @@ public class GestorEstados {
             }, tiempoActual);
         }
         estadoActual.actualizar();
+        efectos.actualizar();
+    }
+
+    public GestorEfectos getEfectos() {
+        return efectos;
     }
 
     public void dibujar(final Graphics graficos) {
         estadoActual.dibujar(graficos);
+        efectos.dibujar(graficos);
     }
 
     public void cambiarEstadoActual(final Estado nuevoEstado) {

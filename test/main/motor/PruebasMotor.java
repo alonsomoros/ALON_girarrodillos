@@ -13,7 +13,92 @@ public class PruebasMotor {
         return f;
     }
 
+    // Efecto de prueba: termina tras 'vidas' actualizaciones y anota su orden de dibujo
+    private static class EfectoPrueba implements Efecto {
+        final String nombre;
+        final java.util.List<String> registro;
+        int vidas;
+        int actualizaciones = 0;
+        Runnable alActualizar;
+
+        EfectoPrueba(final String nombre, final int vidas, final java.util.List<String> registro) {
+            this.nombre = nombre;
+            this.vidas = vidas;
+            this.registro = registro;
+        }
+
+        public void actualizar() {
+            actualizaciones++;
+            vidas--;
+            if (alActualizar != null) {
+                alActualizar.run();
+            }
+        }
+
+        public void dibujar(final java.awt.Graphics g) {
+            registro.add(nombre);
+        }
+
+        public boolean terminado() {
+            return vidas <= 0;
+        }
+    }
+
     public static void ejecutar() {
+        prueba("GestorEfectos: se actualizan, se retiran al terminar y se dibujan por capas (fondo, medio, frente)", () -> {
+            java.util.List<String> reg = new java.util.ArrayList<>();
+            GestorEfectos g = new GestorEfectos();
+            g.agregar(GestorEfectos.Capa.FRENTE, new EfectoPrueba("frente", 5, reg));
+            g.agregar(GestorEfectos.Capa.FONDO, new EfectoPrueba("fondo", 1, reg));
+            g.agregar(new EfectoPrueba("medio", 3, reg)); // capa MEDIO por defecto
+            verificar(g.cantidad() == 3, "cantidad inicial");
+            g.dibujar(null);
+            verificar(reg.equals(java.util.Arrays.asList("fondo", "medio", "frente")), "orden de dibujo " + reg);
+            g.actualizar();
+            verificar(g.cantidad() == 2 && g.cantidad(GestorEfectos.Capa.FONDO) == 0, "el de 1 vida se retira");
+            g.actualizar();
+            g.actualizar();
+            verificar(g.cantidad() == 1, "queda solo el de frente");
+            g.limpiar();
+            verificar(g.cantidad() == 0, "limpiar");
+        });
+
+        prueba("GestorEfectos: un efecto puede añadir otros al actualizarse y el límite descarta el exceso", () -> {
+            java.util.List<String> reg = new java.util.ArrayList<>();
+            GestorEfectos g = new GestorEfectos(3);
+            EfectoPrueba padre = new EfectoPrueba("padre", 1, reg);
+            EfectoPrueba hijo = new EfectoPrueba("hijo", 2, reg);
+            padre.alActualizar = () -> g.agregar(hijo);
+            g.agregar(padre);
+            g.actualizar();
+            verificar(g.cantidad() == 1 && hijo.actualizaciones == 0, "el hijo empieza en la siguiente pasada");
+            g.actualizar();
+            verificar(hijo.actualizaciones == 1, "el hijo se actualiza");
+            verificar(g.agregar(new EfectoPrueba("a", 9, reg)) && g.agregar(new EfectoPrueba("b", 9, reg)), "caben hasta el límite");
+            verificar(!g.agregar(new EfectoPrueba("c", 9, reg)), "el cuarto se descarta");
+            verificar(g.cantidad() == 3, "cantidad " + g.cantidad());
+        });
+
+        prueba("EfectoTemporal: progreso de 0 a 1 según los ticks y termina a su duración", () -> {
+            EfectoTemporal e = new EfectoTemporal(500) { // 30 ticks
+                public void dibujar(final java.awt.Graphics g) {
+                }
+
+                double progresoPublico() {
+                    return progreso();
+                }
+            };
+            verificar(!e.terminado(), "recién creado");
+            for (int i = 0; i < 15; i++) {
+                Tiempo.avanzar();
+            }
+            verificar(!e.terminado(), "mitad");
+            for (int i = 0; i < 15; i++) {
+                Tiempo.avanzar();
+            }
+            verificar(e.terminado(), "final");
+        });
+
         prueba("Animacion: el número de frames sale del nombre del archivo", () -> {
             verificar(Animacion.framesEnNombre("rec/sprites/efectos/impacto_5f.png") == 5, "5f");
             verificar(Animacion.framesEnNombre("a_12f.png") == 12, "12f");
