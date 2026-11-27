@@ -51,7 +51,7 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 ### 5B. Efectos, secuencias y transiciones
 - [x] **5.7** `Efecto` (interfaz: `actualizar()`, `dibujar(g)`, `terminado()`) y `GestorEfectos` con 3 capas (fondo/medio/frente) y ciclo de vida. Un gestor por estado. Pruebas de alta/baja.
 - [x] **5.8** `main.motor.Secuencia` (línea de tiempo): `esperar(ms)`, `hacer(Runnable)`, `durante(ms, t -> …)`, encadenable y cancelable. Pruebas de orden y tiempos.
-- [ ] **5.9** `Sacudida` (screen shake): desplazamiento decreciente aplicado en `SuperficieDeDibujo` antes de pintar el estado.
+- [x] **5.9** `Sacudida` (screen shake): desplazamiento decreciente aplicado en `SuperficieDeDibujo` antes de pintar el estado.
 - [ ] **5.10** `Fundido` (fade a negro / desde negro) y transición suave en `GestorEstados.cambiarEstadoActual` (≈ 15 ticks).
 - [ ] **5.11** `Sonidos`: banco de efectos precargados (no se crea un `Clip` por reproducción), polifonía y volumen por categoría. `AudioPlayer` delega en él. Pruebas mínimas.
 

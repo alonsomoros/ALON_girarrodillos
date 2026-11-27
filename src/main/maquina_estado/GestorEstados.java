@@ -4,6 +4,8 @@ import main.herramientas.Depurar;
 import main.AudioPlayer;
 import main.control.GestorControles;
 import main.motor.GestorEfectos;
+import main.motor.Sacudida;
+
 
 import main.maquina_estado.creditos.GestorCreditos;
 import main.maquina_estado.juego.GestorGirarrodillos;
@@ -56,6 +58,7 @@ public class GestorEstados {
         }
         estadoActual.actualizar();
         efectos.actualizar();
+        Sacudida.actualizar();
     }
 
     public GestorEfectos getEfectos() {

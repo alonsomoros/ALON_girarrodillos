@@ -45,6 +45,34 @@ public class PruebasMotor {
     }
 
     public static void ejecutar() {
+        prueba("Sacudida: empieza fuerte, decae hasta 0, el desplazamiento no supera la amplitud y se queda la más fuerte", () -> {
+            Sacudida.detener();
+            verificar(Sacudida.amplitudActual() == 0 && !Sacudida.activa(), "sin sacudida");
+            Sacudida.iniciar(10, 500); // 30 ticks
+            verificar(Math.abs(Sacudida.amplitudActual() - 10) < 1e-9, "amplitud inicial " + Sacudida.amplitudActual());
+            for (int i = 0; i < 15; i++) {
+                Tiempo.avanzar();
+            }
+            double mitad = Sacudida.amplitudActual();
+            verificar(mitad > 0 && mitad < 10, "a la mitad " + mitad);
+            for (int i = 0; i < 100; i++) {
+                Sacudida.actualizar();
+                verificar(Math.abs(Sacudida.desplazamientoX()) <= Math.ceil(mitad) && Math.abs(Sacudida.desplazamientoY()) <= Math.ceil(mitad), "desplazamiento fuera de la amplitud");
+            }
+            Sacudida.iniciar(2, 500); // más débil: no la sustituye
+            verificar(Math.abs(Sacudida.amplitudActual() - mitad) < 1e-9, "una sacudida más débil no debe sustituir a la fuerte");
+            for (int i = 0; i < 20; i++) {
+                Tiempo.avanzar();
+            }
+            Sacudida.actualizar();
+            verificar(Sacudida.amplitudActual() == 0 && !Sacudida.activa(), "debería haberse apagado");
+            Sacudida.setEscala(0);
+            Sacudida.iniciar(10, 500);
+            verificar(Sacudida.amplitudActual() == 0, "con efectos reducidos al 0 % no hay sacudida");
+            Sacudida.setEscala(1);
+            Sacudida.detener();
+        });
+
         prueba("Secuencia: los pasos ocurren en orden y en el tick correcto (100 ms = 6 ticks)", () -> {
             java.util.List<String> reg = new java.util.ArrayList<>();
             final int[] tick = {0};

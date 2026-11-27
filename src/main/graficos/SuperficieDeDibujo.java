@@ -3,6 +3,8 @@ package main.graficos;
 import main.Constantes;
 import main.control.GestorControles;
 import main.control.Raton;
+import main.motor.Sacudida;
+
 import main.maquina_estado.GestorEstados;
 
 import java.awt.*;
@@ -62,7 +64,17 @@ public class SuperficieDeDibujo extends Canvas {
                 graficos.scale(Constantes.FACTOR_ESCALA_X, Constantes.FACTOR_ESCALA_Y); // Escalar
             }
 
+            if (Sacudida.activa()) { // El borde que deja al descubierto el desplazamiento se pinta de negro
+                graficos.setColor(Color.BLACK);
+                graficos.fillRect(0, 0, ancho, alto);
+                graficos.translate(Sacudida.desplazamientoX(), Sacudida.desplazamientoY());
+            }
+
             GestorEstados.getInstance().dibujar(graficos); // Dibujar estado
+
+            if (Sacudida.activa()) {
+                graficos.translate(-Sacudida.desplazamientoX(), -Sacudida.desplazamientoY());
+            }
             Raton.getInstance().dibujar(graficos); // Dibujar raton
 
             Toolkit.getDefaultToolkit().sync(); // Sincronizar graficos
