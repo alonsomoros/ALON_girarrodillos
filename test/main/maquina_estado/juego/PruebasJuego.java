@@ -361,6 +361,24 @@ public class PruebasJuego {
             verificar(p.getVida() == 12, "tope de vida: " + p.getVida());
         });
 
+        prueba("Activador: la barra baja de uno en uno (sin saltar) y un cambio nuevo parte de lo que se veía", () -> {
+            Activador a = new Activador(5);
+            verificar(a.alturaMostrada() == 5, "inicio");
+            a.disminuirAltura(3);
+            verificar(a.getAltura() == 2, "la lógica cambia al instante: " + a.getAltura());
+            verificar(a.alturaMostrada() == 5, "al principio se sigue viendo la anterior: " + a.alturaMostrada());
+            for (int i = 0; i < 5; i++) {
+                main.motor.Tiempo.avanzar();
+            }
+            verificar(a.alturaMostrada() == 4, "tras 5 ticks un paso: " + a.alturaMostrada());
+            a.disminuirAltura(1); // Cambio a mitad de animación: parte de lo visible (4)
+            verificar(a.getAltura() == 1 && a.alturaMostrada() == 4, "nuevo cambio: " + a.alturaMostrada());
+            for (int i = 0; i < 30; i++) {
+                main.motor.Tiempo.avanzar();
+            }
+            verificar(a.alturaMostrada() == 1, "al final se ve la real: " + a.alturaMostrada());
+        });
+
         prueba("Rodillo: el resultado se decide al girar, el giro dura ~1 s, los canales fijados no giran", () -> {
             Player p = new Player();
             Rodillo r = p.getRodillo();

@@ -63,6 +63,7 @@ public class Constantes {
             public static final String GIRO = "rec/sonidos/giro.wav";   // Provisional: se sustituye por el tuyo con el mismo nombre
             public static final String TIC = "rec/sonidos/tic.wav";     // Al frenar cada canal
             public static final String FIJAR = "rec/sonidos/fijar.wav"; // Al fijar un canal
+            public static final String IMPACTO = "rec/sonidos/impacto.wav"; // Al golpear (provisional)
             public static final String BASTION_SUBE = "rec/sonidos/bastion_sube.wav";
             public static final String BASTION_ROMPE = "rec/sonidos/bastion_rompe.wav";
             /** Sonido de ataque de cada héroe: ataque_arquero.wav, ataque_mago.wav... (si falta, suena ataque.wav). */

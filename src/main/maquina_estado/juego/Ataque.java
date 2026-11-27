@@ -115,7 +115,10 @@ public class Ataque {
         pasos = new ArrayList<>();
         for (Paso p : planificador.get()) {
             if (p.tipo == Tipo.GOLPE) { // Cada golpe sacude un poco la pantalla
-                pasos.add(Paso.efecto(() -> Sacudida.iniciar(3, 180)));
+                pasos.add(Paso.efecto(() -> {
+                    Sacudida.iniciar(3, 180);
+                    AudioPlayer.getInstance().playSoundOnce(Constantes.RUTAS.EFECTOS.IMPACTO);
+                }));
             }
             pasos.add(p);
         }
@@ -231,10 +234,11 @@ public class Ataque {
         if (p.tipo == Tipo.GOLPE) { // Destello que crece y se desvanece
             int radio = (int) (14 + 30 * u);
             java.awt.Composite original = g.getComposite();
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (0.7 * (1 - u))));
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (0.35 * (1 - u))));
             g.setColor(Color.WHITE);
             g.fillOval((int) x - radio, (int) (y - elevacion) - radio, radio * 2, radio * 2);
             g.setComposite(original);
+            Impacto.dibujar(g, x, y - elevacion, u); // Animación de 5 frames sobre el destello
         }
     }
 

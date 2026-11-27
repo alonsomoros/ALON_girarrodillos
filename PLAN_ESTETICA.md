@@ -84,12 +84,12 @@ bucle de 60 APS que ya tenemos: tiempo, interpolación (easing), animaciones por
 - [x] **6.7a** **Cola de acciones por prioridad (lógica):** las activaciones de la ronda se resuelven de una en una en el orden Asesino, Sacerdote, Ingeniero, Mago, Guerrero, Arquero; el Sacerdote ayuda al compañero tras actuar este. Ver `docs/animaciones.md`. Con pruebas.
 - [x] **6.7** `Ataque` con trayecto **interpolado** (curva suave con easing, rotación hacia el objetivo) en vez de saltar entre 3 puntos fijos.
 - [x] **6.8** Ataque en 3 pasos con `Secuencia`: preparación (el héroe se ilumina y retrocede un píxel), proyectil, impacto. Duración total ≈ la actual (2 s) para no cambiar el ritmo.
-- [ ] **6.9** **Impacto:** animación de 5 frames en el punto de golpe + `Destello` + sacudida pequeña + `impacto.wav`. 👤 `impacto_5f.png` (64x64 por frame). Placeholder: estallido de partículas.
+- [x] **6.9** **Impacto:** animación de 5 frames en el punto de golpe + `Destello` + sacudida pequeña + `impacto.wav`. 👤 `impacto_5f.png` (64x64 por frame). Placeholder: estallido de partículas.
 - [x] **6.10** Variantes por héroe: estela de la flecha, bola de fuego con partículas, tajo del Caballero, destello del Sacerdote… y un sonido por héroe (6 `.wav`).
 - [x] **6.11** **Números flotantes:** "-3" rojo sobre la corona, "+2" verde al curar, "-2" gris sobre el bastión; suben y se desvanecen (usa la fuente nueva cuando exista; antes, la actual).
 - [x] **6.12** **Corona:** pulso/sacudida y destello rojo al recibir daño, y barra de vida visual (gemas o corazones) además de los dígitos; se agrieta cuando le queda poco. 👤 `vida_gema_2f.png`
 - [x] **6.13** **Bastión:** la altura sube y baja con animación (bloques que caen/se levantan), polvo y escombros al romperse, sonido.
-- [ ] **6.14** **Activadores:** la barra baja con tween suave (no salta), brilla cuando llega a 0 ("listo") y parpadea hasta que el héroe actúa.
+- [x] **6.14** **Activadores:** la barra baja con tween suave (no salta), brilla cuando llega a 0 ("listo") y parpadea hasta que el héroe actúa.
 
 ### 6C. Héroes y progresión
 - [ ] **6.15** **Idle:** cada héroe "respira" (sube/baja 1-2 px y cambia de escala mínimamente, procedural). Si dibujas 2-4 frames, se usan en su lugar. 👤 `arquero_lvl1_2f.png`, etc. (prioridad baja)

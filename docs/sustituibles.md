@@ -16,7 +16,8 @@ se dibuje "en crudo" se añade a este registro en el mismo commit que lo crea.
 | Lámpara de turno (3 frames) | `LamparasTurno` | `rec/sprites/efectos/lampara_3f.png` (24x32 por frame: apagada, encendida, brillo) | provisional | sí, sustituir |
 | Gema de vida (2 frames) | `GemasVida` | `rec/sprites/efectos/vida_gema_2f.png` (llena, vacía) | provisional | sí, sustituir |
 | Bastión de la IA (5 alturas) | `Bastion` | `rec/sprites/bastion/bastion_ia_1.png` a `bastion_ia_5.png` (355x160, ya orientado hacia abajo) | provisional (usa el del jugador volteado) | sí, sustituir |
-| Impacto de golpe | `Ataque` (destello blanco) | `rec/sprites/efectos/impacto_5f.png` (64x64, 5 frames) | crudo (tarea 6.9) | por decidir |
+| Impacto de golpe | `Impacto` | `rec/sprites/efectos/impacto_5f.png` (64x64 por frame, 5 frames) | provisional (anillo con chispas) | sí, sustituir |
+| Brillo de activador listo | `Activador` | Sprite de brillo o activador con frame "listo" | crudo (óvalo dorado que late) | por decidir |
 
 ## Sonidos provisionales (generados con código)
 
@@ -28,6 +29,7 @@ se dibuje "en crudo" se añade a este registro en el mismo commit que lo crea.
 | Ataque por héroe | `rec/sonidos/ataque_arquero.wav`, `_asesino`, `_caballero`, `_ingeniero`, `_mago`, `_sacerdote` | Al salir el ataque de ese héroe |
 | Bastión sube | `rec/sonidos/bastion_sube.wav` | Al subir el bastión |
 | Bastión se rompe | `rec/sonidos/bastion_rompe.wav` | Al bajar el bastión |
+| Impacto | `rec/sonidos/impacto.wav` | Al golpear (muro, corona, rival) |
 | Genéricos del juego original | `ataque.wav`, `boton.wav`, `victoria.wav`, `derrota.wav` | Ya existentes |
 
 ## Dibujado en crudo en el tablero (partida)
@@ -46,7 +48,7 @@ se dibuje "en crudo" se añade a este registro en el mismo commit que lo crea.
 | Brasas del fuego del Mago | `Ataque.dibujarEstela` | Círculos naranjas | Partículas propias | crudo | por decidir |
 | Tajo del Caballero | `Ataque.dibujarTajo` | Arco blanco | `tajo_4f.png` | crudo | por decidir |
 | Halo del Sacerdote | `Ataque.dibujarPaso` | Óvalo dorado | Sprite de halo | crudo | por decidir |
-| Destello blanco del golpe | `Ataque.dibujarPaso` | Círculo blanco | `impacto_5f.png` | crudo | por decidir |
+| Destello blanco del golpe | `Ataque.dibujarPaso` | Círculo blanco suave bajo el impacto | Se queda o se quita al tener `impacto_5f.png` | crudo | por decidir |
 | Triángulos de elección de héroe | `GestorGirarrodillos` | Triángulos | Flechas dibujadas (8.4) | crudo | sí, con 8.4 |
 | Texto de stats de las figuras | `Figura.dibujarStats` | Texto sobre una imagen | Fuente bitmap | crudo | sí, con la fuente bitmap |
 | Fondo de pantalla de victoria/derrota | `GestorGirarrodillos.dibujarFinDePartida` | Rectángulo negro y texto con sombra | Banner con estrellas (6.20) | crudo | sí, con 6.20 |
